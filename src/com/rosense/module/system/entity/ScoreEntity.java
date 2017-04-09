@@ -16,8 +16,8 @@ import com.rosense.basic.dao.IdEntity;
  * 成绩实体
  *
  */
-@Entity
-@Table(name = "simple_score")
+/*@Entity
+@Table(name = "simple_score")*/
 public class ScoreEntity extends IdEntity {
 	
 	private String course_no;//课程编号
@@ -38,7 +38,7 @@ public class ScoreEntity extends IdEntity {
 	public void setCourse_no(String course_no) {
 		this.course_no = course_no;
 	}
-	@Id
+	
 	public String getStu_no() {
 		return stu_no;
 	}
