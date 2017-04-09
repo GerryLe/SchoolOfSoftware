@@ -1,0 +1,2 @@
+<%@ page language="java" pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"%>
+<jsp:include page="/WEB-INF/pages/app/appc.jsp"><jsp:param value="/WEB-INF/pages/app/bbsview_c.jsp" name="url" /><jsp:param value="${title}" name="title"/></jsp:include>

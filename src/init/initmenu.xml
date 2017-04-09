@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<init package="com.rosense.module.system.entity">
+	<entity class="MenuEntity" exist="0" parent="menu" method="menuService.init" name="Simple" type="T" iconCls="" init="false">
+		 <entity name="班级管理" iconCls="fa-user-secret" type="M" href="/admin/system/class/class_main_UI.do">
+		        <entity name="查询" type="O" href="/admin/system/class/tree.do" />
+				<entity name="添加" type="O" href="/admin/system/class/add.do" />
+				<entity name="删除" type="O" href="/admin/system/class/delete.do" />
+				<entity name="编辑" type="O" href="/admin/system/class/update.do" />
+				<entity name="搜索学生" type="O" href="/admin/system/user/search.do" />
+				<entity name="删除学生" type="O" href="/admin/system/user/deleteuserorg.do" />
+				<entity name="添加学生" type="O" href="/admin/system/user/adduserorg.do" />
+	    </entity>
+	  <!--   
+	   <entity name="班级架构图" type="M" iconCls="fa-sitemap" sort="1" href="/admin/system/user/usermenu_main_UI.do">
+	   </entity>
+	     -->
+	    <entity name="账号管理" type="M" iconCls="fa-user-secret" href="/admin/system/user/user_main_UI.do">
+				<entity name="查询用户" type="O" href="/admin/system/user/datagrid.do" />
+				<entity name="查询角色" type="O" href="/admin/system/role/datagrid.do" />
+				<entity name="删除用户" type="O" href="/admin/system/user/delete.do" />
+				<entity name="锁定账号" type="O" href="/admin/system/user/lockUser.do" />
+				<entity name="重设密码" type="O" href="/admin/system/user/resetPwd.do" />
+				<entity name="更新角色" type="O" href="/admin/system/user/updateRole.do" />
+		</entity>
+		
+		<entity name="老师管理" type="M" iconCls="fa-users" sort="1" href="/admin/system/teacher/teacher_main_UI.do">
+				<entity name="查询教师" type="O" href="/admin/system/teacher/datagridperson.do" />
+				<entity name="添加教师" type="O" href="/admin/system/teacher/add.do" />
+				<entity name="编辑教师" type="O" href="/admin/system/teacher/update.do" />
+				<entity name="导入教师信息" type="O" href="/admin/system/teacher/importUser.do" />
+				<entity name="教师编号" type="O" href="/admin/system/teacher/checkUserAccount.do" />
+				<entity name="判断教师编号" type="O" href="/admin/system/teacher/importUserId.do" />
+	   </entity>
+		
+		<entity name="学生管理" type="M" iconCls="fa-users" sort="1" href="/admin/system/student/student_main_UI.do">
+				<entity name="查询学生" type="O" href="/admin/system/student/datagridperson.do" />
+				<entity name="添加学生" type="O" href="/admin/system/student/add.do" />
+				<entity name="编辑学生" type="O" href="/admin/system/student/update.do" />
+				<entity name="导入学生" type="O" href="/admin/system/student/importUser.do" />
+				<entity name="学生编号" type="O" href="/admin/system/student/checkUserAccount.do" />
+				<entity name="判断学生编号" type="O" href="/admin/system/student/importUserId.do" />
+	   </entity>
+	   
+	
+	   
+	    <entity name="考勤管理" iconCls="fa-user-secret" type="M" href="/admin/system/attendance/attendance_main_UI.do">
+	        <entity name="添加信息" type="O" href=""/>
+	        <entity name="查看信息" type="O" href=""/>
+			<entity name="更改信息" type="O" href=""/>
+			<entity name="删除信息" type="O" href=""/>
+	    </entity>
+	    
+		<entity name="请假管理" type="M" iconCls="fa-calendar" href="/admin/system/holidayapplys/holidayapply_main_UI.do">
+			<entity name="申请请假" type="O" href="/admin/system/holidayapplys/add.do"/>
+			<entity name="删除申请" type="O" href="/admin/system/holidayapplys/delete.do"/>
+			<entity name="查看申请" type="O" href="/admin/system/holidayapplys/holidayApplysdg.do"/>
+			<entity name="批准" type="O" href="/admin/system/holidayapplys/true.do"/>
+			<entity name="拒绝" type="O" href="/admin/system/holidayapplys/false.do"/>
+		</entity>
+	    
+	    <entity name="课程管理" type="M" iconCls="fa-calendar" href="/admin/system/course/course_main_UI.do">
+			<entity name="查看课程" type="O" href="/admin/system/course/datagridCourse.do"/>
+			<entity name="删除课程" type="O" href="/admin/system/course/delete.do"/>
+			<entity name="修改课程" type="O" href="/admin/system/course/update.do"/>
+			<entity name="添加课程" type="O" href="/admin/system/course/add.do"/>
+		</entity>
+		
+		 <entity name="课程安排" type="M" iconCls="fa-calendar" href="/admin/system/course/courseArrangement_main_UI.do">
+			<entity name="查看课程安排" type="O" href="/admin/system/course/datagridCourseArrangement.do"/>
+			<entity name="删除课程安排" type="O" href="/admin/system/course/deleteArrangement.do"/>
+			<entity name="修改课程安排" type="O" href="/admin/system/course/updateArrangement.do"/>
+			<entity name="添加课程安排" type="O" href="/admin/system/course/addArrangement.do"/>
+		</entity>
+		
+		<entity name="成绩管理" type="M" iconCls="fa-calendar" href="/admin/system/score/score_main_UI.do">
+			<entity name="查看成绩" type="O" href="/admin/system/score/datagridScore.do"/>
+			<entity name="删除成绩" type="O" href="/admin/system/score/delete.do"/>
+			<entity name="修改成绩" type="O" href="/admin/system/score/update.do"/>
+			<entity name="添加成绩" type="O" href="/admin/system/score/add.do"/>
+		</entity>
+	    
+	    <entity name="角色管理" type="M" iconCls="fa-share-alt" href="/admin/system/role/role_main_UI.do">
+			<entity name="查询" type="O" href="/admin/system/role/datagrid.do" />
+			<entity name="添加" type="O" href="/admin/system/role/add.do" />
+			<entity name="删除" type="O" href="/admin/system/role/delete.do" />
+			<entity name="编辑" type="O" href="/admin/system/role/update.do" />
+			<entity name="搜索用户" type="O" href="/admin/system/user/search.do" />
+			<entity name="删除用户角色" type="O" href="/admin/system/user/deleteuserrole.do" />
+			<entity name="添加用户角色" type="O" href="/admin/system/user/adduserrole.do" />
+		</entity>
+		
+		<entity name="权限管理" type="M" iconCls="fa-user-secret" href="/admin/system/acl/acl_UI.do">
+		</entity>
+		
+		<entity name="系统管理" type="M" iconCls="fa-cog">
+			<entity name="登录日志" type="M" iconCls="fa-file-o" href="/admin/system/log/login_log_main_UI.do">
+				<entity name="查询" type="O" href="/admin/system/log/datagridLL.do" />
+				<entity name="删除" type="O" href="/admin/system/log/deleteLL.do" />
+			</entity>
+			<entity name="操作日志" type="M" iconCls="fa-file-text-o" href="/admin/system/log/log_main_UI.do">
+				<entity name="查询" type="O" href="/admin/system/log/datagridLL.do" />
+				<entity name="删除" type="O" href="/admin/system/log/deleteLL.do" />
+			</entity>
+			<entity name="在线用户" type="M" iconCls="fa-desktop" href="/admin/system/online/online_user_UI.do">
+				<entity name="查询" type="O" href="/admin/system/log/datagrid.do" />
+			</entity>
+		</entity>
+		
+		<entity name="我的资料" type="M" iconCls="fa-home">
+			<entity name="我的消息" type="M" iconCls="fa-envelope" href="/admin/system/message/message_main_UI.do">
+			</entity>
+			<entity name="个人资料" type="M" iconCls="fa-edit" href="/admin/system/user/user_info_UI.do">
+				<entity name="修改信息" type="O" href="/admin/system/user/update.do" />
+				<entity name="修改密码" type="O" href="/admin/system/user/updatepwd.do" />
+				<entity name="修改头像" type="O" href="/admin/system/user/updatephoto.do" />
+			</entity>
+		</entity>
+	</entity>
+</init>

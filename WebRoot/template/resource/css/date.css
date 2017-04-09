@@ -1,0 +1,10 @@
+.form-group .input-group-addon{
+	margin: 0;
+	width: 20px;
+	background-color: red;
+	
+}
+.form-group .input-group .input-group-addon{
+	margin: 0;
+	width: 20px;
+}

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<init package="com.rosense.module.system.entity">
+	<entity class="RoleEntity" exist="0" parent="" method="roleService.init"
+           name="超级管理员" sn="ADMIN" defaultRole="0"/>
+   <entity class="RoleEntity" exist="0" parent="" method="roleService.init"
+           name="辅导员" sn="president" defaultRole="1"/>
+   <entity class="RoleEntity" exist="0" parent="" method="roleService.init"
+           name="班主任" sn="classTeacher" defaultRole="2"/>
+   <entity class="RoleEntity" exist="0" parent="" method="roleService.init"
+           name="科任老师" sn="teacher" defaultRole="3"/>
+   <entity class="RoleEntity" exist="0" parent="" method="roleService.init"
+           name="学生" sn="student" defaultRole="4"/>
+</init>

@@ -1,0 +1,168 @@
+.skin-green-light .sidebar-menu>li.active>a {
+	font-weight: 600;
+	background: #efefef;
+}
+
+.sidebar-menu .treeview-menu>li>a {
+	padding: 8px 5px 8px 15px;
+}
+
+.simple-tabs-li {
+	position: relative;
+}
+
+.simple-tabs-li a {
+	border-radius: 0px !important;
+}
+
+.simple-tabs-li .fa-times {
+	position: absolute;
+	top: 2px;
+	right: 5px;
+	cursor: pointer;
+	font-size: 17px;
+}
+
+.simple-tabs-li .fa-times:HOVER {
+	color: #d9534f;
+}
+
+#simple-tabs li.active .btn-tab,#simple-tabs li.active .dropdown-toggle
+	{
+	background-color: white;
+}
+
+#simple-tabs .btn-group {
+	margin-right: -1px;
+}
+
+#simple-tabs .btn-tab {
+	height: 44px;
+	line-height: 30px;
+	padding-right: 0px;
+}
+
+#simple-tabs .btn-tab:HOVER {
+	background-color: #f4f4f4;
+	border: 1px solid #ddd;
+	border-right: 1px solid #f4f4f4;
+}
+
+#simple-tabs .btn-tab:ACTIVE,#simple-tabs .dropdown-toggle:ACTIVE,.btn-group.open .dropdown-toggle
+	{
+	-moz-box-shadow: 0px 0px 0px #999 inset;
+	-webkit-box-shadow: 0px 0px 0px #999 inset;
+	box-shadow: 0px 0px 0px #999 inset;
+}
+
+#simple-tabs .dropdown-toggle {
+	height: 44px;
+	border-left: 0px;
+	border-radius: 0px;
+}
+
+#simple-tabs .dropdown-menu {
+	min-width: 100px;
+}
+
+.nav .open>a, .nav .open>a:focus, .nav .open>a:hover {
+    border-color: #eee!important;
+}
+.nav .dropdown-toggle.btn-default:hover {
+    border-color: #eee!important;
+}
+.nav .btn-default.active,.nav .btn-default:active, .nav .open>.dropdown-toggle.btn-default {
+    border-color: #eee!important;
+}
+
+.iframe-item {
+	border: 0px;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+/* 表格样式 */
+.fixed-table-toolbar .btn {
+	height: 34px;
+}
+
+.fixed-table-container{
+	padding: 0px!important;
+}
+
+.table .btn-group {
+	position: absolute;
+	margin-top: -5px;
+}
+
+#filter-bar {
+	float: left;
+	margin-top: 12px;
+}
+
+.btn-toolbar {
+	float: right;
+	margin-right: 3px;
+}
+/* 数结构 */
+.jstree .dropdown-menu {
+	min-width: 100px;
+}
+
+.jstree .btn-group {
+	margin-top: -5px;
+}
+/***************窗口*****************/
+.modal-header,.modal-body,.modal-footer {
+	padding: 10px 15px !important;
+}
+
+/************�?****************/
+.form-group {
+	margin-bottom: 5px !important;
+}
+
+.list-group-item {
+	padding: 5px 10px !important;
+}
+
+.list-group-item:HOVER {
+	background-color: #eee;
+}
+
+.list-group {
+	margin-bottom: 0px !important;
+}
+
+#backtop {
+	width: 55px;
+	overflow: hidden;
+	position: fixed;
+	right: 20px;
+	bottom: 80px;
+	display: none;
+	z-index: 9999999;
+}
+
+.fa {
+	width: auto;
+	text-align: center;
+}
+
+.group_users {
+	line-height: 28px;
+}
+
+.group_users .pull-right {
+	margin-left: 5px;
+}
+/* 表格底部分页 */
+.fixed-table-pagination .pagination-detail,.fixed-table-pagination div.pagination
+	{
+	margin-top: 2px!important;
+}
+/* 后台右上角头像  */
+.navbar-nav > .user-menu .user-image {
+    width: 35px;
+    height: 35px;
+    margin-top: -7px;
+}

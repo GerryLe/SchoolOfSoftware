@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context" xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx" xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd 
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/aop 
+	http://www.springframework.org/schema/aop/spring-aop.xsd
+	http://www.springframework.org/schema/tx 
+	http://www.springframework.org/schema/tx/spring-tx.xsd
+	http://www.springframework.org/schema/task 
+	http://www.springframework.org/schema/task/spring-task-3.0.xsd">
+
+	<aop:aspectj-autoproxy />
+	<!-- 配置定时任务 -->
+	<task:annotation-driven />
+	<context:annotation-config />
+
+	<context:component-scan base-package="com.rosense">
+		<!-- 不扫描注解为@Controller的类 -->
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
+
+	<!-- 引入项目配置文件 -->
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:config/db.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- freemarker 构造初始化 -->
+	<bean id="ftlPath" class="java.lang.String">
+		<constructor-arg value="/ftl" />
+	</bean>
+	<bean id="outPath" class="java.lang.String">
+		<constructor-arg value="/jsp/template_static" />
+	</bean>
+
+	<!-- 系统初始化数据 -->
+	<bean id="initService" class="com.rosense.module.common.init.InitService" init-method="initXml">
+		<property name="path" value="init/init.xml"></property>
+		<property name="menuPath" value="init/initmenu.xml"></property>
+		 <property name="cachePath" value="init/caches.xml"></property> 
+	</bean>
+
+	<import resource="classpath:config/spring-datasource.xml" />
+	<import resource="classpath:config/spring-hibernate.xml" />
+	<import resource="classpath:config/spring-mvc.xml" />
+
+</beans>
