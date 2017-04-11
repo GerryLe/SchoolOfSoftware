@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 import com.rosense.basic.model.DataGrid;
 import com.rosense.basic.model.Msg;
 import com.rosense.module.system.web.form.AuthForm;
+import com.rosense.module.system.web.form.ClassForm;
 import com.rosense.module.system.web.form.LoginUser;
 import com.rosense.module.system.web.form.OrgForm;
 import com.rosense.module.system.web.form.CourseForm;
@@ -42,5 +43,5 @@ public interface ICourseService {
 	 * 查询课程集合
 	 */
 	public List<CourseForm> tree();
-	
+
 }

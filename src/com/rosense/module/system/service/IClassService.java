@@ -1,6 +1,8 @@
 package com.rosense.module.system.service;
 
 import java.util.List;
+
+import com.rosense.basic.model.DataGrid;
 import com.rosense.basic.model.Msg;
 import com.rosense.module.system.web.form.ClassForm;
 
@@ -50,5 +52,9 @@ public interface IClassService {
 	 * 根据名字获取班级对象
 	 */
 	public String getName(String id);
+	/**
+	 * 获取班级信息
+	 */
+	public DataGrid datagridClass(ClassForm form);
 
 }

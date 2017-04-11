@@ -94,7 +94,7 @@
 		$.BOOT.autoselectCourse("course_id", coursetree, {
 			title : "选择课程"
 		}); 
-		$student_table = $.BOOT.table("student_table", $.webapp.root+ "/admin/system/class/datagridClass.do", {
+		$student_table = $.BOOT.table("student_table", $.webapp.root+ "/admin/system/course/datagridClass.do", {
 			columns : [ /* {
 				title : "全选",
 				field : 'select',
@@ -109,7 +109,7 @@
 			}, {
 				field : 'class_name',
 				title : '班级名称',
-			}, {
+			}/*, {
 				field : 'monday',
 				title : '星期一',
 				align : "center",
@@ -117,7 +117,7 @@
 				formatter : function(value, row, index) {
 					return "<input type='checkbox' name='section1' id='section1'/>"
 				}
-			},{
+			} ,{
 				field : 'tuesday',
 				title : '星期二',
 				align : "center",
@@ -165,7 +165,7 @@
 				formatter : function(value, row, index) {
 					return selectSection
 				}
-			}],
+			} */],
 			paginationInfo : true,
 			showExport : true,
 			onDblClickRow:function(row, $element){
@@ -187,12 +187,12 @@
 		
 		$('#filter-bar').bootstrapTableFilter({
 			filters : [ {
-				field : 'stu_name',
-				label : '姓名',
+				field : 'class_name',
+				label : '班级名称',
 				type : 'search'
 			}, {
-				field : 'stu_no',
-				label : '学号',
+				field : 'class_no',
+				label : '班级编号',
 				type : 'search'
 			}],
 			connectTo : '#student_table'

@@ -52,6 +52,7 @@ import com.rosense.module.system.service.ICourseService;
 import com.rosense.module.system.web.form.OrgForm;
 import com.rosense.module.system.web.form.PositionForm;
 import com.rosense.module.system.web.form.RoleForm;
+import com.rosense.module.system.web.form.ClassForm;
 import com.rosense.module.system.web.form.CourseForm;
 
 @Controller
@@ -59,7 +60,8 @@ import com.rosense.module.system.web.form.CourseForm;
 public class CourseAction extends BaseController {
 	@Inject
 	private ICourseService courseService;
-
+    @Inject
+    private IClassService classService;
 	/**
 	 * 添加课程
 	 */
@@ -100,8 +102,18 @@ public class CourseAction extends BaseController {
 	 */
 	@RequestMapping("/datagridCourse.do")
 	@ResponseBody
-	public DataGrid datagridperson(CourseForm form,String selectType,String searchKeyName) throws Exception {
+	public DataGrid datagridCourse(CourseForm form,String selectType,String searchKeyName) throws Exception {
 		return this.courseService.datagridCourse(form,selectType,searchKeyName);
 	}
 
+	/**
+	 * 获取班级信息
+	 */
+	@RequestMapping("datagridClass.do")
+	@ResponseBody
+	public DataGrid datagridClass(ClassForm form){
+		return this.classService.datagridClass(form);
+	}
+	
 } 
+

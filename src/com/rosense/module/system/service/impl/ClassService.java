@@ -1,7 +1,9 @@
 package com.rosense.module.system.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
@@ -11,7 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.rosense.basic.dao.IBaseDao;
 import com.rosense.basic.exception.ServiceException;
+import com.rosense.basic.model.DataGrid;
 import com.rosense.basic.model.Msg;
+import com.rosense.basic.model.Pager;
 import com.rosense.basic.util.BeanUtils;
 import com.rosense.basic.util.StringUtil;
 import com.rosense.basic.util.cons.Const;
@@ -264,6 +268,29 @@ public class ClassService extends BaseService implements IClassService {
 		return name;
 	}
 	
+	/**
+	 * 获取班级信息
+	 */
+    public DataGrid datagridClass(ClassForm form){
+    	try{
+    		List<ClassForm> forms = new ArrayList<ClassForm>();
+    		Map<String, Object> alias = new HashMap<String, Object>();
+	    	String sql="select * from simple_class where 1=1";
+	    	Pager<ClassForm> pager = this.basedaoClass.findSQL(sql, alias, ClassForm.class, false);
+			if (null != pager && !pager.getDataRows().isEmpty()) {
+				for (ClassForm pf : pager.getDataRows()) {
+					forms.add(pf);
+				}
+			}
+			DataGrid dg = new DataGrid();
+			dg.setTotal(pager.getTotal());
+			dg.setRows(forms);
+			return dg;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new ServiceException("加载列表信息异常：", e);
+		}
+    }
 	
 	
 }

@@ -50,6 +50,7 @@ import com.rosense.module.system.entity.UserEntity;
 import com.rosense.module.system.service.ICourseService;
 import com.rosense.module.system.web.form.ACLForm;
 import com.rosense.module.system.web.form.AuthForm;
+import com.rosense.module.system.web.form.ClassForm;
 import com.rosense.module.system.web.form.LoginSession;
 import com.rosense.module.system.web.form.LoginUser;
 import com.rosense.module.system.web.form.OrgForm;
@@ -189,6 +190,7 @@ public class CourseService extends BaseService implements ICourseService {
 		String sql = "select c.* from simple_course c where " + param;
 		return this.courseDao.countSQL(sql, false).intValue();
 	}
+
 
 	/**
 	 * 员工信息筛选

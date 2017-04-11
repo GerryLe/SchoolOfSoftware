@@ -68,7 +68,7 @@ $.BOOT.select = function(id, json, title) {
 				text += "&nbsp;&nbsp;";
 			}
 			text += data[n].class_name;
-			select.append("<option value='" + data[n].class_no + "'>" + text
+			select.append("<option value='" + data[n].class_id + "'>" + text
 					+ "</option>");
 			if (data[n].nodes) {
 				recursion(data[n].nodes, deep + 1);
