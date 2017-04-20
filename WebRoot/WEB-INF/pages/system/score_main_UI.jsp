@@ -52,7 +52,9 @@
 			  </select>
 		 </div>
 		 <div class="btn-toolbar">
-			<select class="form-control" id="course_id" name="course_id" style="width: 200px;"  > </select>
+			<select class="form-control" id="course_id" name="course_id" style="width: 200px;"  >
+                <option value="semester_1">Java课程设计</option>
+           </select>
 		 </div>
 		  <div class="btn-toolbar">
 			<select class="form-control" id="semester" name="semester" style="width: 200px;"  > 
@@ -61,7 +63,9 @@
 			</select>
 		 </div>
 		 <div class="btn-toolbar">
-			<select class="form-control" id="class_id" name="class_id" style="width: 200px;"  > </select>
+			<select class="form-control" id="class_id" name="class_id" style="width: 200px;"  >
+			    
+			 </select>
 		 </div>
 		
 	</div>
@@ -97,10 +101,10 @@
 			}, {
 				field : 'stu_name',
 				title : '姓名',
-			}, {
+			}, /* {
 				field : 'course_name',
 				title : '课程名称',
-			}, {
+			}, */ {
 				field : 'score',
 				title : '分数',
 				align : "center",

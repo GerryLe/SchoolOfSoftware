@@ -176,18 +176,18 @@ a {
 		<div id="simle-tab_content" class="tab-content">
 		   <div class="wrapperr">
 			<a href="#wheel" class="wheel-button">
-				<span style="width:180px; height:180px; border-radius:50%; overflow:hidden;"><img alt="点击" src="${webRoot}/template/resource/procedure/images/can-dao.png" width="180px" height="180" border-radius="50%" style="vertical-align: middle;"></span>
+				<span style="width:180px; height:180px; border-radius:50%; overflow:hidden;"><img alt="点击" src="${webRoot}/template/resource/procedure/images/lingnan.png" width="180px" height="180" border-radius="50%" style="vertical-align: middle;"></span>
 			</a>
-			<div class="pointer">Can-dao流程图</div>
+			<div class="pointer">Ling-Nan网址</div>
 			<ul id="wheel" class="wheel" data-angle="all">
 				<li class="item">
-					<a href="/admin/system/procedure/entry_main_UI.do" target="kk">内部PRC入职流程图</a>
+					<a href="/admin/system/procedure/entry_main_UI.do" target="kk">图书馆</a>
 				</li>
 				<li class="item">
-					<a href="/admin/system/procedure/leave_main_UI.do" target="kk">内部PRC离职流程图</a>
+					<a href="/admin/system/procedure/leave_main_UI.do" target="kk">正方系统</a>
 				</li>
 				<li class="item">
-					<a href="/admin/system/procedure/employLeave_main_UI.do" target="kk">员工离职</a>
+					<a href="/admin/system/procedure/employLeave_main_UI.do" target="kk">ACM网址</a>
 				</li>
 				<li class="item">
 					<a href="/admin/system/procedure/employEntry_main_UI.do" target="kk">PRC员工入职</a>

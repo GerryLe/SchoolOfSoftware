@@ -200,7 +200,7 @@
 				},"json")
 			}, 'json');
 		}
-		else if ($('input[name=id]').val().length == 0) {//新增
+		 else if ($('input[name=id]').val().length == 0) {//新增
 			$.post(loading, {
 				id : $('input[name=userId]').val()
 			}, function(result) {
@@ -407,41 +407,41 @@
 		<table class="employ" style="cellspacing : 0; cellpadding : 0;" >
 			<tr class="form-group">
 				<td >班级名称：</td>
-				<td colspan="5" ><input type="text" name="positionname" id="positionname" disabled="disabled" /></td>
+				<td colspan="5" ><input type="text" name="positionname" id="positionname"/></td>
 			</tr>
 			<tr class="form-group">
 				<td>休假类型:</td>
 				<td>
-					<select name="holiapplyName" id="holiapplyName" disabled="disabled">
+					<select name="holiapplyName" id="holiapplyName">
 						<option value="年假">事假</option>
 						<option value="病假">病假</option>
 						<option value="其它">其它</option>
 					</select>
 				</td>
 				<td colspan="2">如果选择了其它，请在这里注明：</td>
-				<td colspan="2"><input type="text" name="holiapplyremark" id="holiapplyremark" disabled="disabled" /></td>
+				<td colspan="2"><input type="text" name="holiapplyremark" id="holiapplyremark" /></td>
 			</tr>
 			<tr class="form-group">
 				<td>请假时间：</td>
 				<td>
 				<div class="input-append date"  id="holiapplyStartDate1" data-date="" data-date-format="yyyy-mm-dd" >
-	   	 			<input size="16" type="text" name="holiapplyStartDate" id="holiapplyStartDate" disabled="disabled" onchange="getholidayday()" readonly>
+	   	 			<input size="16" type="text" name="holiapplyStartDate" id="holiapplyStartDate"  onchange="getholidayday()" readonly>
 	    			<span class="add-on"><i class="icon-th"></i></span>
 				</div>
 				</td>
 				<td>
-					<select id="startHours" name="startHours" style="width: 60px" disabled="disabled" onchange="getholidayday()">
+					<select id="startHours" name="startHours" style="width: 60px"  onchange="getholidayday()">
 						<option value="09">09:00</option><option value="14">14:00</option>
 					</select>
 				</td>
 				<td>
 				<div class="input-append date"  id="holiapplyEndDate1" data-date="" data-date-format="yyyy-mm-dd" >
-	   	 			<input size="16" type="text" name="holiapplyEndDate" id="holiapplyEndDate" disabled="disabled" onchange="getholidayday()" readonly>
+	   	 			<input size="16" type="text" name="holiapplyEndDate" id="holiapplyEndDate"  onchange="getholidayday()" readonly>
 	    			<span class="add-on"><i class="icon-th"></i></span>
 				</div>
 				</td>
 				<td>
-					<select name="endHours" id="endHours" style="width: 60px" disabled="disabled" onchange="getholidayday()">
+					<select name="endHours" id="endHours" style="width: 60px" onchange="getholidayday()">
 						<option value="14">14:00</option><option value="18">18:00</option>
 					</select>
 				</td>
@@ -449,15 +449,15 @@
 			</tr>
 			<tr style="height: 45px;" class="form-group">
 				<td>申请人：</td>
-				<td colspan="2"><input type="text" name="holiapplyUserName" id="holiapplyUserName" disabled="disabled"  /></td>
+				<td colspan="2"><input type="text" name="holiapplyUserName" id="holiapplyUserName"   /></td>
 				<td>申请时间：</td>
-				<td colspan="2"><input type="text" name="applyForTime" id="applyForTime" disabled="disabled" /></td>
+				<td colspan="2"><input type="text" name="applyForTime" id="applyForTime"  /></td>
 			</tr>
 			<tr class="form-group">
 				<td>辅导员：</td>
-				<td colspan="2"><input type="text" name="director" id="director"  disabled="disabled"/></td>
+				<td colspan="2"><input type="text" name="director" id="director"  /></td>
 				<td>审批时间：</td>
-				<td colspan="2"><input type="text" name="approvalTime" id="approvalTime" disabled="disabled" /></td>
+				<td colspan="2"><input type="text" name="approvalTime" id="approvalTime"  /></td>
 			</tr>
 			<tr class="form-group">
 				<td>文件上传：</td>
@@ -492,13 +492,13 @@
 				<td colspan="6">申请事由：</td>
 			</tr>
 			<tr class="form-group">
-				<td colspan="6"><textarea  name="holiapplyContent" id="holiapplyContent"  rows="5" style="width: 100%" disabled="disabled"></textarea></td>
+				<td colspan="6"><textarea  name="holiapplyContent" id="holiapplyContent"  rows="5" style="width: 100%" ></textarea></td>
 			</tr>
 			<tr class="form-group">
 				<td colspan="6">辅导员审批意见：</td>
 			</tr>
 			<tr class="form-group">
-				<td colspan="6"><textarea  name="holiapplydirectorsopinion" id="holiapplydirectorsopinion"  rows="5" style="width: 100%" disabled="disabled"></textarea></td>
+				<td colspan="6"><textarea  name="holiapplydirectorsopinion" id="holiapplydirectorsopinion"  rows="5" style="width: 100%" ></textarea></td>
 			</tr>
 		</table>
 	</div>

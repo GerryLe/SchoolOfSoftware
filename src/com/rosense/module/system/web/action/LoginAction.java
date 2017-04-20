@@ -63,13 +63,6 @@ public class LoginAction extends BaseController {
 		if (null == form || form.getAccount() == null || "".equals(form.getAccount().trim())) {
 			return new Msg(false, "账号不能为空！");
 		}
-		/*if (null == form || form.getName() == null || "".equals(form.getName().trim())) {
-			return new Msg(false, "用户名不能为空！");
-		}*/
-//		if (!"admin".equals(form.getAccount()) && MD5Util.md5("123456").equals(MD5Util.md5(form.getPassword()))) {
-//			return new Msg(false, "你的密码太简单，需要先登录微信修改密码!");
-//		}
-
 		Integer count = (Integer) session.getAttribute("login_error");
 		if (null == count)
 			count = 0;

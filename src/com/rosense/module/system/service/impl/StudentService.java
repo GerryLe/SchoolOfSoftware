@@ -306,7 +306,7 @@ public class StudentService extends BaseService implements IStudentService {
 		try {
 			List<UserForm> forms = new ArrayList<UserForm>();
 			Map<String, Object> alias = new HashMap<String, Object>();
-			String sql = "select u.*,e.class_id,e.email,e.sex,e.phone,e.entrance_date_Str,e.province, e.grade, e.birthday, e.graduate_school,e.profession,e.accountAddr,e.accountPro,c.class_name class_name from simple_user u ";
+			String sql = "select u.*,e.idcard,e.nation,e.politicalFace,e.origin,e.city,e.class_id,e.email,e.sex,e.phone,e.entrance_date_Str,e.province, e.grade, e.birthday, e.graduate_school,e.profession,e.accountAddr,e.accountPro,c.class_name class_name from simple_user u ";
 			sql += "right join simple_student e ON(e.id=u.personId)  ";
 			sql += "left join simple_class c ON(e.class_id=c.id)  ";
 			sql += "where u.status=0 ";

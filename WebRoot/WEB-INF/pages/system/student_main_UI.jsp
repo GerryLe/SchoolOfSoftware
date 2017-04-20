@@ -73,6 +73,9 @@
 				<option value="class_name">班级</option>
 			  </select>
 		  </div>
+		  <div class="btn-toolbar">
+			<select class="form-control" id="class_id" name="class_id" style="width: 200px;"  > </select>
+		 </div>
 		<!-- </form> -->
 	</div>
 	<table id="student_table" class="table-condensed table table-hover"
@@ -80,7 +83,11 @@
 		</section>
 <script type="text/javascript">
 	var $student_table;
+	var classtree = $.webapp.root + "/admin/system/class/tree.do";
 	$(function() {
+		$.BOOT.autoselect("class_id", classtree, {
+			title : "选择班级"
+		}); 
 		//$(".fixed-table-header").hide();
 		$student_table = $.BOOT.table("student_table", $.webapp.root+ "/admin/system/student/datagridperson.do", {
 			columns : [ {

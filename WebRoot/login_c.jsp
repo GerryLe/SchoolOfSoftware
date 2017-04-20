@@ -25,9 +25,9 @@ body {
 					class="glyphicon glyphicon-lock form-control-feedback"></span>
 			</div>
 			<div class="form-group has-feedback select"  id="grade">
-				<input type="radio" value="student" name="grade" checked="checked"> 学生
-				<input type="radio" value="teacher" name="grade" > 教师
-				<input type="radio" value="admin" name="grade" > 管理员
+				<input type="radio" value="student" name="grade" checked="checked" style="margin-left: 30px"> 学生
+				<input type="radio" value="teacher" name="grade" style="margin-left: 30px"> 教师
+				<input type="radio" value="admin" name="grade" style="margin-left: 30px"> 管理员
 			</div>
 			<div class="row">
 				<div class="col-xs-12">

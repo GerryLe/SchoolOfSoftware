@@ -48,11 +48,10 @@
 			<tx:method name="*" propagation="REQUIRED" />
 		</tx:attributes>
 	</tx:advice>
-
-	<aop:config proxy-target-class="true">
+	
+	 <aop:config proxy-target-class="true">
 		<aop:advisor advice-ref="txAdvice" pointcut="execution(* com.rosense..service..*.*(..))" />
 	</aop:config>
-
 
 	<!-- 注解方式配置事物 -->
 	<tx:annotation-driven transaction-manager="transactionManager" />

@@ -1,7 +1,7 @@
  <%@page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@taglib prefix="mvc" uri="http://www.springframework.org/tags/form" %>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<jsp:include page="/template/modal.jsp"><jsp:param value="addholidayapplys" name="id" /><jsp:param value="休假申请单" name="title" /></jsp:include>
+<jsp:include page="/template/modal.jsp"><jsp:param value="addholidayapplys" name="id" /><jsp:param value="请假申请" name="title" /></jsp:include>
 
 <section class="content">
 	<div id="holidayapplys-form-id"></div>
