@@ -11,9 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
 /**
  * 
- * @author Can-Dao
+* @author 黄家乐
  * 	
- * 2015年8月18日 下午8:20:28
+ * 2017年3月20日 
  *
  */
 public class Wrapper extends HttpServletResponseWrapper {

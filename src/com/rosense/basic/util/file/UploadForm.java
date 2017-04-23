@@ -2,9 +2,9 @@ package com.rosense.basic.util.file;
 
 /**
  * 
- * @author Can-Dao
+* @author 黄家乐
  * 	
- * 2015年8月18日 下午8:17:35
+ * 2017年3月20日 
  *
  */
 public class UploadForm {

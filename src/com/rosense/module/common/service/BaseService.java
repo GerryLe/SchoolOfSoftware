@@ -8,9 +8,9 @@ import com.rosense.module.system.web.form.LoginUser;
 
 /**
  * 
- * @author Can-Dao
+ * @author 黄家乐
  * 	
- * 2015年8月18日 下午8:37:22
+ * 2017年3月20日 
  *
  */
 public class BaseService {

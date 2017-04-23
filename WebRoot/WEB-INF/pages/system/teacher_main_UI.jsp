@@ -21,7 +21,10 @@
 	filter: alpha(opacity = 0);
 	margin-top: -5px;
 }
-
+/* #teacher_table{
+  width: 4500px;
+  margin-top: 0px !important;;  
+} */
 -->
 </style>
 <section class="content">
@@ -54,12 +57,10 @@
 		</div>
 		<div class="btn-toolbar">
 			<select class="form-control" id="selectType" name="selectType" style="width: 100%">
-				<option value="stu_no">学号</option>
-				<option value="stu_name">姓名</option>
-				<option value="class_name">班级</option>
+				<option value="tea_no">编号</option>
+				<option value="tea_name">姓名</option>
 			  </select>
 		  </div>
-		<!-- </form> -->
 	</div>
 	<table id="teacher_table" class="table-condensed table table-hover"
 		data-row-style="rowStyle" data-side-pagination="server"></table>
@@ -79,11 +80,7 @@
 				field : 'tea_no',
 				title : '编号',
 				sortable : true
-			}, {
-				field : 'class_name',
-				title : '班级名称',
-				sortable : true
-			}, {
+			},{
 				field : 'tea_name',
 				title : '姓名',
 			}, {
@@ -137,19 +134,20 @@
 			},{
 				field : 'bankCard',
 				title : '银行卡',
-			},/* {
+			}, {
 				field : 'id',
 				title : '操作',
 				formatter : function(value, row, index) {
-					return $.BOOT.groupbtn(value, [ {
+					/* return $.BOOT.groupbtn(value, [ {
 						cla : 'person_edit',
 						text : "编辑"
 					}, {
 						cla : 'person_delete',
 						text : "删除"
-					} ]);
+					} ]); */
+					return "<input type='button'  name='"+value+"' id='person_edit' value='编辑' />"
 				}
-			}  */ ],
+			}  ],
 			paginationInfo : true,
 			showExport : true,
 			onDblClickRow:function(row, $element){
@@ -211,10 +209,8 @@
 		var $input = $("tr.selected");
 		var ids = "";
 		for (var i = 0; i < $input.length; i++) {
-			var html = $input.find("li.person_edit").eq(i).prop('outerHTML');
-			var b = html.indexOf("\"");
-			var e = html.indexOf("\" ");
-			var id = html.substring(b + 1, e);
+			//var html = $input.find("li.person_edit").eq(i).prop('outerHTML');
+			var id = $input.find("input[id=person_edit]").eq(i).attr("name");
 			ids += id + ",";
 		}
 		var json = {
@@ -254,8 +250,8 @@
 		};
 		$.BOOT.alert(json, true);
 	});
-	$.BOOT.click(".person_edit", function(c) {
-		var id = $(c).attr("val");
+	$.BOOT.click("#person_edit", function(c) {
+		var id = $(c).attr("name");
 		var href = $.webapp.root + '/admin/system/teacher/teacher_form_UI.do?id='
 				+ id;
 		$.BOOT.page("content_addTea", href, function() {
@@ -263,8 +259,6 @@
 		});
 		
 	});
-
-	
 	
 	$(document).on("click", "#teacher_add", function() {
 		var href = $.webapp.root + '/admin/system/teacher/teacher_form_UI.do';

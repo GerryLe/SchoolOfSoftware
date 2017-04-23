@@ -23,7 +23,7 @@ import com.rosense.basic.model.SystemContext;
 import com.rosense.basic.util.dbutil.IDBUtilsHelper;
 
 /**
- * @author Can-Dao
+ * @author 黄家乐
  *
  */
 @SuppressWarnings("unchecked")

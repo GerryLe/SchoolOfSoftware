@@ -23,9 +23,9 @@ import com.rosense.module.system.web.form.MessageForm;
 
 /**
  * 
- * @author Can-Dao
+ * @author 黄家乐
  * 	
- * 2016年7月24日 下午5:17:12
+ * 2017年3月20日 
  *
  */
 @Service("messageService")

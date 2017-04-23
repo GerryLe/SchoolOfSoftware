@@ -7,9 +7,9 @@ import com.rosense.module.app.web.form.BbsItemForm;
 
 /**
  *用户互动
- * @author Can-Dao
+ * @author 黄家乐
  * 	
- * 2015年8月24日 下午3:32:03
+ * 2017年3月20日 
  *
  */
 public interface IBbsService {

@@ -11,10 +11,10 @@ import net.sf.json.JSONObject;
 
 /**
  * 获取经纬度信息
- * @author Can-Dao
+* @author 黄家乐
  * 	
- * 2015年9月2日 上午9:49:42
- * 
+ * 2017年3月20日 
+ *
  */
 public class GpsUtils {
 

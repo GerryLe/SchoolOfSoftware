@@ -13,9 +13,8 @@ import com.rosense.basic.util.dbutil.IDBUtilsHelper;
 
 /**
  * 公共的DAO处理对象，这个对象中包含了Hibernate的所有基本操作和对SQL的操作
- * @author Can-Dao
+ * @author 黄家乐
  * 	
- * 2015年8月18日 下午8:14:33
  *
  */
 public interface IBaseDao<T> {

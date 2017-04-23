@@ -408,7 +408,7 @@ public class InitService implements BeanFactoryAware {
             @Override  
             public void run() {  
            	    String getpath=getClass().getResource("/").getPath().substring(1);
-    	        if (exportDatabaseTool("10.200.102.23", "root", "root", getpath+"backupDatabase", "backDatabase.sql", "candao_oa")) {
+    	        if (exportDatabaseTool("10.200.102.23", "root", "root", getpath+"backupDatabase", "backDatabase.sql", "lingnan_oa")) {
     	            System.out.println("数据库备份成功！！！");
     	        } else {
     	            System.out.println("数据库备份失败！！！");

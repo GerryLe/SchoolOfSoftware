@@ -17,9 +17,9 @@ import com.rosense.basic.util.LangUtils;
 
 /**
  * 
- * @author Can-Dao
+* @author 黄家乐
  * 	
- * 2016年7月25日 上午9:28:37
+ * 2017年3月20日 
  *
  */
 public class CachesEhcache extends ACaches {

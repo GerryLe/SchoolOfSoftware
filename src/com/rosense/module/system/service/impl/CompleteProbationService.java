@@ -436,8 +436,7 @@ public class CompleteProbationService implements ICompleteProbationService {
 			        	 emailList.add(OrgUser.getEmail());
 			         }
 			         if(roleName.contains("HR") && roleId.contains(3)){
-			        	 // String[] str=new String[]{"gerrylehuang@can-dao.com","1980921973@qq.com"};
-			        	  String[] emailArray=emailList.toArray(new String[0]);
+			        	String[] emailArray=emailList.toArray(new String[0]);
 			        	   if(emailArray!=null){
 						     //SendEmailUtil.sendMail("审核通知", u.getAccount()+"  "+ p.getName()+"  "+p.getChinaname()+"的转正日期："+p.getBecomeStaffDate()+"\n请审批",emailArray);
 			        	   }

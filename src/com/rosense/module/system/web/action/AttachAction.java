@@ -38,9 +38,9 @@ import com.rosense.module.system.service.IAttachService;
 
 /**
  * 附件上传管理
- * @author Can-Dao
+* @author 黄家乐
  * 	
- * 2015年8月24日 下午3:36:32
+ * 2017年3月20日 
  *
  */
 @Controller

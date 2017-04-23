@@ -14,9 +14,9 @@ import com.rosense.basic.dao.IdEntity;
 
 /**
  * 部门
- * @author Can-Dao
+ * @author 黄家乐
  * 	
- * 2015年8月19日 上午9:07:33
+ * 2017年3月20日 
  *
  */
 @Entity

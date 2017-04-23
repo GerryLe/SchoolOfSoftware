@@ -1,6 +1,7 @@
 package com.rosense.module.system.service.impl;
 
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -248,8 +249,8 @@ public class TeacherService extends BaseService implements ITeacherService {
 	public UserForm get(String id) {
 
 		try {
-			String sql = "select u.*,e.class_id,e.email,e.sex,e.phone,e.entrance_date_Str,e.province, e.grade, e.birthday,e.accountAddr,e.accountPro from simple_user u ";
-			sql += " left join simple_tea e ON(u.personId=e.id) ";
+			String sql = "select u.*,e.email,e.sex,e.phone,e.entrance_date_Str,e.province, e.grade, e.birthday,e.accountAddr,e.accountPro,e.idcard,e.nation,e.city,e.politicalFace,e.origin,e.contact,e.contactPhone,e.material,e.bankCard from simple_user u ";
+			sql += " left join simple_teacher e ON(u.personId=e.id) ";
 			sql += " where u.id=?";
 			UserForm form = (UserForm) this.userDao.queryObjectSQL(sql, new Object[] { id }, UserForm.class, false);
 			if (form != null) {
@@ -306,9 +307,8 @@ public class TeacherService extends BaseService implements ITeacherService {
 		try {
 			List<UserForm> forms = new ArrayList<UserForm>();
 			Map<String, Object> alias = new HashMap<String, Object>();
-			String sql = "select u.*,e.class_id,e.email,e.sex,e.phone,e.entrance_date_Str,e.province, e.grade, e.birthday,e.accountAddr,e.accountPro,c.class_name class_name from simple_user u ";
+			String sql = "select u.*,e.email,e.sex,e.phone,e.entrance_date_Str,e.province, e.grade, e.birthday,e.accountAddr,e.accountPro,e.idcard,e.nation,e.city,e.politicalFace,e.origin,e.contact,e.contactPhone,e.material,e.bankCard from simple_user u ";
 			sql += "right join simple_teacher e ON(e.id=u.personId)  ";
-			sql += "left join simple_class c ON(e.class_id=c.id)  ";
 			sql += "where u.status=0 ";
 			if(StringUtil.isNotEmpty(searchKeyName)){
 				sql=addWhereSearch(sql, form, alias,selectType,searchKeyName);
@@ -575,24 +575,18 @@ public class TeacherService extends BaseService implements ITeacherService {
 	 * @return
 	 */
 	private String addWhereSearch(String sql, UserForm form, Map<String, Object> params,String selectType,String searchKeyName) {
-				if (selectType.equals("class_name")) {
-					try {
-						//params.put("phone", "%%" + searchKeyName + "%%");
-						sql += " and c.class_name like '%"+searchKeyName+"%'";
-					} catch (Exception e) {
-					}
-				}
-				if (selectType.equals("stu_name")) {
+				
+				if (selectType.equals("tea_name")) {
 					try {
 						//params.put("name", "%%" + URLDecoder.decode(searchKeyName, "UTF-8") + "%%");
-						sql += " and e.stu_name like '%"+searchKeyName+"%'";
+						sql += " and e.tea_name like '%"+URLEncoder.encode(searchKeyName)+"%'";
 					} catch (Exception e) {
 					}
 				}
-				if (selectType.equals("stu_no")) {
+				if (selectType.equals("tea_no")) {
 					try {
 						//params.put("chinaname", "%%" + URLDecoder.decode(searchKeyName, "UTF-8") + "%%");
-						sql += " and e.stu_no like '%"+searchKeyName+"%'";
+						sql += " and e.tea_no like '%"+searchKeyName+"%'";
 					} catch (Exception e) {
 					}
 				}
@@ -604,36 +598,26 @@ public class TeacherService extends BaseService implements ITeacherService {
 		if (StringUtil.isNotEmpty(form.getFilter())) {
 			JSONObject jsonObject = JSONObject.fromObject(form.getFilter());
 			for (Object key : jsonObject.keySet()) {
-				if (key.equals("class_name")) {
-					form.setClass_name(jsonObject.get(key).toString());
+				if (key.equals("tea_name")) {
+					form.setTea_name(StringUtil.getEncodePra(jsonObject.get(key).toString()));
 				}
-				if (key.equals("stu_name")) {
-					form.setStu_name(StringUtil.getEncodePra(jsonObject.get(key).toString()));
-				}
-				if (key.equals("stu_no")) {
-					form.setStu_no(StringUtil.getEncodePra(jsonObject.get(key).toString()));
+				if (key.equals("tea_no")) {
+					form.setTea_no(StringUtil.getEncodePra(jsonObject.get(key).toString()));
 				}
 				
 			}
 		}
-		if (StringUtil.isNotEmpty(form.getClass_name())) {
+		if (StringUtil.isNotEmpty(form.getTea_name())) {
 			try {
-				params.put("class_name", "%%" + URLDecoder.decode(form.getClass_name(), "UTF-8") + "%%");
-				sql += " and c.class_name like :class_name";
+				params.put("tea_name", "%%" + URLDecoder.decode(form.getTea_name(), "UTF-8") + "%%");
+				sql += " and e.tea_name like :tea_name";
 			} catch (Exception e) {
 			}
 		}
-		if (StringUtil.isNotEmpty(form.getStu_name())) {
+		if (StringUtil.isNotEmpty(form.getTea_no())) {
 			try {
-				params.put("stu_name", "%%" + URLDecoder.decode(form.getStu_name(), "UTF-8") + "%%");
-				sql += " and e.stu_name like :stu_name";
-			} catch (Exception e) {
-			}
-		}
-		if (StringUtil.isNotEmpty(form.getStu_no())) {
-			try {
-				params.put("stu_no", "%%" + URLDecoder.decode(form.getStu_no(), "UTF-8") + "%%");
-				sql += " and e.stu_no like :stu_noame";
+				params.put("tea_no", "%%" + URLDecoder.decode(form.getTea_no(), "UTF-8") + "%%");
+				sql += " and e.tea_no like :tea_no";
 			} catch (Exception e) {
 			}
 		}

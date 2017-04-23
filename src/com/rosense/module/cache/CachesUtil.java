@@ -17,9 +17,9 @@ import com.rosense.basic.util.xml.W3cUtils;
 
 /**
  * 
- * @author Can-Dao
+* @author 黄家乐
  * 	
- * 2016年7月25日 上午9:30:43
+ * 2017年3月20日 
  *
  */
 public final class CachesUtil {

@@ -4,9 +4,9 @@ import java.net.URL;
 
 /**
  * 
- * @author Can-Dao
+ * @author 黄家乐
  * 	
- * 2015年8月31日 下午1:05:20
+ * 2017年3月20日 
  *
  */
 public interface ISubTypeFilter {

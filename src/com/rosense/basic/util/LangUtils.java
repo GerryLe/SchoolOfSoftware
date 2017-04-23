@@ -1,9 +1,9 @@
 package com.rosense.basic.util;
 /**
  * 
- * @author Can-Dao
+ * @author 黄家乐
  * 	
- * 2015年8月18日 下午8:21:52
+ * 2017年3月20日 
  *
  */
 public final class LangUtils {

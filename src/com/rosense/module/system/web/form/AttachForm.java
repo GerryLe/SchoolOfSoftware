@@ -6,9 +6,9 @@ import com.rosense.basic.model.PageHelper;
 
 /**
  * 附件
- * @author Can-Dao
+ * @author 黄家乐
  * 	
- * 2016年7月22日 下午4:45:29
+ * 2017年3月20日 
  *
  */
 public class AttachForm extends PageHelper implements Serializable {

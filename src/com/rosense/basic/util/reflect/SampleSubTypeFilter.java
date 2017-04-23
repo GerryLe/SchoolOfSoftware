@@ -4,9 +4,9 @@ import java.net.URL;
 
 /**
  * 
- * @author Can-Dao
+ * @author 黄家乐
  * 	
- * 2015年8月31日 下午1:04:47
+ * 2017年3月20日 
  *
  */
 public class SampleSubTypeFilter implements ISubTypeFilter {

@@ -7,9 +7,9 @@ import com.rosense.basic.model.PageHelper;
 
 /**
  * 帖子回复
- * @author Can-Dao
+ * @author 黄家乐
  * 	
- * 2015年8月24日 下午4:04:33
+ * 2017年3月20日 
  *
  */
 public class BbsItemForm extends PageHelper implements Serializable {

@@ -5,9 +5,7 @@ import java.util.List;
 
 /**
  * 
- * @author Can-Dao
- * 	
- * 2015年8月18日 下午8:14:58
+ * @author 黄家乐
  *
  */
 public class DataGrid {

@@ -25,9 +25,9 @@ import com.rosense.module.system.web.form.MenuForm;
 
 /**
  * 授权
- * @author Can-Dao
+ * @author 黄家乐
  * 	
- * 2015年8月19日 上午9:08:14
+ * 2017年3月20日 
  *
  */
 @Service

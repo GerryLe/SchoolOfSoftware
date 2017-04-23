@@ -65,7 +65,7 @@ select{
 		var orgtree = $.webapp.root + "/admin/system/class/tree.do";
 		var ptree = $.webapp.root + "/admin/system/position/tree.do";
 		var get = $.webapp.root + "/admin/system/student/get.do";
-		 region_init("province","area","city"); 
+		 region_init("province","city","area"); 
 		 $.get($.webapp.root + "/admin/system/role/datagrid.do",
 					{},function(data){
 						for (var i = 0; i < data.total; i++) {
@@ -240,8 +240,8 @@ select{
 		   <span class="input-group form_date date col-md-5 input-group-addon" data-date="" data-date-format="yyyy/mm/dd" data-link-field="entrance_date_Str" data-link-format="yyyy/mm/dd"  id="glyphicon-planComeDate-calendar" style="margin: 0;width: 30px; height:30px;background-color: #F0F0F0; float: right" ><span class="glyphicon glyphicon-calendar"></span></span>
        </td>
 	  <td><select name="province" id="province"  style="width: 45%"></select> 
-	        <select name="area" id="area"  style="width: 45%"></select> 
-	        <select id="city" name="city" style="display: none"></select></td>
+	        <select name="city" id="city"  style="width: 45%"></select> 
+	        <select id="area" name="area" style="display: none"></select></td>
 	  <td><input type="text"  name="nation" id="nation" placeholder="输入民族" style="width: 100%;"/></td>
 	  </tr> 
 	 
@@ -259,15 +259,20 @@ select{
 	  <tr class="trsolid trcenter form-group">
 	  <td>政治面貌</td>
 	  <td>贯籍</td>
-	  <td>户口地址<span id="degreeReg" style="color: red; font-size: 12px;  display：none;"></span></td>
-	  <td>身份证号码</td>
+	  <td>户籍地址</td>
+	  <td>户口性质</td>
 	  </tr>
 	  
 	  <tr class="trcenter form-group">
-	  <td><input type="text"  name="politicalFace" id="politicalFace" placeholder="输入政治面貌" style="width: 100%;"/></td>
-	  <td><input type="text" name="origin" id="origin" placeholder="输入邮箱" style="width: 100%" /></td>
-	  <td><input type="text"  name="accountAddr" id="accountAddr" placeholder="输入政治面貌" style="width: 100%;"/></td>
-	  <td><input type="text"  name="idcard" id="idcard" placeholder="输入政治面貌" style="width: 100%;"/></td>
+	  <td> <select id="politicalFace" name="politicalFace" style="width: 100%;height: 100%">
+			  <option value="共青团员">共青团员</option>
+			  <option value="党员">党员</option>
+			  <option value="群众">群众</option>
+		   </select>
+	  </td>
+	  <td><input type="text" name="origin" id="origin" placeholder="输入贯籍" style="width: 100%" /></td>
+	  <td><input type="text"  name="accountAddr" id="accountAddr" placeholder="输入户籍地址" style="width: 100%;"/></td>
+	  <td><input type="text"  name="accountPro" id="accountPro" placeholder="输入身份证号码" style="width: 100%;"/></td>
 	  </tr>
 	  
 
@@ -275,16 +280,26 @@ select{
 	  <td>专业</td>
 	  <td>联系人</td>
 	  <td>联系人电话<span id="degreeReg" style="color: red; font-size: 12px;  display：none;"></span></td>
-	  <td>资料</td>
+	  <td>身份证号码</td>
 	  </tr>
 	   
 	  <tr class="trcenter form-group">
-	  <td> <input type="text" style="width: 100%" name="profession" id="profession" placeholder="输入试用期限"></td>
-	  <td><input type="text" style="width: 100%" name="contact" id="contact" placeholder="输入试用期限"></td>
-	  <td><input type="text" style="width: 100%" name="contactPhone" id="contactPhone" placeholder="输入试用期限"></td>
+	  <td> <input type="text" style="width: 100%" name="profession" id="profession" placeholder="输入专业"></td>
+	  <td><input type="text" style="width: 100%" name="contact" id="contact" placeholder="输入联系人"></td>
+	  <td><input type="text" style="width: 100%" name="contactPhone" id="contactPhone" placeholder="输入联系人电话"></td>
 	  <td>   
-	     <input type="text" style="width: 100%" name="material" id="material" placeholder="输入试用期限">
+	     <input type="text" style="width: 100%" name="idcard" id=""idcard"" placeholder="资料">
 	  </td>
+	  </tr>
+	  
+	  <tr class="form-group trsolid">
+	      <td colspan="4">资料</td>
+	  </tr>
+	  
+	  <tr class="form-group">
+	      <td colspan="4">
+	       <textarea rows="5" name="material" id="material" placeholder="输入资料" style="width: 100%"></textarea>
+	     </td>
 	  </tr>
 	  
 	 <!--  <tr class="trsolid trcenter form-group">

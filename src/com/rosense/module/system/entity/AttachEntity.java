@@ -7,9 +7,9 @@ import com.rosense.basic.dao.ExtFieldEntity;
 
 /**
  * 附件文件
- * @author Can-Dao
+ * @author 黄家乐
  * 	
- * 2015年8月29日 下午1:36:00
+ * 2017年3月20日 
  *
  */
 @Table(name = "simple_attach")

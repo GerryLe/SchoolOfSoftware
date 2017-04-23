@@ -3,9 +3,8 @@ package com.rosense.basic.model;
 
 /**
  * 
- * @author Can-Dao
+ * @author 黄家乐
  * 	
- * 2015年8月18日 下午8:15:11
  *
  */
 public class Msg {

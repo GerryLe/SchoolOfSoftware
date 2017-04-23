@@ -42,9 +42,9 @@ import org.apache.commons.compress.archivers.ArchiveStreamFactory;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 /**
  * 
- * @author Can-Dao
+ * @author 黄家乐
  * 	
- * 2015年8月22日 上午8:28:40
+ * 2017年3月20日 
  *
  */
 public final class IOUtils {

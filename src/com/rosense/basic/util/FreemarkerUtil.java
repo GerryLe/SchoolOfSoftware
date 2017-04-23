@@ -26,9 +26,9 @@ import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
 /**
  * 
- * @author Can-Dao
+ * @author 黄家乐
  * 	
- * 2015年8月18日 下午8:21:24
+ * 2017年3月20日 
  *
  */
 public class FreemarkerUtil {

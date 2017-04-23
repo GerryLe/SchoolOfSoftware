@@ -33,10 +33,10 @@ import com.rosense.module.system.web.form.RoleForm;
 import com.rosense.module.system.web.form.UserForm;
 
 /**
- * @author Can-Dao
+ * @author 黄家乐
  * 	
- * 2016年7月23日 下午9:12:15
- * 
+ * 2017年3月20日 
+ *
  */
 @Service("classService")
 @Transactional
@@ -88,7 +88,7 @@ public class ClassService extends BaseService implements IClassService {
 			del(e);
 		}
 		this.basedaoClass.delete(ClassEntity.class, org.getId());
-		this.basedaoClass.executeSQL("update simple_student set classId=? where classId=?", new Object[] { null, org.getId() });
+		//this.basedaoClass.executeSQL("update simple_student set classId=? where classId=?", new Object[] { null, org.getId() });
 		this.logService.add("删除班级", "名称：[" + org.getClass_name() + "]");
 	}
 

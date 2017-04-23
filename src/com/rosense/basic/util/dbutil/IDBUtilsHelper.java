@@ -4,9 +4,9 @@ import org.apache.commons.dbutils.QueryRunner;
 
 /**
  * 
- * @author Can-Dao
+ * @author 黄家乐
  * 	
- * 2015年8月18日 下午8:16:15
+ * 2017年3月20日 
  *
  */
 public interface IDBUtilsHelper {

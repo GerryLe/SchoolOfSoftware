@@ -149,7 +149,7 @@
 				title : '户口性质',
 			},{
 				field : 'graduate_school',
-				title : '毕业学校',
+				title : '毕业中学',
 			},{
 				field : 'profession',
 				title : '专业',
@@ -162,9 +162,6 @@
 			},{
 				field : 'material',
 				title : '资料',
-			},{
-				field : 'bankCard',
-				title : '银行卡',
 			},/* {
 				field : 'id',
 				title : '操作',

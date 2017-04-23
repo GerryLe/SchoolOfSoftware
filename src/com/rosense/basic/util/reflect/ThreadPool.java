@@ -8,9 +8,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 /**
  * 
- * @author Can-Dao
+ * @author 黄家乐
  * 	
- * 2015年8月31日 下午1:04:52
+ * 2017年3月20日 
  *
  */
 public final class ThreadPool<T extends Runnable> extends Thread {

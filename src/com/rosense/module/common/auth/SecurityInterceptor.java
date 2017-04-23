@@ -14,9 +14,9 @@ import com.rosense.module.system.web.form.LoginSession;
 
 /**
  * 拦截器
- * @author Can-Dao
+ * @author 黄家乐
  * 	
- * 2015年8月18日 下午8:10:26
+ * 2017年3月20日 
  *
  */
 public class SecurityInterceptor extends HandlerInterceptorAdapter {

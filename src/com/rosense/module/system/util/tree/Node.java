@@ -2,9 +2,9 @@ package com.rosense.module.system.util.tree;
 
 /**
  * 
- * @author Can-Dao
+* @author 黄家乐
  * 	
- * 2015年8月21日 下午9:12:48
+ * 2017年3月20日 
  *
  */
 public class Node {

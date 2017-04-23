@@ -23,6 +23,7 @@
 				<entity name="查询教师" type="O" href="/admin/system/teacher/datagridperson.do" />
 				<entity name="添加教师" type="O" href="/admin/system/teacher/add.do" />
 				<entity name="编辑教师" type="O" href="/admin/system/teacher/update.do" />
+				<entity name="删除教师" type="O" href="/admin/system/teacher/delete.do" />
 				<entity name="导入教师信息" type="O" href="/admin/system/teacher/importUser.do" />
 				<entity name="教师编号" type="O" href="/admin/system/teacher/checkUserAccount.do" />
 				<entity name="判断教师编号" type="O" href="/admin/system/teacher/importUserId.do" />
@@ -32,6 +33,7 @@
 				<entity name="查询学生" type="O" href="/admin/system/student/datagridperson.do" />
 				<entity name="添加学生" type="O" href="/admin/system/student/add.do" />
 				<entity name="编辑学生" type="O" href="/admin/system/student/update.do" />
+				<entity name="删除学生" type="O" href="/admin/system/student/delete.do" />
 				<entity name="导入学生" type="O" href="/admin/system/student/importUser.do" />
 				<entity name="学生编号" type="O" href="/admin/system/student/checkUserAccount.do" />
 				<entity name="判断学生编号" type="O" href="/admin/system/student/importUserId.do" />

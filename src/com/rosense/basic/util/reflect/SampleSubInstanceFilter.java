@@ -4,9 +4,9 @@ import java.lang.reflect.Modifier;
 
 /**
  * 
- * @author Can-Dao
+* @author 黄家乐
  * 	
- * 2015年8月31日 下午1:04:43
+ * 2017年3月20日 
  *
  */
 public class SampleSubInstanceFilter extends SampleSubTypeFilter {

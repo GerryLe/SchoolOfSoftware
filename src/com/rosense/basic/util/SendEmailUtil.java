@@ -19,11 +19,11 @@ public class SendEmailUtil {
 		// 设置收件人，寄件人 用数组发送多个邮件
 		//String[] array = new String[] { to};
 		mailMessage.setTo(str);
-		mailMessage.setFrom("honylong@can-dao.com");
+		mailMessage.setFrom("honylong@lingnan.com");
 		mailMessage.setSubject(title);
 		mailMessage.setText(content);
 
-		senderImpl.setUsername("honylong@can-dao.com");
+		senderImpl.setUsername("honylong@lingnan.com");
 		senderImpl.setPassword("Dragon520");
 
 		Properties prop = new Properties();

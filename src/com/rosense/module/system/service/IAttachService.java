@@ -6,9 +6,9 @@ import com.rosense.module.system.entity.AttachEntity;
 
 /**
  * 附件管理
- * @author Can-Dao
+* @author 黄家乐
  * 	
- * 2015年8月24日 下午3:32:03
+ * 2017年3月20日 
  *
  */
 public interface IAttachService {

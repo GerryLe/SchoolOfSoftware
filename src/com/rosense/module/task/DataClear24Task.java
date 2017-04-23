@@ -6,9 +6,10 @@ import org.springframework.stereotype.Component;
 /**
  * 每天24点清楚数据
  * 
- * @author Can-Dao
- *  2015年1月9日 下午3:41:11
- * 
+ * @author 黄家乐
+ * 	
+ * 2017年3月20日 
+ *
  */
 @Component
 public class DataClear24Task {

@@ -20,9 +20,9 @@ import com.rosense.module.system.web.form.OrgForm;
 
 /**
  * 部门控制器
- * @author Can-Dao
+* @author 黄家乐
  * 	
- * 2015年8月20日 下午4:53:26
+ * 2017年3月20日 
  *
  */
 @Controller

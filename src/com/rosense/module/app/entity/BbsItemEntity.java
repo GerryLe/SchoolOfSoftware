@@ -10,9 +10,9 @@ import javax.persistence.Table;
 
 /**
  * 帖子回复
- * @author Can-Dao
+* @author 黄家乐
  * 	
- * 2015年8月29日 下午1:36:15
+ * 2017年3月20日 
  *
  */
 @Table(name = "simple_bbsitem")

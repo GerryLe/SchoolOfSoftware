@@ -14,9 +14,8 @@ import org.apache.commons.dbcp.BasicDataSourceFactory;
 
 /**
  * 数据源
- * @author Can-Dao
+ * @author 黄家乐
  * 	
- * 2015年8月18日 下午8:15:55
  *
  */
 public class DBConnectPool {

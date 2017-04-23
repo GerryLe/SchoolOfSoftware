@@ -27,7 +27,7 @@
 <script type="text/javascript">
 	function loadclassTree() {
 		var jstree = null;
-		var href = $.webapp.root + "/admin/system/class/tree.do";
+		var href=$.webapp.root +"/admin/system/class/tree.do";
 		$.post(href, {}, function(result) {
 			$('#treeview1').data('jstree', false);
 			jstree = $('#treeview1').jstree({

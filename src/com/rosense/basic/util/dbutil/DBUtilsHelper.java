@@ -10,9 +10,9 @@ import org.springframework.stereotype.Component;
 
 /**
  * 
- * @author Can-Dao
+ * @author 黄家乐
  * 	
- * 2015年8月18日 下午8:16:01
+ * 2017年3月20日 
  *
  */
 @Component("dbutil")

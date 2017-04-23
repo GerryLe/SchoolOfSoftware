@@ -10,14 +10,14 @@ height:13px;vertical-align:text-top;margin-top:0;width:30px;
 
  .modal-dialog{
  width:60%;
- height:85%;
+ height:70%;
  text-align: center;
 
 } 
 .employ {
 	border:5px;
 	width:610px;
-	height:700px;
+	height:600px;
 	text-align: center;
 	margin-left: 23px;
 } 
@@ -65,7 +65,7 @@ select{
 		var orgtree = $.webapp.root + "/admin/system/org/tree.do";
 		var ptree = $.webapp.root + "/admin/system/position/tree.do";
 		var get = $.webapp.root + "/admin/system/teacher/get.do";
-		 region_init("province","area","city"); 
+		 region_init("province","city","area"); 
 		 $.get($.webapp.root + "/admin/system/role/datagrid.do",
 					{},function(data){
 						for (var i = 0; i < data.total; i++) {
@@ -238,8 +238,8 @@ select{
 	  
 	  <tr class="trcenter form-group">
 	  <td colspan="2"><select name="province" id="province"  style="width: 45%"></select> 
-	        <select name="area" id="area"  style="width: 45%"></select> 
-	        <select id="city" name="city" style="display: none"></select></td>
+	        <select name="city" id="city"  style="width: 45%"></select> 
+	        <select id="area" name="area" style="display: none"></select></td>
 	  <td colspan="2"><input type="text"  name="nation" id="nation" placeholder="输入民族" style="width: 100%;"/></td>
 	  </tr> 
 	 
@@ -257,30 +257,43 @@ select{
 	  <tr class="trsolid trcenter form-group">
 	  <td>政治面貌</td>
 	  <td>贯籍</td>
-	  <td>户口地址<span id="degreeReg" style="color: red; font-size: 12px;  display：none;"></span></td>
-	  <td>身份证号码</td>
+	  <td>户籍地址<span id="degreeReg" style="color: red; font-size: 12px;  display：none;"></span></td>
+	  <td>户口性质</td>
 	  </tr>
 	  
 	  <tr class="trcenter form-group">
 	  <td><input type="text"  name="politicalFace" id="politicalFace" placeholder="输入政治面貌" style="width: 100%;"/></td>
-	  <td><input type="text" name="origin" id="origin" placeholder="输入邮箱" style="width: 100%" /></td>
-	  <td><input type="text"  name="accountAddr" id="accountAddr" placeholder="输入政治面貌" style="width: 100%;"/></td>
-	  <td><input type="text"  name="idcard" id="idcard" placeholder="输入政治面貌" style="width: 100%;"/></td>
+	  <td><input type="text" name="origin" id="origin" placeholder="贯籍" style="width: 100%" /></td>
+	  <td><input type="text"  name="accountAddr" id="accountAddr" placeholder="户口地址" style="width: 100%;"/></td>
+	 <td>
+	     	<input type="text" name="accountPro" id="accountPro" placeholder="输入户口性质" style="width: 100%"/>
+	  </td>
 	  </tr>
 	  
 
 	  <tr class="trsolid trcenter form-group">
+	   <td>身份证号码</td>
 	  <td>联系人</td>
 	  <td>联系人电话<span id="degreeReg" style="color: red; font-size: 12px;  display：none;"></span></td>
-	  <td colspan="2">资料</td>
+	   <td>银行卡号</td>
 	  </tr>
 	   
 	  <tr class="trcenter form-group">
-	  <td> <input type="text" style="width: 100%" name="profession" id="profession" placeholder="输入试用期限"></td>
-	  <td><input type="text" style="width: 100%" name="contact" id="contact" placeholder="输入试用期限"></td>
-	  <td><input type="text" style="width: 100%" name="contactPhone" id="contactPhone" placeholder="输入试用期限"></td>
-	  <td colspan="2">   
-	     <input type="text" style="width: 100%" name="material" id="material" placeholder="输入试用期限">
+	   <td><input type="text"  name="idcard" id="idcard" placeholder="身份证号码" style="width: 100%;"/></td>
+	  <td> <input type="text" style="width: 100%" name="contact" id="contact" placeholder="联系人"></td>
+	  <td><input type="text" style="width: 100%" name="contactPhone" id="contactPhone" placeholder="联系人电话"></td>
+	   <td>   
+	     <input type="text" style="width: 100%" name="bankCard" id="bankCard" placeholder="银行卡">
+	  </td>
+	  </tr>
+	  
+	   <tr class="trsolid trcenter form-group">
+	  <td colspan="4">个人资料</td>
+	  </tr>
+	   
+	  <tr class="trcenter form-group">
+	  <td colspan="4">   
+	  <textarea rows="5" name="material" id="material" placeholder="资料" style="width: 100%"></textarea>
 	  </td>
 	  </tr>
 	  

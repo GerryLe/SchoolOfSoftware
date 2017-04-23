@@ -2,9 +2,8 @@ package com.rosense.basic.spring;
 
 /**
  * 
- * @author Can-Dao
+ * @author 黄家乐
  * 	
- * 2015年8月31日 下午5:13:19
  *
  */
 public abstract class DataSourceContextHolder {

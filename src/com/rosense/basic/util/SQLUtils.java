@@ -7,9 +7,9 @@ import java.sql.Statement;
 
 /**
  * 
- * @author Can-Dao
+* @author 黄家乐
  * 	
- * 2015年8月31日 上午9:23:36
+ * 2017年3月20日 
  *
  */
 public class SQLUtils {

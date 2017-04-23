@@ -13,9 +13,10 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * 
- * @author Can-Dao
- *  2014年12月18日 上午9:53:13
- * 
+* @author 黄家乐
+ * 	
+ * 2017年3月20日 
+ *
  */
 public class CheckLoginFilter implements Filter {
 	public void destroy() {

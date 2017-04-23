@@ -42,7 +42,8 @@ import com.rosense.module.common.web.servlet.WebContextUtil;
 import com.rosense.module.system.entity.HolidaysUsersEntity;
 import com.rosense.module.system.entity.OrgEntity;
 import com.rosense.module.system.entity.PermitsMenuEntity;
-import com.rosense.module.system.entity.PersonEntity;
+import com.rosense.module.system.entity.StudentEntity;
+import com.rosense.module.system.entity.TeacherEntity;
 import com.rosense.module.system.entity.RoleEntity;
 import com.rosense.module.system.entity.TransferEntity;
 import com.rosense.module.system.entity.UserEntity;
@@ -68,7 +69,9 @@ public class UserService extends BaseService implements IUserService {
 	@Inject
 	private IBaseDao<UserEntity> userDao;
 	@Inject
-	private IBaseDao<PersonEntity> personDao;
+	private IBaseDao<StudentEntity> studentDao;
+	@Inject
+	private IBaseDao<TeacherEntity> teacherDao;;
 	@Inject
 	private IBaseDao<RoleEntity> roleDao;
 	@Inject
@@ -109,9 +112,9 @@ public class UserService extends BaseService implements IUserService {
 			if(StringUtil.isEmpty(form.getGrade())){
 				form.setGrade("STAFF");
 			}
-			final PersonEntity p = new PersonEntity();
+			final StudentEntity p = new StudentEntity();
 			BeanUtils.copyNotNullProperties(form, p);
-			this.personDao.add(p);
+			this.studentDao.add(p);
 			/* extenService.update(p.getLocateid(),p.getCallerid()); */
 			final HolidaysUsersEntity hu = new HolidaysUsersEntity();
 
@@ -171,12 +174,20 @@ public class UserService extends BaseService implements IUserService {
 			if (null != form.getIds() && !"".equals(form.getIds())) {
 				String[] ids = form.getIds().split(",");
 				for (String id : ids) {
+					String sqlRole="select r.* from simple_user_roles ru left join simple_role r on(ru.roleId=r.id)";
+					sqlRole+=" left join simple_user u on(ru.userId=u.id)";
+					sqlRole+=" where u.id='"+id+"'";
+					RoleForm role=(RoleForm) this.roleDao.queryObjectSQL(sqlRole,RoleForm.class,false);
 					UserEntity user = this.userDao.load(UserEntity.class, id);
 					if ("admin".equals(user.getAccount())) {
 						return new Msg(false, "删除失败,不能删除admin用户！");
 					}
-					this.huDao.delete(HolidaysUsersEntity.class, user.getHolidaysId());
-					this.personDao.delete(PersonEntity.class, user.getPersonId());
+					//this.huDao.delete(HolidaysUsersEntity.class, user.getHolidaysId());
+					if(role.getDefaultRole()==4){
+						this.studentDao.delete(StudentEntity.class, user.getPersonId());
+					}else{
+						this.teacherDao.delete(TeacherEntity.class, user.getPersonId());
+					}
 					this.userDao.delete(user);
 
 					this.logService.add("删除用户", "账号：[" + user.getAccount() + "]");
@@ -190,53 +201,53 @@ public class UserService extends BaseService implements IUserService {
 	}
 
 	// 更新信息
-	public Msg update(UserForm form) {
-		try {
-			UserEntity u = this.userDao.load(UserEntity.class, form.getId());
-			u.setName(form.getName());
-			if (form.getEmploymentStr() != null) {
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-				form.setEmploymentDate(sdf.parse(form.getEmploymentStr()));
-			}
-			PersonEntity p = this.personDao.load(PersonEntity.class, u.getPersonId());
-			BeanUtils.copyNotNullProperties(form, p, new String[] { "id", "photo", "remark", "orgId", "positionId" });
-			if (StringUtil.isNotEmpty(form.getOrgId())) {
-				p.setOrgId(form.getOrgId());
-			}
-			if (StringUtil.isNotEmpty(form.getPositionId())) {
-				p.setPositionId(form.getPositionId());
-			}
-			
-			Set<RoleEntity> roles = new HashSet<RoleEntity>();
-			// 获取默认角色
-			if (null != form.getRole_ids() && !"".equals(form.getRole_ids())) {
-				String[] ids = form.getRole_ids().split(",");
-				for (String id : ids) {
-					roles.add(this.roleDao.load(RoleEntity.class, id));
-				}
-			} else {
-				RoleEntity defaultRole = (RoleEntity) this.roleDao
-						.queryObject("select t from RoleEntity t where t.defaultRole=?", new Object[] { 1 });
-				roles.add(defaultRole);
-			}
-
-			u.setRoles(roles);
-			
-			/*
-			 * if(!StringUtil.isEmpty(p.getCallerid())){ //座机分号
-			 * p.setCallerid(p.getLocateid()+"-"+p.getCallerid()); }
-			 */
-			this.personDao.update(p);
-			this.userDao.update(u);
-			/*extenService.update(p.getLocateid(), p.getCallerid());*/
-			this.logService.add("修改用户", "账号：[" + u.getAccount() + "]");
-			return new Msg(true, "修改成功！");
-		} catch (Exception e) {
-			e.printStackTrace();
-			logger.error("修改人员信息失败===>异常信息：", e);
-			return new Msg(false, "修改人员信息失败！");
-		}
-	}
+//	public Msg update(UserForm form) {
+//		try {
+//			UserEntity u = this.userDao.load(UserEntity.class, form.getId());
+//			u.setName(form.getName());
+//			if (form.getEmploymentStr() != null) {
+//				SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+//				form.setEmploymentDate(sdf.parse(form.getEmploymentStr()));
+//			}
+//			StudentEntity p = this.personDao.load(StudentEntity.class, u.getPersonId());
+//			BeanUtils.copyNotNullProperties(form, p, new String[] { "id", "photo", "remark", "orgId", "positionId" });
+//			if (StringUtil.isNotEmpty(form.getOrgId())) {
+//				p.setOrgId(form.getOrgId());
+//			}
+//			if (StringUtil.isNotEmpty(form.getPositionId())) {
+//				p.setPositionId(form.getPositionId());
+//			}
+//			
+//			Set<RoleEntity> roles = new HashSet<RoleEntity>();
+//			// 获取默认角色
+//			if (null != form.getRole_ids() && !"".equals(form.getRole_ids())) {
+//				String[] ids = form.getRole_ids().split(",");
+//				for (String id : ids) {
+//					roles.add(this.roleDao.load(RoleEntity.class, id));
+//				}
+//			} else {
+//				RoleEntity defaultRole = (RoleEntity) this.roleDao
+//						.queryObject("select t from RoleEntity t where t.defaultRole=?", new Object[] { 1 });
+//				roles.add(defaultRole);
+//			}
+//
+//			u.setRoles(roles);
+//			
+//			/*
+//			 * if(!StringUtil.isEmpty(p.getCallerid())){ //座机分号
+//			 * p.setCallerid(p.getLocateid()+"-"+p.getCallerid()); }
+//			 */
+//			this.personDao.update(p);
+//			this.userDao.update(u);
+//			/*extenService.update(p.getLocateid(), p.getCallerid());*/
+//			this.logService.add("修改用户", "账号：[" + u.getAccount() + "]");
+//			return new Msg(true, "修改成功！");
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			logger.error("修改人员信息失败===>异常信息：", e);
+//			return new Msg(false, "修改人员信息失败！");
+//		}
+//	}
 
 	public List<UserForm> searchUsers(String name) {
 		try {
@@ -773,7 +784,7 @@ public class UserService extends BaseService implements IUserService {
 
 	private int equlasValByPerson(String param) {
 		String sql = "select p.* from simple_person p where " + param;
-		return this.personDao.countSQL(sql, false).intValue();
+		return this.studentDao.countSQL(sql, false).intValue();
 	}
 
 	public Msg batchUserRole(UserForm form) {
@@ -1013,9 +1024,9 @@ public class UserService extends BaseService implements IUserService {
 	public Msg updatePhoto(final String photo) {
 		try {
 			final LoginUser user = WebContextUtil.getCurrentUser().getUser();
-			PersonEntity entity = this.personDao.load(PersonEntity.class, user.getPersonId());
+			StudentEntity entity = this.studentDao.load(StudentEntity.class, user.getPersonId());
 			entity.setPhoto(photo);
-			this.personDao.update(entity);
+			this.studentDao.update(entity);
 			user.setPhoto(photo);
 			Map<String, String> map = Caches.getMap("USER", user.getUserId());
 			map.put("PHOTO", photo);
@@ -1122,50 +1133,28 @@ public class UserService extends BaseService implements IUserService {
 		return this.userDao.countSQL(sql, false).intValue();
 	}
 
-	@Override
-	public List<UserForm> searchUsersData() {
-		List<UserForm> forms = new ArrayList<UserForm>();
-		try {
-			Date date = new Date();
-			SimpleDateFormat sd = new SimpleDateFormat("yyyy/MM/dd");
-			String toDate = sd.format(date);
-			Calendar cal = Calendar.getInstance();
-			cal.setTime(sd.parse(toDate));
-			cal.add(Calendar.DAY_OF_YEAR, +30);
-			String nextDate = sd.format(cal.getTime());
-			String sql = "select * from simple_person where becomeStaffDate between '" + toDate + "' and '" + nextDate
-					+ "'";
-			//System.out.println(sql);
-			forms = this.userDao.listSQL(sql, UserForm.class, false);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return forms;
-	}
+//	@Override
+//	public List<UserForm> searchUsersData() {
+//		List<UserForm> forms = new ArrayList<UserForm>();
+//		try {
+//			Date date = new Date();
+//			SimpleDateFormat sd = new SimpleDateFormat("yyyy/MM/dd");
+//			String toDate = sd.format(date);
+//			Calendar cal = Calendar.getInstance();
+//			cal.setTime(sd.parse(toDate));
+//			cal.add(Calendar.DAY_OF_YEAR, +30);
+//			String nextDate = sd.format(cal.getTime());
+//			String sql = "select * from simple_person where becomeStaffDate between '" + toDate + "' and '" + nextDate
+//					+ "'";
+//			//System.out.println(sql);
+//			forms = this.userDao.listSQL(sql, UserForm.class, false);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return forms;
+//	}
 
-	/**
-	 * 邮件通知所有员工
-	 */
-	@Override
-	public Msg notice(String id) {
-		try {
-			UserEntity u = this.userDao.load(UserEntity.class, id);
-			PersonEntity p = this.personDao.load(PersonEntity.class, u.getPersonId());
-			String sqlorg = "select * from simple_org where id='" + p.getOrgChildId() + "'";
-			OrgForm o = (OrgForm) this.basedaoOrg.queryObjectSQL(sqlorg, OrgForm.class, false);
-			if (o != null) {
-				/*SendEmailUtil.sendMail("新员工通知", p.getName() + ' ' + u.getAccount() + ' ' + p.getChinaname()
-						+ p.getEmploymentStr() + "到" + o.getName(), this.userEmails().toArray(new String[0]));*/
-				return new Msg(true, "邮件发送成功！");
-			} else {
-				return new Msg(false, "邮件发送失败！");
-			}
 
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new Msg(false, "邮件发送失败！");
-		}
-	}
 
 	/**
 	 * 获取所有用户邮箱
@@ -1176,7 +1165,7 @@ public class UserService extends BaseService implements IUserService {
 		try {
 			List<String> listEmail=new ArrayList<String>();
 			String sqlEmail = "select p.email from simple_person p where 1=1";
-			List<UserForm> userList = this.personDao.listSQL(sqlEmail, UserForm.class, false);
+			List<UserForm> userList = this.studentDao.listSQL(sqlEmail, UserForm.class, false);
 			if (userList != null && userList.size() > 0) {
 				for (UserForm form : userList) {
 					listEmail.add(form.getEmail());
@@ -1318,6 +1307,24 @@ public class UserService extends BaseService implements IUserService {
 			return null;
 		}
 		
+	}
+
+	@Override
+	public Msg update(UserForm form) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<UserForm> searchUsersData() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Msg notice(String id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -406,8 +406,6 @@ public class HolidayApplysService extends BaseService implements IHolidayApplysS
 				h.setHoliapplydirectorsopinion(form.getHoliapplydirectorsopinion());
 				this.logService.add("假期审批", "账号：[" + WebContextUtil.getCurrentUser().getUser().getAccount() + "]");
 				this.hDao.update(h);
-				//sendMail("审核通知","你的假期申请已通过该部门主管审批！",p.getEmail());
-				//sendMail("审核通知", p.getName() + "  " + p.getChinaname() + "的假期申请已通过该部门主管审批！","disonyan@can-dao.com");
 				return new Msg(true, "假期已审批");
 			}
 			if (h.getHoliapplydirectorsapproval()==1&&h.getHoliapplyhrapproval()==0) {
@@ -458,36 +456,6 @@ public class HolidayApplysService extends BaseService implements IHolidayApplysS
 
 
 
-/*public static void sendMail(String title, String content, String to) {
-	JavaMailSenderImpl senderImpl = new JavaMailSenderImpl();
-	// 设定mail server
-	senderImpl.setHost("smtp.mxhichina.com");
-	senderImpl.setPort(25);
-	senderImpl.setProtocol("smtp");
-	// 建立邮件消息
-	SimpleMailMessage mailMessage = new SimpleMailMessage();
-	// 设置收件人，寄件人 用数组发送多个邮件
-	String[] array = new String[] { to};
-	mailMessage.setTo(array);
-	// mailMessage.setTo(to);
-	mailMessage.setFrom("disonyan@can-dao.com");
-	mailMessage.setSubject(title);
-	mailMessage.setText(content);
-
-	senderImpl.setUsername("disonyan@can-dao.com");
-	senderImpl.setPassword("Yanzihao.");
-
-	Properties prop = new Properties();
-	prop.put("mail.smtp.auth", "true"); // 将这个参数设为true，让服务器进行认证,认证用户名和密码是否正确
-	prop.put("mail.smtp.timeout", "25000");
-	senderImpl.setJavaMailProperties(prop);
-	prop.setProperty("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-	prop.setProperty("mail.smtp.port", "465");
-	prop.setProperty("mail.smtp.socketFactory.port", "465");
-	// 发送邮件
-	senderImpl.send(mailMessage);
-
-}*/
 
 public UserForm  getemail(String id){
 	try {

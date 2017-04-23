@@ -14,9 +14,9 @@ import com.rosense.module.system.web.form.LoginSession;
 
 /**
  * 首页
- * @author Can-Dao
+ * @author 黄家乐
  * 	
- * 2015年8月19日 上午11:14:15
+ * 2017年3月20日 
  *
  */
 @Controller

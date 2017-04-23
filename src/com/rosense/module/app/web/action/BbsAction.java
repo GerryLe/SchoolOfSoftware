@@ -20,9 +20,9 @@ import com.rosense.module.common.web.action.BaseController;
 
 /**
  * 用户互动 
- * @author Can-Dao
+ * @author 黄家乐
  * 	
- * 2015年8月24日 下午3:10:02
+ * 2017年3月20日 
  *
  */
 @Controller

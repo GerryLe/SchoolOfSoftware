@@ -8,9 +8,9 @@ import com.rosense.module.system.web.form.MessageForm;
 
 /**
  * 
- * @author Can-Dao
+ * @author 黄家乐
  * 	
- * 2015年9月7日 下午2:55:40
+ * 2017年3月20日 
  *
  */
 public interface IMessageService {
