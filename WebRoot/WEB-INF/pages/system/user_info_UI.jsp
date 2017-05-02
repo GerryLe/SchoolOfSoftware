@@ -249,78 +249,72 @@ display:none;
 		}
 		
 		$person_table = $.BOOT.table("person_table", $.webapp.root
-				+ "/admin/system/user/datagridpersonal.do", {
+				+ "/admin/system/student/datagridpersonal.do", {
 					columns : [ {
-						field : 'account',
-						title : '账号',
+						field : 'stu_no',
+						title : '学号',
 						sortable : true
 					}, {
-						field : 'name',
-						title : '英文名',
+						field : 'class_name',
+						title : '班级名称',
 						sortable : true
 					}, {
-						field : 'chinaname',
-						title : '中文名',
+						field : 'stu_name',
+						title : '姓名',
 					}, {
 						field : 'sex',
 						title : '性别',
-					}, {
-						field : 'age',
-						title : '年龄',
-					}, {
-						field : 'area',
-						title : '地区',
-					}, {
+					},{
 						field : 'phone',
-						title : '联系手机',
-					}, {
-						field : 'orgName',
-						title : '部门',
-					}, {
-						field : 'orgChildName',
-						title : '部门2',
-					}, {
-						field : 'positionName',
-						title : '职位',
-					}, {
-						field : 'positionEng',
-						title : '职位英文',
-					}, {
+						title : '手机',
+					},{
 						field : 'email',
-						title : '邮箱'
-					},  {
-						field : 'degree',
-						title : '学历'
+						title : '邮箱',
 					}, {
 						field : 'birthday',
 						title : '出生年月'
-					},{
-						field : 'employmentStr',
-						title : '入职日期',
-					},{
-						field : 'workAge',
-						title : '工龄',
-					},{
-						field : 'becomeStaffDate',
-						title : '转正日期',
-					},{
-						field : 'marriage',
-						title : '婚姻状况',
-					},{
-						field : 'bear',
-						title : '生育状况',
 					}, {
-						field : 'nation',
-						title : '民族',
+						field : 'idcard',
+						title : '身份证号码',
+					}, {
+						field : 'province',
+						title : '省份',
+					},  {
+						field : 'city',
+						title : '城市',
 					},{
+					    field : 'entrance_date_Str',
+					    title : '入学日期'
+				    }, {
+					   field : 'nation',
+					   title : '民族',
+				    },{
 						field : 'politicalFace',
 						title : '政治面貌',
 					},{
-						field : 'certificate',
-						title : '证书',
+						field : 'origin',
+						title : '籍贯',
 					},{
-						field : 'leaveDate',
-						title : '离职日期',
+						field : 'accountAddr',
+						title : '户籍地址',
+					},{
+						field : 'accountPro',
+						title : '户口性质',
+					},{
+						field : 'graduate_school',
+						title : '毕业中学',
+					},{
+						field : 'profession',
+						title : '专业',
+					},{
+						field : 'contact',
+						title : '联系人',
+					},{
+						field : 'contactPhone',
+						title : '联系人电话',
+					},{
+						field : 'material',
+						title : '资料',
 					}],
 			paginationInfo : true,
 			showExport : true

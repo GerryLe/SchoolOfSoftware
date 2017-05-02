@@ -2,9 +2,10 @@
 <%@page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <link rel="stylesheet" href="${webRoot}/template/resource/plugins/upload/css/default.css" />
 <link rel="stylesheet" href="${webRoot}/template/resource/plugins/upload/css/fileinput.min.css" />
+<link rel="stylesheet" type="text/css" href="${webRoot}/template/resource/css/bootstrap-clockpicker.min.css">
 <script src="${webRoot}/template/resource/plugins/jquery/jquery.form.no.js"></script>
+<script type="text/javascript" src="${webRoot}/template/resource/js/bootstrap-clockpicker.min.js"></script>
 <script src="${webRoot}/template/resource/js/city.js"></script>
-
 <%@taglib prefix="mvc" uri="http://www.springframework.org/tags/form" %>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <style>
@@ -79,7 +80,10 @@
 	var form_url = $.webapp.root + "/admin/system/holidayapplys/add.do";
 	var parent_box, holidayapplys_type;
 	var flag=true;
+	var defaultRole='<%=WebContextUtil.getCurrentUser().getUser().getDefaultRole()%>';
+	var userId=null;
 	$(function() {
+		 $('.clockpicker').clockpicker();
 		//编辑，加载表单数据
 		var get = $.webapp.root + "/admin/system/holidayapplys/get.do";
 		//申请，加载用户数据
@@ -106,7 +110,9 @@
 			format: 'yyyy-mm-dd',
 			weekStart: 1, 
 	    });
+		$('#approvalTime').attr("disabled","disabled");
 		if ($('input[name=id]').val().length > 0) {//更新，审核
+			userId=$('input[name=id]').val();
 			$.post(get, {
 				id : $('input[name=id]').val()
 			}, function(result) {//根据id获取请假信息
@@ -116,11 +122,11 @@
 				$("#img-thumbnail").attr("src",result.enclosure);
 				$("#looktwo").attr('href',result.enclosuretwo);
 				$("#img-thumbnailtwo").attr("src",result.enclosuretwo);
-				if(result.holiapplyhrapproval==1){
-					$("#hrApproval").val("通过");
+				if(result.holiapplydirectorsapproval==1){
+					$("#directorsApproval").val("通过");
 				}
 				if(result.holiapplyhrapproval==2){
-					$("#hrApproval").val("不通过");
+					$("#directorsApproval").val("不通过");
 				}
 				if($("#look").attr("href")==""){
 					$("#look").removeAttr('href');
@@ -128,97 +134,54 @@
 				if($("#looktwo").attr("href")==""){
 					$("#looktwo").removeAttr('href');
 				}
-				$.post($.webapp.root + '/admin/system/holidayapplys/getaudit.do', {
+				//当前用户为普通用户
+				if(defaultRole==3||defaultRole==4){
+					if(result.holiapplystatement==0){//未审核可以修改
+						$('#holiapplydirectorsopinion').attr("disabled","disabled");
+						showSave(); 
+						form_url = $.webapp.root+ "/admin/system/holidayapplys/update.do";
+					}else{//已经审核或者通过审核,不能修改
+						hideAll1();										
+					}
+				}else{//当前用户为辅导员
+					$('input,textarea,select').attr("disabled","disabled");
+					$('#holiapplydirectorsopinion').removeAttr("disabled");
+					showAudit();
+				}
+				/* $.post($.webapp.root + '/admin/system/holidayapplys/getaudit.do', {
 					id : $("input[name=id]").val()
 				}, function(data) {
 					if(data.status==false&&$("input[name=uid]").val()==$("input[name=userId]").val()){//获取自己假期申请内容
 							$.get($.webapp.root + '/admin/system/holidayapplys/getLimit.do?id='+ $("input[name=id]").val(),function(s){
 								if(s.status==true){//未审核可以修改，暂时不具更新功能
-								  	//更新时先拆除原来记录，按保存时新增，取消是回滚
-								    /* $.get($.webapp.root + "/admin/system/holidayapplys/delete.do",{id:$("input[name=id]").val()},function(){
-									})   */
-									
-									if(result.director2!=null){
-										$('tr#special').each(function(){
-											$(this).show();
-										})
-									}
-									$("#director").removeAttr("disabled");
-									$("#holiapplyremark").removeAttr("disabled");
-									$("#holiapplyName").removeAttr("disabled");
-									$("#holiapplyContent").removeAttr("disabled");
-									$("#disabled").removeAttr("disabled");
-									$("#startHours").removeAttr("disabled");
-									$("#endHours").removeAttr("disabled");
-									$("#Filedata").removeAttr("disabled");
-									$("#Filedatatwo").removeAttr("disabled");
-									$('#holiapplyStartDate').removeAttr("disabled");
-									$('#holiapplyEndDate').removeAttr("disabled");
-									$('#director2').removeAttr("disabled");
+									$('#holiapplydirectorsopinion').attr("disabled","disabled");
 									showSave(); 
 									form_url = $.webapp.root+ "/admin/system/holidayapplys/update.do";
 							        $('#form_addholidayapplys').form('load', result);
+									
 								}else{//已经审核或者通过审核,不能修改
-									//特殊情况
-									if(result.director2!=null){
-										$('tr#special').each(function(){
-											$(this).show();
-										})
-									}
 									hideAll1();										
 								}
 							},"json");
 					}else if(data.status==true){//获取审核请假信息
 						//直属上级审核
 						if(userName==result.director&&result.holiapplydirectorsapproval==0){
+							$('input,textarea').attr("disabled","disabled");
 							$('#holiapplydirectorsopinion').removeAttr("disabled");
 							showAudit();
 						}
-						//特殊情况
-						else if(userName==result.director2&&result.holiapplydirectorsapproval2==0){
-							$('#holiapplydirectorsopinion2').removeAttr("disabled");
-							showAudit();
-						}
-						//HR审核归档
-						else{
-							$('#holiapplyhropinion').removeAttr("disabled");
-							showAudit();
-						}
-						if(result.director2!=null){
-							$('tr#special').each(function(){
-								$(this).show();
-							})
-						}
-					}else if(data.status==false){//HR查看已经审核过的信息
-						if(result.director2!=null){
-							$('tr#special').each(function(){
-								$(this).show();
-							})
-						}
-						hideAll1();
 					}
-				},"json")
+				},"json") */
 			}, 'json');
 		}
-		 else if ($('input[name=id]').val().length == 0) {//新增
+		else if ($('input[name=id]').val().length == 0) {//新增
 			$.post(loading, {
 				id : $('input[name=userId]').val()
 			}, function(result) {
 				//状态
 				state(result);
-				$("tr#addDirector").show();
-				$("#director").removeAttr("disabled");
 				$('#form_addholidayapplys').form('load', result);
-				$("#holiapplyremark").removeAttr("disabled");
-				$("#holiapplyName").removeAttr("disabled");
-				$("#holiapplyContent").removeAttr("disabled");
-				$("#disabled").removeAttr("disabled");
-				$("#startHours").removeAttr("disabled");
-				$("#endHours").removeAttr("disabled");
-				$("#Filedata").removeAttr("disabled");
-				$("#Filedatatwo").removeAttr("disabled");
-				$('#holiapplyStartDate').removeAttr("disabled");
-				$('#holiapplyEndDate').removeAttr("disabled");
+				$('#holiapplydirectorsopinion').attr("disabled","disabled");
 				showSave();
 			}, 'json');
 		}
@@ -229,13 +192,13 @@
 			$("#looktwo").removeAttr('href');
 		}
 	});
-	$.BOOT.click("#permit_addholidayapplys", function(c) {
+	$.BOOT.click("#permit_addholidayapplys", function() {
 		//参数通过
-		form_url = $.webapp.root + '/admin/system/holidayapplys/true.do?pr=pass';
+		form_url = $.webapp.root + '/admin/system/holidayapplys/true.do?pr=pass&id='+userId;
 	});
-	$.BOOT.click("#refuse_addholidayapplys", function(c) {
+	$.BOOT.click("#refuse_addholidayapplys", function() {
 		//参数拒绝
-		form_url = $.webapp.root + '/admin/system/holidayapplys/true.do?pr=refuse';
+		form_url = $.webapp.root + '/admin/system/holidayapplys/true.do?pr=refuse&id='+userId;
 	});
  	$.BOOT.form("form_addholidayapplys", {},function(params) {
 		if(flag){
@@ -292,19 +255,8 @@
 				day+=0.5;
 			else if(endHours==18)
 				day+=1;
-			$("#holiapplyDays").val(day);
-			$.get('/admin/system/holidayapplys/getholidayexit.do',
-					{holiapplyStartDate:startDate,holiapplyEndDate:endDate,startHours:startHours,endHours:endHours,holiapplyName:$("#holiapplyName").val(),holiapplyDays:$("#holiapplyDays").val()},
-					function(data){
-				if(data.status==false){
-					$.BOOT.toast1(data);
-					$("#save_addholidayapplys").attr("disabled","disabled");
-				}else{
-					$("#save_addholidayapplys").removeAttr("disabled");
-				}
-			},"json")
 		}
-	}
+	} 
 	function showSave(){
 		$("#permit_addholidayapplys").hide();
 		$("#refuse_addholidayapplys").hide();
@@ -322,6 +274,7 @@
 		$("#permit_addholidayapplys").hide();
 		$("#refuse_addholidayapplys").hide();
 		$("#save_addholidayapplys").show();
+		$("#save_addholidayapplys").removeAttr("disabled");
 	}
 	function hideAll1(){
 		$("#permit_addholidayapplys").hide();
@@ -339,60 +292,34 @@
 			$("input#d1").val("不通过");
 			$("input#d1").css("color","red");
 		}
-		
-		if(result.holiapplydirectorsapproval2=="0"){
-			$("input#d2").val("未审核");
-			$("input#d2").css("color","blue");
-		}else if(result.holiapplydirectorsapproval2=="1"){
-			$("input#d2").val("通过");
-		}else if(result.holiapplydirectorsapproval2=="2"){
-			$("input#d2").val("不通过");
-			$("input#d2").css("color","red");
-		}
-		
-		if(result.holiapplyhrapproval=="0"){
-			$("input#hr").val("未审核");
-			$("input#hr").css("color","blue");
-		}else if(result.holiapplyhrapproval=="1"){
-			$("input#hr").val("通过");
-		}else if(result.holiapplyhrapproval=="2"){
-			$("input#hr").val("不通过");
-			$("input#hr").css("color","red");
-		}
 	}
-	$("input#director").on('keyup',function(){
-		var getdir = $.webapp.root + '/admin/system/holidayapplys/getDirector.do?name='+$(this).val();
-		$.get(getdir,{},function(dir){
-				$("ul#list-director").empty();
-			for(var i = 0 ; i<dir.length ; i++){
-				$("ul#list-director").append("<li class='list-group-item' id='"+dir[i].name+"' onclick='select(this)' style='width:134px;'><label for='"+dir[i].name+"'>"+dir[i].name+"</label></li>")
+	
+	var getdir = $.webapp.root + '/admin/system/holidayapplys/getDirector.do';
+	$.post( getdir, "选择辅导员名字", function(result) {
+		var select = $("#director");
+		var recursion = function(data, deep) {
+			for ( var n in data) {
+				var text = "";
+				for (var i = 0; i < deep; i++) {
+					text += "&nbsp;&nbsp;";
+				}
+				text += data[n].name;
+				select.append("<option value='" + data[n].name + "'>" + text
+						+ "</option>");
+				if (data[n].nodes) {
+					recursion(data[n].nodes, deep + 1);
+				}
+				if (data[n].children) {
+					recursion(data[n].children, deep + 1);
+				}
 			}
-		},"json")
-	});
-	$("input#director2").on('keyup',function(){
-		var getdir = $.webapp.root + '/admin/system/holidayapplys/getDirector.do?name='+$(this).val();;
-		$.get(getdir,{},function(dir){
-				$("ul#list-director2").empty();
-			for(var i = 0 ; i<dir.length ; i++){
-				$("ul#list-director2").append("<li class='list-group-item' id='"+dir[i].name+"' onclick='select(this)' style='width:134px;'><label for='"+dir[i].name+"'>"+dir[i].name+"</label></li>")
-			}
-		},"json")
-	});
-	$("section.content").on('click',function(){
-		$("ul#list-director").empty();
-		$("ul#list-director2").empty();
-	});
-	function select(c){
-		$(c).parent().parent().find("input").val($(c).attr('id'));
-		$(c).parent().empty();
-	};
-	$("button#addDirector").on('click',function(){
-		$('tr#special').each(function(){
-			$(this).show();
-		})
-		$("#director2").removeAttr("disabled");
-		$("tr#addDirector").hide();
-	})
+		};
+		select.append("<option value=''>" + "选择辅导员名字" + "</option>");
+		recursion(result, 1);
+		if (params.callback) {
+			params.callback();
+		}
+	}, 'json');
 	
 </script>
 <section class="content">
@@ -407,7 +334,7 @@
 		<table class="employ" style="cellspacing : 0; cellpadding : 0;" >
 			<tr class="form-group">
 				<td >班级名称：</td>
-				<td colspan="5" ><input type="text" name="positionname" id="positionname"/></td>
+				<td colspan="5" ><input type="text" name="class_name" id="class_name"/></td>
 			</tr>
 			<tr class="form-group">
 				<td>休假类型:</td>
@@ -425,27 +352,34 @@
 				<td>请假时间：</td>
 				<td>
 				<div class="input-append date"  id="holiapplyStartDate1" data-date="" data-date-format="yyyy-mm-dd" >
-	   	 			<input size="16" type="text" name="holiapplyStartDate" id="holiapplyStartDate"  onchange="getholidayday()" readonly>
+	   	 			<input size="16" type="text" name="holiapplyStartDate" id="holiapplyStartDate" readonly>
 	    			<span class="add-on"><i class="icon-th"></i></span>
 				</div>
 				</td>
 				<td>
-					<select id="startHours" name="startHours" style="width: 60px"  onchange="getholidayday()">
-						<option value="09">09:00</option><option value="14">14:00</option>
-					</select>
+					<!-- <select id="startHours" name="startHours" style="width: 60px"  onchange="getholidayday()">
+						<option value="08">08:00</option><option value="14">14:00</option>
+					</select> -->
+					<div class="input-group clockpicker" data-placement="right" data-align="top" data-autoclose="true" style="width: 100px">
+						<input type="text" class="form-control" id="startHours" name="startHours"> <span
+							class="input-group-addon"> <span class="glyphicon glyphicon-time"></span>
+						</span>
+					</div>
 				</td>
 				<td>
 				<div class="input-append date"  id="holiapplyEndDate1" data-date="" data-date-format="yyyy-mm-dd" >
-	   	 			<input size="16" type="text" name="holiapplyEndDate" id="holiapplyEndDate"  onchange="getholidayday()" readonly>
+	   	 			<input size="16" type="text" name="holiapplyEndDate" id="holiapplyEndDate"  readonly>
 	    			<span class="add-on"><i class="icon-th"></i></span>
 				</div>
 				</td>
 				<td>
-					<select name="endHours" id="endHours" style="width: 60px" onchange="getholidayday()">
-						<option value="14">14:00</option><option value="18">18:00</option>
-					</select>
+					<div class="input-group clockpicker" data-placement="right" data-align="top" data-autoclose="true" style="width: 100px">
+						<input type="text" class="form-control" id="endHours" name="endHours"> <span
+							class="input-group-addon"> <span class="glyphicon glyphicon-time"></span>
+						</span>
+					</div>
 				</td>
-				<td>共<input type="text" name="holiapplyDays" id="holiapplyDays" style="width: 45px" readonly />天</td>
+				<td>共<input type="text" name="holiapplyDays" id="holiapplyDays" style="width: 45px"   onchange="getholidayday()"/>天</td>
 			</tr>
 			<tr style="height: 45px;" class="form-group">
 				<td>申请人：</td>
@@ -455,7 +389,7 @@
 			</tr>
 			<tr class="form-group">
 				<td>辅导员：</td>
-				<td colspan="2"><input type="text" name="director" id="director"  /></td>
+				<td colspan="2"><select id="director" name="director" style="width: 70%; height: 70%"></select></td>
 				<td>审批时间：</td>
 				<td colspan="2"><input type="text" name="approvalTime" id="approvalTime"  /></td>
 			</tr>
@@ -471,7 +405,7 @@
 									</a>
 								</div>
 								<div class="fileInputContainer">
-									<input class="fileInput" type="file" name="Filedata" id="Filedata" onchange="uploadImg()" disabled="disabled">
+									<input class="fileInput" type="file" name="Filedata" id="Filedata" onchange="uploadImg()" >
 								</div>
 							</form>
 							<form id="formhomepage-2">
@@ -481,7 +415,7 @@
 									</a>
 								</div>
 								<div class="fileInputContainer">
-									<input class="fileInput" type="file" name="Filedata" id="Filedatatwo" onchange="uploadImgtwo()" disabled="disabled">
+									<input class="fileInput" type="file" name="Filedata" id="Filedatatwo" onchange="uploadImgtwo()" >
 								</div>
 							</form>
 						</div>
@@ -495,7 +429,8 @@
 				<td colspan="6"><textarea  name="holiapplyContent" id="holiapplyContent"  rows="5" style="width: 100%" ></textarea></td>
 			</tr>
 			<tr class="form-group">
-				<td colspan="6">辅导员审批意见：</td>
+				<td colspan="2">辅导员审批意见：</td>
+				<td colspan="4"><input name="d1" id="d1" readonly type="text" disabled="disabled" style="width: 100%"></td>
 			</tr>
 			<tr class="form-group">
 				<td colspan="6"><textarea  name="holiapplydirectorsopinion" id="holiapplydirectorsopinion"  rows="5" style="width: 100%" ></textarea></td>

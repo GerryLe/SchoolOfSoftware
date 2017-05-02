@@ -34,6 +34,11 @@ public interface IClassService {
 	public ClassForm getByName(String name);
 
 	/**
+	 * 生成所根父类
+	 */
+	public List<ClassForm> pidtree(String pid);
+	
+	/**
 	 * 生成所有组织机构树
 	 */
 	public List<ClassForm> tree(String pid);

@@ -2,9 +2,12 @@ package com.rosense.module.system.service;
 
 
 
+import java.util.List;
+
 import com.rosense.basic.model.DataGrid;
 import com.rosense.basic.model.Msg;
 import com.rosense.module.system.web.form.HolidayApplysForm;
+import com.rosense.module.system.web.form.UserForm;
 
 public interface IHolidayApplysService {
 	/**
@@ -55,6 +58,11 @@ public interface IHolidayApplysService {
 	 */
 	public Msg getaudit(String id);
 
-
+	/**
+	 * 返回辅导员的姓名
+	 * @param name
+	 * @return
+	 */
+	public List<UserForm> getDirector(String name);
 
 }

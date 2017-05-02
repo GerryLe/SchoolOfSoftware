@@ -33,7 +33,9 @@ public class HolidayApplysForm extends PageHelper implements Serializable{
 	private String approvalTime;//主管审批时间
 	private String  defaultRole;//角色
 	private String pr;//参数
-
+	private String class_name;//班级名称
+    private String account;//学号
+    
 	
 	public String getPr() {
 		return pr;
@@ -187,11 +189,17 @@ public class HolidayApplysForm extends PageHelper implements Serializable{
 	public void setDefaultRole(String defaultRole) {
 		this.defaultRole = defaultRole;
 	}
-
-
-
-
-
-	
+	public String getClass_name() {
+		return class_name;
+	}
+	public void setClass_name(String class_name) {
+		this.class_name = class_name;
+	}
+	public String getAccount() {
+		return account;
+	}
+	public void setAccount(String account) {
+		this.account = account;
+	}
 
 }

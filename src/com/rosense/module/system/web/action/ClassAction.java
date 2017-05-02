@@ -79,6 +79,12 @@ public class ClassAction extends BaseController {
 		return this.classService.get(form);
 	}
 
+	@RequestMapping("/pidtree.do")
+	@ResponseBody
+	public List<ClassForm> pidtree(ClassForm form) throws Exception {
+		return this.classService.pidtree(form.getPid());
+	}
+	
 	@RequestMapping("/tree.do")
 	@ResponseBody
 	public List<ClassForm> tree(ClassForm form) throws Exception {

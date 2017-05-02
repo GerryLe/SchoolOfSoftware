@@ -248,8 +248,9 @@ public class StudentService extends BaseService implements IStudentService {
 	public UserForm get(String id) {
 
 		try {
-			String sql = "select u.*,e.class_id,e.email,e.sex,e.phone,e.entrance_date_Str,e.province, e.grade, e.birthday, e.graduate_school,e.profession,e.accountAddr,e.accountPro from simple_user u ";
-			sql += " left join simple_student e ON(u.personId=e.id) ";
+			String sql = "select u.*,e.idcard,e.nation,e.politicalFace,e.origin,e.city,e.class_id,e.email,e.sex,e.phone,e.entrance_date_Str,e.province, e.grade, e.birthday, e.graduate_school,e.profession,e.accountAddr,e.accountPro,e.contact,e.contactPhone,e.material,c.class_name class_name from simple_user u ";
+			sql += "right join simple_student e ON(e.id=u.personId)  ";
+			sql += "left join simple_class c ON(e.class_id=c.id)  ";
 			sql += " where u.id=?";
 			UserForm form = (UserForm) this.userDao.queryObjectSQL(sql, new Object[] { id }, UserForm.class, false);
 			if (form != null) {
@@ -306,7 +307,7 @@ public class StudentService extends BaseService implements IStudentService {
 		try {
 			List<UserForm> forms = new ArrayList<UserForm>();
 			Map<String, Object> alias = new HashMap<String, Object>();
-			String sql = "select u.*,e.idcard,e.nation,e.politicalFace,e.origin,e.city,e.class_id,e.email,e.sex,e.phone,e.entrance_date_Str,e.province, e.grade, e.birthday, e.graduate_school,e.profession,e.accountAddr,e.accountPro,c.class_name class_name from simple_user u ";
+			String sql = "select u.*,e.idcard,e.nation,e.politicalFace,e.origin,e.city,e.class_id,e.email,e.sex,e.phone,e.entrance_date_Str,e.province, e.grade, e.birthday, e.graduate_school,e.profession,e.accountAddr,e.accountPro,e.contact,e.contactPhone,e.material,c.class_name class_name from simple_user u ";
 			sql += "right join simple_student e ON(e.id=u.personId)  ";
 			sql += "left join simple_class c ON(e.class_id=c.id)  ";
 			sql += "where u.status=0 ";
@@ -575,6 +576,7 @@ public class StudentService extends BaseService implements IStudentService {
 	 * @return
 	 */
 	private String addWhereSearch(String sql, UserForm form, Map<String, Object> params,String selectType,String searchKeyName) {
+		        sql+= " and c.id like '%"+form.getClass_id()+"%'";
 				if (selectType.equals("class_name")) {
 					try {
 						//params.put("phone", "%%" + searchKeyName + "%%");
@@ -614,6 +616,13 @@ public class StudentService extends BaseService implements IStudentService {
 					form.setStu_no(StringUtil.getEncodePra(jsonObject.get(key).toString()));
 				}
 				
+			}
+		}
+		if(StringUtil.isNotEmpty(form.getClass_id())){
+			try {
+				params.put("class_id", "%%" + URLDecoder.decode(form.getClass_id(), "UTF-8") + "%%");
+				sql += " and c.id like :class_id";
+			} catch (Exception e) {
 			}
 		}
 		if (StringUtil.isNotEmpty(form.getClass_name())) {
@@ -748,7 +757,7 @@ public class StudentService extends BaseService implements IStudentService {
 
 		// 鑾峰彇瑙掕壊
 		List<RoleForm> roles = this.roleDao.listSQL(
-				"select r.id, r.name from simple_user_roles t LEFT JOIN simple_role r on(r.id=t.roleId) WHERE t.userId=?",
+				"select r.id, r.name,r.defaultRole from simple_user_roles t LEFT JOIN simple_role r on(r.id=t.roleId) WHERE t.userId=?",
 				new Object[] { lu.getUserId() }, RoleForm.class, false);
 		if (null != roles) {
 			StringBuffer s1 = new StringBuffer();
@@ -756,6 +765,7 @@ public class StudentService extends BaseService implements IStudentService {
 			for (RoleForm r : roles) {
 				s1.append(r.getId() + ",");
 				s2.append(r.getName() + ",");
+				lu.setDefaultRole(r.getDefaultRole());
 			}
 			lu.setRole_ids((s1.length() > 0 ? s1.deleteCharAt(s1.length() - 1).toString() : ""));
 			lu.setRole_names((s2.length() > 0 ? s2.deleteCharAt(s2.length() - 1).toString() : ""));
@@ -1082,11 +1092,11 @@ public class StudentService extends BaseService implements IStudentService {
 		try {
 			List<UserForm> forms = new ArrayList<UserForm>();
 			Map<String, Object> alias = new HashMap<String, Object>();
-			String sql = "select u.*,e.stu_no,e.class_id,e.class_name,e.email,e.sex,e.stu_name,e.phone,e.entrance_date_Str,e.province, e.grade, e.birthday, e.graduate_school,e.profession,e.accountAddr,e.accountPro,c.class_name class_name from simple_user u ";
+			String sql = "select u.*,e.class_id,e.email,e.sex,e.phone,e.entrance_date_Str,e.province, e.grade, e.birthday, e.graduate_school,e.profession,e.accountAddr,e.accountPro,c.class_name class_name from simple_user u ";
 			sql += "left join simple_student e ON(e.id=u.personId)  ";
 			sql += "left join simple_class c ON(e.class_id=c.id)  ";
 			sql += "where u.status=0 ";
-			sql += "and u.account='" + WebContextUtil.getCurrentUser().getUser().getAccount() + "'";
+			sql += "and u.id='" + WebContextUtil.getCurrentUser().getUser().getId() + "'";
 			Pager<UserForm> pager = this.userDao.findSQL(sql, alias, UserForm.class, false);
 			if (null != pager && !pager.getDataRows().isEmpty()) {
 				for (UserForm pf : pager.getDataRows()) {

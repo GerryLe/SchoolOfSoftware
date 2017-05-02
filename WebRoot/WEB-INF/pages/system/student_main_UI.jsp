@@ -70,11 +70,14 @@
 			<select class="form-control" id="selectType" name="selectType" style="width: 100%">
 				<option value="stu_no">学号</option>
 				<option value="stu_name">姓名</option>
-				<option value="class_name">班级</option>
+				<!-- <option value="class_name">班级</option> -->
 			  </select>
 		  </div>
 		  <div class="btn-toolbar">
-			<select class="form-control" id="class_id" name="class_id" style="width: 200px;"  > </select>
+			<select class="form-control" id="class_id" name="class_id" style="width: 150px;" onchange="getStuByClass()" > </select>
+		 </div>
+		 <div class="btn-toolbar">
+			<select class="form-control" id="class_pid" name="class_pid" style="width: 150px;" onchange="classChange()" > </select>
 		 </div>
 		<!-- </form> -->
 	</div>
@@ -83,10 +86,10 @@
 		</section>
 <script type="text/javascript">
 	var $student_table;
-	var classtree = $.webapp.root + "/admin/system/class/tree.do";
+	var classtree = $.webapp.root + "/admin/system/class/pidtree.do";
 	$(function() {
-		$.BOOT.autoselect("class_id", classtree, {
-			title : "选择班级"
+		$.BOOT.autoselect("class_pid", classtree, {
+			title : "选择年份"
 		}); 
 		//$(".fixed-table-header").hide();
 		$student_table = $.BOOT.table("student_table", $.webapp.root+ "/admin/system/student/datagridperson.do", {
@@ -162,19 +165,20 @@
 			},{
 				field : 'material',
 				title : '资料',
-			},/* {
+			}, {
 				field : 'id',
 				title : '操作',
 				formatter : function(value, row, index) {
-					return $.BOOT.groupbtn(value, [ {
+					/* return $.BOOT.groupbtn(value, [ {
 						cla : 'person_edit',
 						text : "编辑"
 					}, {
 						cla : 'person_delete',
 						text : "删除"
-					} ]);
+					} ]); */
+					return "<input type='button'  name='"+value+"' id='person_edit' value='编辑' />"
 				}
-			}  */ ],
+			}  ],
 			paginationInfo : true,
 			showExport : true,
 			onDblClickRow:function(row, $element){
@@ -204,8 +208,8 @@
 				label : '学号',
 				type : 'search'
 			}, {
-				field : 'phone',
-				label : '手机',
+				field : 'class_name',
+				label : '班级',
 				type : 'search'
 			}],
 			connectTo : '#student_table'
@@ -222,24 +226,44 @@
 		return {};
 	}
 	
+	$.BOOT.click("#person_edit", function(c) {
+		var id = $(c).attr("name");
+		var href = $.webapp.root + '/admin/system/student/student_form_UI.do?id='
+		+ id;
+		$.BOOT.page("content_addStu", href, function() {
+			$('#addStuModal').modal('toggle');
+         });
+		
+	});
 	
-	
-	/* 筛选用户信息 */
+	/* 筛选学生信息 */
 	$(document).on("click", "#buttonByKey", function() {
 	     $student_table.bootstrapTable('refresh', 
-				{url: "/admin/system/user/datagridperson.do?searchKeyName="+$("#searchKeyName").val()+"&selectType="+$("#selectType").val()+""}); 
-
-	
+				{url: "/admin/system/student/datagridperson.do?class_id="+$("#class_id").val()+"searchKeyName="+$("#searchKeyName").val()+"&selectType="+$("#selectType").val()+""}); 
 	  });
-	$("#batch_delete").click(function() {
+	
+	 function classChange(){
+	 	 $("#class_id").html("");
+	 	  var selectId = $('#class_pid>option:selected');
+	       selectId.html(function(){
+	     	  var orgchildtree = $.webapp.root + '/admin/system/class/tree.do?pid='+this.value;
+	 		  $.BOOT.autoselect("class_id", orgchildtree, {
+	 	 			title : "选择班级"
+	 	 	}); 
+	   })
+	 }
+	 function getStuByClass(){
+		  $student_table.bootstrapTable('refresh', 
+					{url: "/admin/system/student/datagridperson.do?class_id="+$("#class_id").val()+""}); 
+		
+	 }
+	
+	$("#batch_delete").click(function(row, $element) {
 		console.info("okd")
 		var $input = $("tr.selected");
 		var ids = "";
 		for (var i = 0; i < $input.length; i++) {
-			var html = $input.find("li.person_edit").eq(i).prop('outerHTML');
-			var b = html.indexOf("\"");
-			var e = html.indexOf("\" ");
-			var id = html.substring(b + 1, e);
+			var id = $input.find("input[id=person_edit]").eq(i).attr('name');
 			ids += id + ",";
 		}
 		var json = {
@@ -291,7 +315,7 @@
 	});
 
 	
-	
+	 
 	$(document).on("click", "#student_add", function() {
 		var href = $.webapp.root + '/admin/system/student/student_form_UI.do';
 		$.BOOT.page("content_addStu", href, function() {
@@ -371,6 +395,8 @@
 	        }
 	}   
   */
+  
+ 
 	function importUser() {
 		var options = {
 			url : '/admin/system/user/importUser.do',

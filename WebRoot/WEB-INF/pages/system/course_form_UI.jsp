@@ -98,7 +98,7 @@ select{
 		course_name : {
 			validators : {
 				notEmpty : {
-					message : '课程名臣不能为空'
+					message : '课程名称不能为空'
 				}
 			}
 		},

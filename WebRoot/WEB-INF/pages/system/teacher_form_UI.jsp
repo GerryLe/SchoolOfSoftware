@@ -89,12 +89,12 @@ select{
 							form_url = $.webapp.root+ "/admin/system/teacher/update.do";
 							$('#form_addTea').form('load', result);
 							//获取员工信息时，勾选已有角色
-							var ids = $('input[name=role_ids]').val();
+							/* var ids = $('input[name=role_ids]').val();
 							var id = new Array();
 							id = ids.split(",");
 							for (var i = 0; i < id.length; i++) {
 								$('input[value='+id[i]+']').attr("checked",'true')
-							}
+							} */
 						}, 'json');
 					
 				} else {
@@ -173,13 +173,13 @@ select{
 		 } 
 	}); 
 	 //选中角色时生成隐藏的ids
-	 function role(){
+	/*  function role(){
 		 var temp = "";
 		 $("input.roleName:checked").each(function(){
 	 			temp += $(this).val()+",";
 	 		})
 	 	$("input[name=role_ids]").val(temp);
-	 }
+	 } */
 	
 </script>
 
@@ -243,7 +243,7 @@ select{
 	  <td colspan="2"><input type="text"  name="nation" id="nation" placeholder="输入民族" style="width: 100%;"/></td>
 	  </tr> 
 	 
-	  <tr class="trsolid trcenter form-group">
+	 <!--  <tr class="trsolid trcenter form-group">
 	  <td colspan="4">角色</td>
 	  </tr>
 	  
@@ -251,7 +251,7 @@ select{
 	  <td colspan="4" id="role">
 		<input type="hidden" name="role_ids">
 	  </td>
-	  </tr> 
+	  </tr>  -->
 	 
 	 
 	  <tr class="trsolid trcenter form-group">
@@ -262,7 +262,13 @@ select{
 	  </tr>
 	  
 	  <tr class="trcenter form-group">
-	  <td><input type="text"  name="politicalFace" id="politicalFace" placeholder="输入政治面貌" style="width: 100%;"/></td>
+	  <td>
+	      <select id="politicalFace" name="politicalFace" style="width: 100%;height: 100%">
+			  <option value="共青团员">共青团员</option>
+			  <option value="党员">党员</option>
+			  <option value="群众">群众</option>
+		  </select>
+	  </td>
 	  <td><input type="text" name="origin" id="origin" placeholder="贯籍" style="width: 100%" /></td>
 	  <td><input type="text"  name="accountAddr" id="accountAddr" placeholder="户口地址" style="width: 100%;"/></td>
 	 <td>

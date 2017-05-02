@@ -31,6 +31,7 @@ public class HolidayApplysEntity extends IdEntity{
 	private String approvalTime;//主管审批时间
 	private String startHours;//开始小时
 	private String endHours;//结束小时
+	private String class_name;//班级名称
 	
 	public String getDirector() {
 		return director;
@@ -152,6 +153,12 @@ public class HolidayApplysEntity extends IdEntity{
 	}
 	public void setHoliapplyEndDate(String holiapplyEndDate) {
 		this.holiapplyEndDate = holiapplyEndDate;
+	}
+	public String getClass_name() {
+		return class_name;
+	}
+	public void setClass_name(String class_name) {
+		this.class_name = class_name;
 	}
 
 

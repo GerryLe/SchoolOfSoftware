@@ -191,7 +191,7 @@ public class TeacherService extends BaseService implements ITeacherService {
 	public Msg update(UserForm form) {
 		try {
 			UserEntity u = this.userDao.load(UserEntity.class, form.getId());
-			u.setName(form.getStu_name());
+			u.setName(form.getTea_name());
 			if (form.getEntrance_date_Str() != null) {
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 				form.setEntrance_date(sdf.parse(form.getEntrance_date_Str()));
@@ -732,7 +732,7 @@ public class TeacherService extends BaseService implements ITeacherService {
 
 		// 鑾峰彇瑙掕壊
 		List<RoleForm> roles = this.roleDao.listSQL(
-				"select r.id, r.name from simple_user_roles t LEFT JOIN simple_role r on(r.id=t.roleId) WHERE t.userId=?",
+				"select r.id, r.name,r.defaultRole from simple_user_roles t LEFT JOIN simple_role r on(r.id=t.roleId) WHERE t.userId=?",
 				new Object[] { lu.getUserId() }, RoleForm.class, false);
 		if (null != roles) {
 			StringBuffer s1 = new StringBuffer();
@@ -740,6 +740,7 @@ public class TeacherService extends BaseService implements ITeacherService {
 			for (RoleForm r : roles) {
 				s1.append(r.getId() + ",");
 				s2.append(r.getName() + ",");
+				lu.setDefaultRole(r.getDefaultRole());
 			}
 			lu.setRole_ids((s1.length() > 0 ? s1.deleteCharAt(s1.length() - 1).toString() : ""));
 			lu.setRole_names((s2.length() > 0 ? s2.deleteCharAt(s2.length() - 1).toString() : ""));

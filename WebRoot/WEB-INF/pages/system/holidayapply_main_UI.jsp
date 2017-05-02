@@ -23,11 +23,11 @@
 				title : '班级名称',
 				width : 120,
 			},{
-				field : 'stu_no',
+				field : 'account',
 				title : '学号',
 				width : 120,
 			},{
-				field : 'stu_name',
+				field : 'holiapplyUserName',
 				title : '姓名',
 				width : 120,
 			}, {
@@ -49,25 +49,28 @@
 				field : 'holiapplyEndDate',
 				title : '结束日期',
 				width : 150,
-			}, {
-				field : 'holiapplydirectorsapproval',
+			},{
+				field : 'director',
 				title : '审批人',
+				width : 150,
+			},{
+				field : 'holiapplydirectorsapproval',
+				title : '审批状态',
 				width : 80,
 				sortable : true,
 				class:'apploveDirector',
-				formatter : function(value, row) {
+				formatter : function(value, row, index) {
 					if (value == "0") {
-					   $(".apploveDirector:contains('<spring:message code="Waitingforapproval" />')").css({color: "#ff0011"});
-						return "<spring:message code="Waitingforapproval" />";
+					   $(".apploveDirector:contains('等待审批')").css({color: "blue"});
+						return "等待审批";
 					} else if(value == "1") {
-						$(this).attr("color","red");
-						return "<spring:message code="through" />";
+						return "通过";
 					}else {
-						$(this).attr("color","red");
-						return "<spring:message code="Notthrough" />";
+					   $(".apploveDirector:contains('不通过')").css({color: "red"});
+						return "不通过";
 					}
 				}
-			},{
+			}, {
 				field : 'holiapplystatement',
 				title : '申请状态',
 				width : 80,
@@ -75,15 +78,16 @@
 				class:'apploveStatement',
 				formatter : function(value, row) {
 					if (value == "0") {
-						$(".apploveStatement:contains('<spring:message code="Inthereview" />')").css({color: "#ff0011"});
-						return "<spring:message code="Inthereview" />";
+						$(".apploveStatement:contains('审核中')").css({color: "blue"});
+						return "审核中";
 					} else if(value == "1") {
-						return "<spring:message code="through" />";
+						return "通过";
 					}else if(value == "3") {
-						return "<spring:message code="undo" />";
+						$(".apploveStatement:contains('撤销')").css({color: "red"});
+						return "撤销";
 					}else {
-						$(".apploveStatement:contains('<spring:message code="Notthrough" />')").css({color: "#ff0011"});
-						return "<spring:message code="Notthrough" />";
+						$(".apploveStatement:contains('不通过')").css({color: "red"});
+						return "不通过";
 					}
 				}
 			}, {
@@ -95,9 +99,9 @@
 				title : '操作',
 				width : 70,
 				formatter : function(value, row, index) {
-					return "<button type='button' class='btn btn-default fa' onclick='repeal(this)' id='"+value+"'><spring:message code='undo' /></button>";
+					return "<button type='button' class='btn btn-default fa' onclick='repeal(this)' id='"+value+"'>撤销</button>";
 				}
-			} ],
+			}  ],
 			paginationInfo : true,
 			showExport : true,
 			search : true,
@@ -112,24 +116,9 @@
 				});
 			}
 		});
-		$("input.form-control").attr('placeholder','英文名');
+		$("input.form-control").attr('placeholder','姓名');
 	});
 	
-	
-	/*  setTimeout(
-			  //延迟0.2秒
-			  function(){ 
-					$(document).on("dblclick","#holidayapplys_table>tbody>tr",function(){
-						$("#holidayapplys_table tr").css('background-color','');
-						$(this).css('background-color','#D0D0D0');
-						var id = $(this).find(".btn-group").find("ul li:first").attr("val");
-						var href = $.webapp.root + '/admin/system/holidayapplys/holidayapply_form_UI.do?id='
-								+ id;
-						$.BOOT.page("content_addholidayapplys", href, function() {
-							$('#addholidayapplysModal').modal('toggle');
-						});
-				   });
-		     },200); */
 	    
 	function rowStyle(row, index) {
 		if (row.status == "1") {
@@ -153,7 +142,7 @@
 					id : id
 				}, function(result) {
 					$.BOOT.toast1(result);
-					$stationery_table.bootstrapTable('refresh');
+					$holidayapplys_table.bootstrapTable('refresh');
 				}, 'json');
 			}
 		};
@@ -173,6 +162,5 @@
 			$.BOOT.toast1(result);
 		}, 'json');
 	});
-	
 	
 </script>

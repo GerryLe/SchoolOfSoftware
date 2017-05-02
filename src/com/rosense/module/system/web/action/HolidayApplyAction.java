@@ -137,4 +137,10 @@ public class HolidayApplyAction extends BaseController {
 	public Msg getaudit(String id){
 		return this.holidayApplysService.getaudit(id);
 	}
+	
+	@RequestMapping("/getDirector.do")
+	@ResponseBody
+	public List<UserForm> getDirector(String name){
+		return this.holidayApplysService.getDirector(name);
+	}
 }

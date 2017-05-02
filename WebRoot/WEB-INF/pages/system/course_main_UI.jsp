@@ -133,13 +133,18 @@
 		return {};
 	}
 	
+	$(document).on("click", "#buttonByKey", function() {
+	     $course_table.bootstrapTable('refresh', 
+				{url: "/admin/system/course/datagridCourse.do?searchKeyName="+$("#searchKeyName").val()+"&selectType="+$("#selectType").val()+""}); 
+	
+	  });
 	
 	$("#batch_delete").click(function() {
 		console.info("okd")
 		var $input = $("tr.selected");
 		var ids = "";
 		for (var i = 0; i < $input.length; i++) {
-			var html = $input.find("li.person_edit").eq(i).prop('outerHTML');
+			var html = $input.find("li.course_edit").eq(i).prop('outerHTML');
 			var b = html.indexOf("\"");
 			var e = html.indexOf("\" ");
 			var id = html.substring(b + 1, e);

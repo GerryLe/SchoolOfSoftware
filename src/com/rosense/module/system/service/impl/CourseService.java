@@ -233,7 +233,7 @@ public class CourseService extends BaseService implements ICourseService {
 		}
 		if (StringUtil.isNotEmpty(form.getCourse_name())) {
 			try {
-				params.put("stu_name", "%%" + URLDecoder.decode(form.getCourse_name(), "UTF-8") + "%%");
+				params.put("course_name", "%%" + URLDecoder.decode(form.getCourse_name(), "UTF-8") + "%%");
 				sql += " and c.course_name like :course_name";
 			} catch (Exception e) {
 			}

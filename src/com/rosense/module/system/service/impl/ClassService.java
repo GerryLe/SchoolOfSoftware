@@ -121,6 +121,11 @@ public class ClassService extends BaseService implements IClassService {
 		return form;
 	}
 
+	public List<ClassForm> pidtree(String pid) {
+		String sql = "select t.* from simple_class t where t.pid is null order by t.sort asc";
+		List<ClassForm> list = this.basedaoClass.listSQL(sql, ClassForm.class, false);
+		return list;
+	}
 	
 	public List<ClassForm> tree(String pid) {
 		String sql="";
