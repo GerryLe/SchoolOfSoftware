@@ -44,6 +44,11 @@ public interface IClassService {
 	public List<ClassForm> tree(String pid);
 	
 	/**
+	 * 生成所有组织机构子树
+	 */
+	public List<ClassForm> treeChild(String pid);
+	
+	/**
 	 * 根据名字获取班级对象
 	 */
 	public ClassForm getId(String orgName);

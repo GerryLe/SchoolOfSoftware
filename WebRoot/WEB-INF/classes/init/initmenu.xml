@@ -3,6 +3,7 @@
 	<entity class="MenuEntity" exist="0" parent="menu" method="menuService.init" name="Simple" type="T" iconCls="" init="false">
 		 <entity name="班级管理" iconCls="fa-user-secret" type="M" href="/admin/system/class/class_main_UI.do">
 		        <entity name="查询" type="O" href="/admin/system/class/tree.do" />
+		        <entity name="查询班级" type="O" href="/admin/system/class/treeChild.do" />
 				<entity name="添加" type="O" href="/admin/system/class/add.do" />
 				<entity name="删除" type="O" href="/admin/system/class/delete.do" />
 				<entity name="编辑" type="O" href="/admin/system/class/update.do" />

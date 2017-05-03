@@ -25,10 +25,9 @@ import com.rosense.basic.dao.IdEntity;
 @Table(name = "simple_attendance")
 public class AttendanceEntity extends IdEntity {
 	
-	private String class_no;//班级编号
-	private String class_name;//班级名称
-	private int semester;//学期
-	private int school_year;//学年
+	private String class_id;//班级编号
+	private String semester;//学期
+	private String school_year;//学年
 	private String stu_no;//学号；
 	private String stu_name;//姓名
 	private String apply_date;//申请日期
@@ -44,28 +43,23 @@ public class AttendanceEntity extends IdEntity {
 	private Integer section9;//第九节
 	private Integer section10;//第十节
 	private Integer section11;//第十一节
-	public String getClass_no() {
-		return class_no;
+	
+	public String getClass_id() {
+		return class_id;
 	}
-	public void setClass_no(String class_no) {
-		this.class_no = class_no;
+	public void setClass_id(String class_id) {
+		this.class_id = class_id;
 	}
-	public String getClass_name() {
-		return class_name;
-	}
-	public void setClass_name(String class_name) {
-		this.class_name = class_name;
-	}
-	public int getSemester() {
+	public String getSemester() {
 		return semester;
 	}
-	public void setSemester(int semester) {
+	public void setSemester(String semester) {
 		this.semester = semester;
 	}
-	public int getSchool_year() {
+	public String getSchool_year() {
 		return school_year;
 	}
-	public void setSchool_year(int school_year) {
+	public void setSchool_year(String school_year) {
 		this.school_year = school_year;
 	}
 	public String getStu_no() {

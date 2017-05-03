@@ -246,7 +246,7 @@
 	 	 $("#class_id").html("");
 	 	  var selectId = $('#class_pid>option:selected');
 	       selectId.html(function(){
-	     	  var orgchildtree = $.webapp.root + '/admin/system/class/tree.do?pid='+this.value;
+	     	  var orgchildtree = $.webapp.root + '/admin/system/class/treeChild.do?pid='+this.value;
 	 		  $.BOOT.autoselect("class_id", orgchildtree, {
 	 	 			title : "选择班级"
 	 	 	}); 

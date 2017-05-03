@@ -143,6 +143,23 @@ public class ClassService extends BaseService implements IClassService {
 		}
 		return forms;
 	}
+	
+	public List<ClassForm> treeChild(String pid) {
+		String sql="";
+		if (null != pid && !"".equals(pid.trim()))
+			sql = "select t.* from simple_class t where t.pid='"+ pid +"' order by t.sort asc";
+		else{
+		    sql = "select t.* from simple_class t where t.pid is null order by t.sort asc";
+		}
+		List<ClassForm> list = this.basedaoClass.listSQL(sql, ClassForm.class, false);
+		List<ClassForm> forms = new ArrayList<ClassForm>();
+		if(list!=null&&list.size()>0){
+			for (ClassForm e : list) {
+				forms.add(recursive(e));
+			}
+		}
+		return forms;
+	}
 
 	public ClassForm recursive(ClassForm form) {
 		form.setText(form.getClass_name());

@@ -1,4 +1,7 @@
 /com/
-/org/
 /config/
+/ftl/
 /init/
+/log4j.properties
+/messages/
+/org/

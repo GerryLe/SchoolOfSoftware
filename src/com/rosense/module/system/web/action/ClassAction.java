@@ -91,6 +91,12 @@ public class ClassAction extends BaseController {
 		return this.classService.tree(form.getPid());
 	}
 	
+	@RequestMapping("/treeChild.do")
+	@ResponseBody
+	public List<ClassForm> treeChild(ClassForm form) throws Exception {
+		return this.classService.treeChild(form.getPid());
+	}
+	
 	
 	@RequestMapping("/getUserCurrentAuthMenu.do")
 	public @ResponseBody

@@ -1,3 +1,5 @@
+<%@page import="java.util.Date"%>
+<%@page import="com.rosense.basic.util.date.DateUtils"%>
 <%@page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <jsp:include page="/template/modal.jsp"><jsp:param
@@ -34,12 +36,12 @@
 		<!-- <div class="btn-toolbar">
 			<button type="button" class="btn btn-primary " id="batch_delete">批量删除</button>
 		</div> -->
-		 <div class="btn-toolbar">
+		<!-- <div class="btn-toolbar">
 		   <div class="btn-group btn-group-filter-refresh">
 		       <button id="buttonByKey" type="button" class="btn btn-default  btn-refresh" data-toggle="dropdown" style="display: block;" style="float: right">搜一下</button>
 		   </div>
 		</div> 
-		<div class="btn-toolbar"> 
+		 <div class="btn-toolbar"> 
 			<div class="form-group">
                   <input type="text" name="searchKeyName" id="searchKeyName" class="form-control" placeholder="Search">
 			</div> 
@@ -50,16 +52,42 @@
 				<option value="stu_no">学号</option>
 				<option value="stu_name">姓名</option>
 			  </select>
+		 </div> -->
+		
+		<div class="btn-toolbar">
+			<input class="date_class"  type="text"  id="recordDate" name="recordDate" readonly  style="height:34px;text-align: center;">
+		   <span class="input-group form_date date col-md-5 input-group-addon" data-date="" data-date-format="yyyy-mm-dd" data-link-field="recordDate" data-link-format="yyyy-mm-dd"  id="glyphicon-planComeDate-calendar" style="margin: 0;width: 34px; height:34px;background-color: #F0F0F0; float: right" ><span class="glyphicon glyphicon-calendar"></span></span>
+		 </div> 
+		 
+		 <div class="btn-toolbar">
+			<select class="form-control" id="class_id" name="class_id" style="width: 150px;" onchange="getStuByClass()" > </select>
 		 </div>
+		 <div class="btn-toolbar">
+			<select class="form-control" id="class_pid" name="class_pid" style="width: 150px;" onchange="classChange()" > </select>
+		 </div>
+		 
 		  <div class="btn-toolbar">
-			<select class="form-control" id="semester" name="semester" style="width: 200px;"  > 
+			<select class="form-control" id="semester" name="semester" style="width: 150px;"  > 
 			    <option value="semester_1">第一学期</option>
 				<option value="semester_2">第二学期</option>
 			</select>
 		 </div>
 		 <div class="btn-toolbar">
-			<select class="form-control" id="class_id" name="class_id" style="width: 200px;"  > </select>
+			<select class="form-control" id="schoolYear" name="schoolYear" style="width: 150px;"  > 
+			    <option value="2010-2011">2010-2011</option>
+				<option value="2011-2012">2011-2012</option>
+				<option value="2012-2013">2012-2013</option>
+				<option value="2013-2014">2013-2014</option>
+				<option value="2014-2015">2014-2015</option>
+				<option value="2015-2016">2015-2016</option>
+				<option value="2016-2017">2016-2017</option>
+				<option value="2017-2018">2017-2018</option>
+			</select>
 		 </div>
+		 <!-- <div class="btn-toolbar">
+			<select class="form-control" id="class_id" name="class_id" style="width: 200px;"  > </select>
+		 </div> -->
+		  
 		
 	</div>
 	<table id="student_table" class="table-condensed table table-hover"
@@ -70,12 +98,16 @@
 		</section>
 <script type="text/javascript">
 	var $student_table;
-	var orgtree = $.webapp.root + "/admin/system/class/tree.do";
-	  
+	var classtree = $.webapp.root + "/admin/system/class/pidtree.do";
+	var  currentDate='<%=DateUtils.formatYYYYMMDD(new Date())%>';
 	$(function() {
-		$.BOOT.autoselect("class_id", orgtree, {
+		$("#recordDate").val(currentDate);
+		/* $.BOOT.autoselect("class_id", orgtree, {
 			title : "选择班级"
-		}); 
+		});  */
+		$.BOOT.autoselect("class_pid", classtree, {
+			title : "选择年级"
+		});
 		$student_table = $.BOOT.table("student_table", $.webapp.root+ "/admin/system/student/datagridperson.do", {
 			columns : [ /* {
 				title : "全选",
@@ -211,6 +243,17 @@
 			}],
 			connectTo : '#student_table'
 		});
+		
+		$('.form_date').datetimepicker({
+	        language:  'zh-CN',
+	        weekStart: 1,
+	        todayBtn:  1,
+			autoclose: 1,
+			todayHighlight: 1,
+			startView: 2,
+			minView: 2,
+			forceParse: 0
+	    });
 	
 	});
 	function rowStyle(row, index) {
@@ -227,11 +270,25 @@
 	/* 筛选用户信息 */
 	$(document).on("click", "#buttonByKey", function() {
 	     $student_table.bootstrapTable('refresh', 
-				{url: "/admin/system/user/datagridperson.do?searchKeyName="+$("#searchKeyName").val()+"&selectType="+$("#selectType").val()+""}); 
-
-	
+				//{url: "/admin/system/user/datagridperson.do?searchKeyName="+$("#searchKeyName").val()+"&selectType="+$("#selectType").val()+""}); 
+	    		 {url: "/admin/system/student/datagridperson.do?class_id="+$("#class_id").val()+""}); 
 	  });
 	
+	 function classChange(){
+	 	 $("#class_id").html("");
+	 	  var selectId = $('#class_pid>option:selected');
+	       selectId.html(function(){
+	     	  var orgchildtree = $.webapp.root + '/admin/system/class/treeChild.do?pid='+this.value;
+	 		  $.BOOT.autoselect("class_id", orgchildtree, {
+	 	 			title : "选择班级"
+	 	 	}); 
+	   })
+	 }
+	 function getStuByClass(){
+		  $student_table.bootstrapTable('refresh', 
+					{url: "/admin/system/student/datagridperson.do?class_id="+$("#class_id").val()+""}); 
+		
+	 }
 	
 	$("#batch_delete").click(function() {
 		console.info("okd")
@@ -300,93 +357,5 @@
 		});
 	});
 
-	/* 账号重复提醒 */
- 	 function uploadUser() {
-		var text = "账号 ";
-		var flag = true;
-		var options = {
-			url : '/admin/system/user/checkUserAccount.do',
-			type : 'post',
-			dataType : 'text',
-			success : function(data) {
-				var dataObj = eval("(" + data + ")");
-				for (var i=0; i < dataObj.length; i++) {
-					 $.ajax({
-						type:"get",
-						url:"/admin/system/user/importUserId.do",
-						data:"account="+ dataObj[i].account,
-						async:false,
-						success:function(result) {
-							if (result == 1) {
-								text +=dataObj[i].account + "、 ";
-								flag = false;
-							}
-							if ((i+1) == dataObj.length) {
-								if(!flag){
-									var r = confirm(text + "等已经存在，是否替换？");  
-									if (r == true) {
-										importUser();
-									}
-								}
-								if(flag){
-									importUser()
-								}
-							}
-							
-						}
-					}); 
-					 
-				}
-			}
-
-		};
-		$("#formhomepage-user").ajaxSubmit(options);
-	} 
-
-  /* function uploadUser() {
-		var flag=true;
-		var options = {
-			url : '/admin/system/user/checkUserAccount.do',
-			type : 'post',
-			dataType : 'text',
-			success : function(data) {
-				var dataObj=eval("("+data+")");
-				var myArray=new Array();
-		        for(var i=0;i<dataObj.length;i++){
-		        	 $.post('/admin/system/user/importUserId.do', 
-		        			 {account : dataObj[i].account}, function(result) {
-		        	 		    			if(result==1){
-		        	 		    				falg=false;
-		        	 		    				var r=confirm("帐号"+dataObj[--i].account+"已经存在,是否替换");
-		        	 		    				if(r==true){
-		        	 		    				falg=true;
-		        	 		    				}
-		        	 		    			}
-		        	 		    		}, 'json');
-		        }
-			}
-		};
-		$("#formhomepage-user").ajaxSubmit(options);
-		if(flag){
-	        importUser();
-	        }
-	}   
-  */
-	function importUser() {
-		var options = {
-			url : '/admin/system/user/importUser.do',
-			type : 'post',
-			dataType : 'json',
-			success : function(data) {
-				$student_table.bootstrapTable('refresh');
-				$.BOOT.toast1(result);
-			}
-		};
-		$("#formhomepage-user").ajaxSubmit(options);
-	}
 	
-	$("input#pitch").parent().parent().click(function(){
-		alert("ok");
-	})
-
 </script>
