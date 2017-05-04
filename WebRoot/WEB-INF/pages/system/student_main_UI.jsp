@@ -100,15 +100,15 @@
 				width : 20,
 				align : "center",
 				valign : "middle",
-			}, {
-				field : 'stu_no',
-				title : '学号',
-				sortable : true
-			}, {
+			},  {
 				field : 'class_name',
 				title : '班级名称',
 				sortable : true
-			}, {
+			},{
+				field : 'stu_no',
+				title : '学号',
+				sortable : true
+			},{
 				field : 'stu_name',
 				title : '姓名',
 			}, {
@@ -117,6 +117,9 @@
 			},{
 				field : 'phone',
 				title : '手机',
+			},{
+				field : 'cornet',
+				title : '短号',
 			},{
 				field : 'email',
 				title : '邮箱',
@@ -328,7 +331,7 @@
 		var text = "账号 ";
 		var flag = true;
 		var options = {
-			url : '/admin/system/user/checkUserAccount.do',
+			url : '/admin/system/student/checkUserAccount.do',
 			type : 'post',
 			dataType : 'text',
 			success : function(data) {
@@ -336,12 +339,12 @@
 				for (var i=0; i < dataObj.length; i++) {
 					 $.ajax({
 						type:"get",
-						url:"/admin/system/user/importUserId.do",
-						data:"account="+ dataObj[i].account,
+						url:"/admin/system/student/importUserId.do",
+						data:"account="+ dataObj[i].stu_no,
 						async:false,
 						success:function(result) {
 							if (result == 1) {
-								text +=dataObj[i].account + "、 ";
+								text +=dataObj[i].stu_no + "、 ";
 								flag = false;
 							}
 							if ((i+1) == dataObj.length) {
@@ -377,10 +380,10 @@
 				var myArray=new Array();
 		        for(var i=0;i<dataObj.length;i++){
 		        	 $.post('/admin/system/user/importUserId.do', 
-		        			 {account : dataObj[i].account}, function(result) {
+		        			 {account : dataObj[i].stu_no}, function(result) {
 		        	 		    			if(result==1){
 		        	 		    				falg=false;
-		        	 		    				var r=confirm("帐号"+dataObj[--i].account+"已经存在,是否替换");
+		        	 		    				var r=confirm("帐号"+dataObj[--i].stu_no+"已经存在,是否替换");
 		        	 		    				if(r==true){
 		        	 		    				falg=true;
 		        	 		    				}
@@ -399,7 +402,7 @@
  
 	function importUser() {
 		var options = {
-			url : '/admin/system/user/importUser.do',
+			url : '/admin/system/student/importUser.do',
 			type : 'post',
 			dataType : 'json',
 			success : function(data) {

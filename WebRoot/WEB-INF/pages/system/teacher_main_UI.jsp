@@ -90,6 +90,9 @@
 				field : 'phone',
 				title : '手机',
 			},{
+				field : 'cornet',
+				title : '短号',
+			},{
 				field : 'email',
 				title : '邮箱',
 			}, {
@@ -281,11 +284,11 @@
 					 $.ajax({
 						type:"get",
 						url:"/admin/system/teacher/importUserId.do",
-						data:"account="+ dataObj[i].account,
+						data:"account="+ dataObj[i].tea_no,
 						async:false,
 						success:function(result) {
 							if (result == 1) {
-								text +=dataObj[i].account + "、 ";
+								text +=dataObj[i].tea_no + "、 ";
 								flag = false;
 							}
 							if ((i+1) == dataObj.length) {
@@ -309,36 +312,6 @@
 		};
 		$("#formhomepage-user").ajaxSubmit(options);
 	} 
-
-  /* function uploadUser() {
-		var flag=true;
-		var options = {
-			url : '/admin/system/user/checkUserAccount.do',
-			type : 'post',
-			dataType : 'text',
-			success : function(data) {
-				var dataObj=eval("("+data+")");
-				var myArray=new Array();
-		        for(var i=0;i<dataObj.length;i++){
-		        	 $.post('/admin/system/user/importUserId.do', 
-		        			 {account : dataObj[i].account}, function(result) {
-		        	 		    			if(result==1){
-		        	 		    				falg=false;
-		        	 		    				var r=confirm("帐号"+dataObj[--i].account+"已经存在,是否替换");
-		        	 		    				if(r==true){
-		        	 		    				falg=true;
-		        	 		    				}
-		        	 		    			}
-		        	 		    		}, 'json');
-		        }
-			}
-		};
-		$("#formhomepage-user").ajaxSubmit(options);
-		if(flag){
-	        importUser();
-	        }
-	}   
-  */
 	function importUser() {
 		var options = {
 			url : '/admin/system/teacher/importUser.do',
@@ -352,8 +325,5 @@
 		$("#formhomepage-user").ajaxSubmit(options);
 	}
 	
-	$("input#pitch").parent().parent().click(function(){
-		alert("ok");
-	})
 
 </script>

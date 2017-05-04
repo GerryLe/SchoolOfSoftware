@@ -179,16 +179,16 @@ public class ClassService extends BaseService implements IClassService {
 	}
 	
 	
-	public ClassForm getId(String orgName) {
-		String sql = "select t.* from simple_org t where t.name='" + orgName + "'";
+	public ClassForm getId(String className) {
+		String sql = "select c.* from simple_class c where c.class_name='" + className + "'";
 		List<ClassForm> list = this.basedaoClass.listSQL(sql, ClassForm.class, false);
-		ClassForm of=new ClassForm();
+		ClassForm cf=new ClassForm();
 		if (null != list && list.size() > 0) {
 			for (ClassForm e : list) {
-				 of=e;
+				 cf=e;
 			}
 		}
-		return of;
+		return cf;
 	}
 
 	/**

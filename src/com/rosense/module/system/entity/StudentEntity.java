@@ -25,6 +25,7 @@ public class StudentEntity extends IdEntity {
 	private String stu_name;//姓名
 	private String sex; //性别
 	private String phone; //联系电话
+	private  String cornet;//短号
 	private String email; //邮箱地址
 	private String remark; //备注
 	private String photo; //头像路径
@@ -201,6 +202,12 @@ public class StudentEntity extends IdEntity {
 	}
 	public void setBankCard(String bankCard) {
 		this.bankCard = bankCard;
+	}
+	public String getCornet() {
+		return cornet;
+	}
+	public void setCornet(String cornet) {
+		this.cornet = cornet;
 	}
    
 	

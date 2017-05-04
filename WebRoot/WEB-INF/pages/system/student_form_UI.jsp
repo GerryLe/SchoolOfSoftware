@@ -60,9 +60,13 @@ select{
 	var flag = true;//防止重复提交
 	var flagphoto=false;
 	var flagget=true;
+	var orgtree = $.webapp.root + "/admin/system/class/tree.do";
+	  $.BOOT.autoselect("class_id", orgtree, {
+			title : "选择班级"
+		}); 
+		
     $(function() {
 		//编辑，加载表单数据
-		var orgtree = $.webapp.root + "/admin/system/class/tree.do";
 		var ptree = $.webapp.root + "/admin/system/position/tree.do";
 		var get = $.webapp.root + "/admin/system/student/get.do";
 		 region_init("province","city","area"); 
@@ -72,10 +76,7 @@ select{
 							$("td#role").append('<input id="'+data.rows[i].name+'" type="checkbox" value="'+data.rows[i].id+'" class="roleName" onclick="role()"><label for="'+data.rows[i].name+'">'+data.rows[i].name+'</label>')
 						}
 					},"json")
-	     $.BOOT.autoselect("class_id", orgtree, {
-			title : "选择班级"
-		}); 
-		
+	   
 		/* $.BOOT.autoselect("positionId", ptree, {
 			title : "选择职位",
 			callback : function() { */
@@ -205,25 +206,26 @@ select{
 	  
 	  <tr class="trsolid trcenter form-group">
 	  <td>联系电话手机<span id="phonereg" style="color: red; font-size: 12px;  display：none;"></span></td>
+	  <td>短号</td>
 	  <td>邮箱</td>
 	  <td>出生年月</td>
-	  <td>类别</td>
 	  </tr>
 	  
 	  <tr class="trcenter form-group">
 	  <td><input type="text" name="phone" id="phone" placeholder="输入手机" style="width: 100%"/></td>
+	  <td>
+	  <input type="text" name="cornet" id="cornet" placeholder="输入短号" style="width: 100%"/>
+	      <!-- <select class="form-control" id="grade" name="grade" style="width: 100%">
+			<option value="学生">学生</option>
+			<option value="教师">教师</option>
+		  </select> -->
+	  </td>
 	  <td>
 	     	<input type="text" name="email" id="email" placeholder="输入邮箱" style="width: 100%"/>
 	  </td>
 	  <td>
 			<input class="date_class"  type="text"  id="birthday" name="birthday" readonly  style="float: left;width: 70%; height:30px">
 		   <span class="input-group form_date date col-md-5 input-group-addon" data-date="" data-date-format="yyyy/mm/dd" data-link-field="birthday" data-link-format="yyyy/mm/dd"  id="glyphicon-planComeDate-calendar" style="margin: 0;width: 30px; height:30px;background-color: #F0F0F0; float: right" ><span class="glyphicon glyphicon-calendar"></span></span>
-	  </td>
-	  <td>
-	      <select class="form-control" id="grade" name="grade" style="width: 100%">
-			<option value="学生">学生</option>
-			<option value="教师">教师</option>
-		  </select>
 	  </td>
 	  </tr>
 	 

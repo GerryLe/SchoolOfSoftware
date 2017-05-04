@@ -48,9 +48,6 @@ public interface IStudentService {
 	 */
 	public DataGrid datagridperson(UserForm form,String selectType,String searchKeyName);
 	
-	//查询离职用户
-	public DataGrid datagridleaveperson(UserForm form);
-
 	public DataGrid datagrid_ref(UserForm form);
 
 	/**
@@ -122,18 +119,10 @@ public interface IStudentService {
 	 * 导入用户信息
 	 */
 	public Msg importFile(List<UserForm> importUserList);
- 
-	public DataGrid orgdatagridperson(HttpSession session,UserForm form);
-	
 	
 	public int equlasValAccount(String account);
 
 	public List<UserForm> searchUsersData();
-	
-	/**
-	 * 查询员工
-	 */
-	public DataGrid commondatagridperson(UserForm form,String selectType,String searchKeyName);
 	
 	/**
 	 * 查看个人信息

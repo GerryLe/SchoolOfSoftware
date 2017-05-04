@@ -76,7 +76,7 @@ public class UserForm extends PageHelper implements Serializable {
 	private String locateid;//座机地区
 	private int approveStatus;//审批状态
 	private String approveAuth;//审批权限（1：可审批，0：不可审批）
-	
+	private  String cornet;//短号
 	
 	//学生信息
 	private String stu_no;//学号
@@ -936,6 +936,14 @@ public class UserForm extends PageHelper implements Serializable {
 
 	public void setEntrance_date_Str(String entrance_date_Str) {
 		this.entrance_date_Str = entrance_date_Str;
+	}
+
+	public String getCornet() {
+		return cornet;
+	}
+
+	public void setCornet(String cornet) {
+		this.cornet = cornet;
 	}
 
     
