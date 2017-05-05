@@ -6,7 +6,7 @@ import com.rosense.basic.model.PageHelper;
 
 public class AttendanceForm extends PageHelper implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+	private  String uid;//用户id
 	private String class_id;//班级编号
 	private String class_name;//班级名称
 	private String semester;//学期
@@ -14,6 +14,7 @@ public class AttendanceForm extends PageHelper implements Serializable {
 	private String stu_no;//学号；
 	private String stu_name;//姓名
 	private String apply_date;//申请日期
+
 	
 	private Integer section1;//第一节(0:未选中，1：选中)
 	private Integer section2;//第二节
@@ -27,17 +28,13 @@ public class AttendanceForm extends PageHelper implements Serializable {
 	private Integer section10;//第十节
 	private Integer section11;//第十一节
 	
+	
+	
 	public String getClass_id() {
 		return class_id;
 	}
 	public void setClass_id(String class_id) {
 		this.class_id = class_id;
-	}
-	public String getClass_name() {
-		return class_name;
-	}
-	public void setClass_name(String class_name) {
-		this.class_name = class_name;
 	}
 	public String getSemester() {
 		return semester;
@@ -134,6 +131,18 @@ public class AttendanceForm extends PageHelper implements Serializable {
 	}
 	public void setSection11(Integer section11) {
 		this.section11 = section11;
+	}
+	public String getClass_name() {
+		return class_name;
+	}
+	public void setClass_name(String class_name) {
+		this.class_name = class_name;
+	}
+	public String getUid() {
+		return uid;
+	}
+	public void setUid(String uid) {
+		this.uid = uid;
 	}
 	
 	

@@ -28,9 +28,10 @@ public class AttendanceEntity extends IdEntity {
 	private String class_id;//班级编号
 	private String semester;//学期
 	private String school_year;//学年
-	private String stu_no;//学号；
+	/*private String stu_no;//学号；
 	private String stu_name;//姓名
-	private String apply_date;//申请日期
+*/	private String apply_date;//申请日期
+    private  String uid;//用户id
 	
 	private Integer section1;//第一节(0:未选中，1：选中)
 	private Integer section2;//第二节
@@ -62,17 +63,12 @@ public class AttendanceEntity extends IdEntity {
 	public void setSchool_year(String school_year) {
 		this.school_year = school_year;
 	}
-	public String getStu_no() {
-		return stu_no;
+	
+	public String getUid() {
+		return uid;
 	}
-	public void setStu_no(String stu_no) {
-		this.stu_no = stu_no;
-	}
-	public String getStu_name() {
-		return stu_name;
-	}
-	public void setStu_name(String stu_name) {
-		this.stu_name = stu_name;
+	public void setUid(String uid) {
+		this.uid = uid;
 	}
 	public String getApply_date() {
 		return apply_date;

@@ -25,9 +25,9 @@
 				<div class="modal-footer">
 					<button type="submit" class="btn btn1 btn-primary" id="permit_<%=id%>" style="display: none;">同意</button>
 					<button type="submit" class="btn btn1 btn-primary" id="refuse_<%=id%>" style="display: none;">拒绝</button>
-					<button type="button" class="btn btn1 btn-default" data-dismiss="modal"><spring:message code="Shutdown" /></button>
-					<button type="submit" class="btn btn1 btn-primary" id="save_<%=id%>"><spring:message code="save" /></button>
-					<button type="reset" class="btn btn1 btn-primary" id="reset_<%=id%>" style="display: none;"><spring:message code="reset" /></button>
+					<button type="button" class="btn btn1 btn-default" data-dismiss="modal">关闭</button>
+					<button type="submit" class="btn btn1 btn-primary" id="save_<%=id%>">保存</button>
+					<button type="reset" class="btn btn1 btn-primary" id="reset_<%=id%>" style="display: none;">重置</button>
 				</div>
 				<%
 					}

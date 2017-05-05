@@ -109,24 +109,9 @@ public class TeacherService extends BaseService implements ITeacherService {
 			final TeacherEntity tea = new TeacherEntity();
 			BeanUtils.copyNotNullProperties(form, tea);
 			this.teaDao.add(tea);
-			/*final HolidaysUsersEntity hu = new HolidaysUsersEntity();
-
-			double yynj = 0;// 应有年假
-			double synj = 0;// 剩余年假
-			double bnsl = 0;// 本年度应有司龄假
-			double sysl = 0;// 剩余司龄假
-			hu.setAnnualLeave(0);
-			hu.setShouldhaveannualleave(yynj);
-			hu.setTheremainingannualleave(synj);
-			hu.setThisyearshouldbeSiLingfalse(bnsl);
-			hu.setTheremainingSiLingfalse(sysl);
-			hu.setUseraccount(form.getAccount());
-			this.huDao.add(hu);*/
-
 			final UserEntity u = new UserEntity();
 			BeanUtils.copyNotNullProperties(form, u);
 			u.setAccount(form.getTea_no());
-			//u.setHolidaysId(hu.getId());
 			u.setPersonId(tea.getId());
 			u.setName(form.getTea_name());
 			u.setPassword(MD5Util.md5(Const.DEFAULTPASS));
@@ -140,7 +125,7 @@ public class TeacherService extends BaseService implements ITeacherService {
 				}
 			} else {
 				RoleEntity defaultRole = (RoleEntity) this.roleDao
-						.queryObject("select t from RoleEntity t where t.defaultRole=?", new Object[] { 1 });
+						.queryObject("select t from RoleEntity t where t.defaultRole=?", new Object[] { 3 });
 				roles.add(defaultRole);
 			}
 
@@ -148,7 +133,6 @@ public class TeacherService extends BaseService implements ITeacherService {
 			this.userDao.add(u);
 
 			final Map<String, String> map = new HashMap<String, String>();
-			//map.put("HOLIDAYSID", hu.getId());
 			map.put("ID", u.getId());
 			map.put("PERSONID", tea.getId());
 			map.put("NAME", StringUtil.toString(u.getName(), ""));
@@ -210,7 +194,7 @@ public class TeacherService extends BaseService implements ITeacherService {
 				}
 			} else {
 				RoleEntity defaultRole = (RoleEntity) this.roleDao
-						.queryObject("select t from RoleEntity t where t.defaultRole=?", new Object[] { 1 });
+						.queryObject("select t from RoleEntity t where t.defaultRole=?", new Object[] { 3 });
 				roles.add(defaultRole);
 			}
 
@@ -249,7 +233,7 @@ public class TeacherService extends BaseService implements ITeacherService {
 	public UserForm get(String id) {
 
 		try {
-			String sql = "select u.*,e.email,e.sex,e.phone,e.entrance_date_Str,e.province, e.grade, e.birthday,e.accountAddr,e.accountPro,e.idcard,e.nation,e.city,e.politicalFace,e.origin,e.contact,e.contactPhone,e.material,e.bankCard from simple_user u ";
+			String sql = "select u.*,e.email,e.sex,e.phone,e.entrance_date_Str,e.province, e.grade,e.cornet,e.birthday,e.accountAddr,e.accountPro,e.idcard,e.nation,e.city,e.politicalFace,e.origin,e.contact,e.contactPhone,e.material,e.bankCard from simple_user u ";
 			sql += " left join simple_teacher e ON(u.personId=e.id) ";
 			sql += " where u.id=?";
 			UserForm form = (UserForm) this.userDao.queryObjectSQL(sql, new Object[] { id }, UserForm.class, false);
@@ -307,7 +291,7 @@ public class TeacherService extends BaseService implements ITeacherService {
 		try {
 			List<UserForm> forms = new ArrayList<UserForm>();
 			Map<String, Object> alias = new HashMap<String, Object>();
-			String sql = "select u.*,e.email,e.sex,e.phone,e.entrance_date_Str,e.province, e.grade, e.birthday,e.accountAddr,e.accountPro,e.idcard,e.nation,e.city,e.politicalFace,e.origin,e.contact,e.contactPhone,e.material,e.bankCard from simple_user u ";
+			String sql = "select u.*,e.email,e.sex,e.phone,e.entrance_date_Str,e.province, e.grade,e.cornet,e.birthday,e.accountAddr,e.accountPro,e.idcard,e.nation,e.city,e.politicalFace,e.origin,e.contact,e.contactPhone,e.material,e.bankCard from simple_user u ";
 			sql += "right join simple_teacher e ON(e.id=u.personId)  ";
 			sql += "where u.status=0 ";
 			if(StringUtil.isNotEmpty(searchKeyName)){
@@ -941,24 +925,22 @@ public class TeacherService extends BaseService implements ITeacherService {
 
 	@Override
 	public Msg importFile(List<UserForm> importUserList) {
-		// TODO Auto-generated method stub
 		try {
 			for (int i = 0; i < importUserList.size(); i++) {
 				UserForm secUser = importUserList.get(i);
-				int equalsAccount = this.equlasVal("u.account='" + secUser.getAccount() + "'");
+				int equalsAccount = this.equlasVal("u.account='" + secUser.getTea_no() + "'");
 				if (equalsAccount == 1) {
-					secUser.setId(this.getUserId(secUser.getAccount()));
-					// return new Msg(false, "账号"+secUser.getAccount()+"已经存在");
+					secUser.setId(this.getUserId(secUser.getTea_no()));
 					this.update(secUser);
 				} else {
 					this.addTea(secUser);
 				}
 			}
-			return new Msg(true, "导入员工信息成功！");
+			return new Msg(true, "导入信息成功！");
 		} catch (Exception e) {
 			e.printStackTrace();
-			logger.error("导入员工信息失败===>异常信息：", e);
-			return new Msg(false, "导入员工信息失败！");
+			logger.error("导入信息失败===>异常信息：", e);
+			return new Msg(false, "导入信息失败！");
 		}
 	}
 

@@ -43,10 +43,11 @@
 	
 	   
 	    <entity name="考勤管理" iconCls="fa-user-secret" type="M" href="/admin/system/attendance/attendance_main_UI.do">
-	        <entity name="添加信息" type="O" href=""/>
-	        <entity name="查看信息" type="O" href=""/>
-			<entity name="更改信息" type="O" href=""/>
-			<entity name="删除信息" type="O" href=""/>
+	        <entity name="添加信息" type="O" href="/admin/system/attendance/add.do"/>
+	        <entity name="查看信息" type="O" href="/admin/system/attendance/datagrid.do"/>
+			<entity name="更改信息" type="O" href="/admin/system/attendance/update.do"/>
+			<entity name="删除信息" type="O" href="/admin/system/attendance/delete.do"/>
+			<entity name="查看对象" type="O" href="/admin/system/attendance/get.do"/>
 	    </entity>
 	    
 		<entity name="请假管理" type="M" iconCls="fa-calendar" href="/admin/system/holidayapplys/holidayapply_main_UI.do">

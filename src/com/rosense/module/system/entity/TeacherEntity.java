@@ -24,6 +24,7 @@ public class TeacherEntity extends IdEntity {
 	private String tea_name;//姓名
 	private String sex; //性别
 	private String phone; //联系电话
+    private String cornet;//短号
 	private String email; //邮箱地址
 	private String remark; //备注
 	private String photo; //头像路径
@@ -186,6 +187,12 @@ public class TeacherEntity extends IdEntity {
 	}
 	public void setEntrance_date_Str(String entrance_date_Str) {
 		this.entrance_date_Str = entrance_date_Str;
+	}
+	public String getCornet() {
+		return cornet;
+	}
+	public void setCornet(String cornet) {
+		this.cornet = cornet;
 	}
 	
 	

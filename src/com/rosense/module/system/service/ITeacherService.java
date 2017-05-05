@@ -24,7 +24,7 @@ public interface ITeacherService {
 	public Msg delete(UserForm form);
 
 	/**
-	 * 修改学生信息
+	 * 修改教师信息
 	 */
 	public Msg update(UserForm form);
 
