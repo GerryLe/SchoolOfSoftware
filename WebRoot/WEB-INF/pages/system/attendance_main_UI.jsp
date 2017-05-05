@@ -30,50 +30,28 @@
 <section class="content">
 	<div id="person-form-id"></div>
 	<div id="filter-bar">
-		<!-- <div class="btn-toolbar">
-			<button type="button" class="btn btn-primary " id="student_add">添加</button>
-		</div> -->
-		<!-- <div class="btn-toolbar">
-			<button type="button" class="btn btn-primary " id="batch_delete">批量删除</button>
-		</div> -->
-		<!-- <div class="btn-toolbar">
-		   <div class="btn-group btn-group-filter-refresh">
-		       <button id="buttonByKey" type="button" class="btn btn-default  btn-refresh" data-toggle="dropdown" style="display: block;" style="float: right">搜一下</button>
-		   </div>
-		</div> 
-		 <div class="btn-toolbar"> 
-			<div class="form-group">
-                  <input type="text" name="searchKeyName" id="searchKeyName" class="form-control" placeholder="Search">
-			</div> 
-		</div>
-		
 		<div class="btn-toolbar">
-			<select class="form-control" id="selectType" name="selectType" style="width: 100%">
-				<option value="stu_no">学号</option>
-				<option value="stu_name">姓名</option>
-			  </select>
-		 </div> -->
-		
-		<div class="btn-toolbar">
-			<input class="date_class"  type="text"  id="recordDate" name="recordDate" readonly  style="height:34px;text-align: center;">
-		   <span class="input-group form_date date col-md-5 input-group-addon" data-date="" data-date-format="yyyy-mm-dd" data-link-field="recordDate" data-link-format="yyyy-mm-dd"  id="glyphicon-planComeDate-calendar" style="margin: 0;width: 34px; height:34px;background-color: #F0F0F0; float: right" ><span class="glyphicon glyphicon-calendar"></span></span>
+			<input class="date_class"  type="text"  id="apply_date" name="apply_date"  style="height:34px;text-align: center;" readonly="readonly" onchange="recordChange()">
+		     <span class="input-group form_date date col-md-5 input-group-addon" data-date="" data-date-format="yyyy-mm-dd" data-link-field="apply_date" data-link-format="yyyy-mm-dd"  id="glyphicon-planComeDate-calendar" style="margin: 0;width: 34px; height:34px;background-color: #F0F0F0; float: right" ><span class="glyphicon glyphicon-calendar"></span></span>
 		 </div> 
 		 
 		 <div class="btn-toolbar">
-			<select class="form-control" id="class_id" name="class_id" style="width: 150px;" onchange="getStuByClass()" > </select>
+			<select class="form-control" id="class_id" name="class_id" style="width: 150px;" onchange="recordChange()" > </select>
 		 </div>
 		 <div class="btn-toolbar">
 			<select class="form-control" id="class_pid" name="class_pid" style="width: 150px;" onchange="classChange()" > </select>
 		 </div>
 		 
 		  <div class="btn-toolbar">
-			<select class="form-control" id="semester" name="semester" style="width: 150px;"  > 
+			<select class="form-control" id="semester" name="semester" style="width: 150px;"  onchange="recordChange()"> 
+			    <option value="" selected="selected">--选择学期--</option>
 			    <option value="semester_1">第一学期</option>
 				<option value="semester_2">第二学期</option>
 			</select>
 		 </div>
 		 <div class="btn-toolbar">
-			<select class="form-control" id="schoolYear" name="schoolYear" style="width: 150px;"  > 
+			<select class="form-control" id="school_year" name="school_year" style="width: 150px;"  onchange="recordChange()"> 
+			    <option value="" selected="selected">--选择学年--</option>
 			    <option value="2010-2011">2010-2011</option>
 				<option value="2011-2012">2011-2012</option>
 				<option value="2012-2013">2012-2013</option>
@@ -84,52 +62,56 @@
 				<option value="2017-2018">2017-2018</option>
 			</select>
 		 </div>
-		 <!-- <div class="btn-toolbar">
-			<select class="form-control" id="class_id" name="class_id" style="width: 200px;"  > </select>
-		 </div> -->
-		  
-		
 	</div>
-	<table id="student_table" class="table-condensed table table-hover"
+	<table id="attendance_table" class="table-condensed table table-hover"
 	  data-row-style="rowStyle" data-side-pagination="server"></table>
 		<div class="btn-toolbar">
-			<button type="button" class="btn btn-primary " id="attendance_commit">提交</button>
+			<button type="submit" class="btn btn1 btn-primary " id="attendance_commit">提交</button>
 		</div>
 		</section>
 <script type="text/javascript">
 	var $student_table;
 	var classtree = $.webapp.root + "/admin/system/class/pidtree.do";
 	var  currentDate='<%=DateUtils.formatYYYYMMDD(new Date())%>';
+	var getUrl=$.webapp.root+ "/admin/system/attendance/datagrid.do";
+	var formUrl = $.webapp.root + "/admin/system/attendance/update.do";
 	$(function() {
-		$("#recordDate").val(currentDate);
-		/* $.BOOT.autoselect("class_id", orgtree, {
-			title : "选择班级"
-		});  */
+		$("#apply_date").val(currentDate);
 		$.BOOT.autoselect("class_pid", classtree, {
 			title : "选择年级"
 		});
-		$student_table = $.BOOT.table("student_table", $.webapp.root+ "/admin/system/student/datagridperson.do", {
-			columns : [ /* {
-				title : "全选",
-				field : 'select',
-				checkbox : true,
-				width : 20,
-				align : "center",
-				valign : "middle",
-			},  */{
+		$attendance_table = $.BOOT.table("attendance_table",getUrl, {
+			columns : [{
+				field : 'uuid',
+				title : '学号',
+				sortable : true,
+				formatter : function(value, row, index) {
+					return value;
+				}
+			},{
 				field : 'stu_no',
 				title : '学号',
-				sortable : true
+				sortable : true,
+				formatter : function(value, row, index) {
+					return value;
+				}
 			}, {
 				field : 'stu_name',
 				title : '姓名',
+				formatter : function(value, row, index) {
+					alert(row.uuid)
+					return value;
+				}
 			}, {
 				field : 'section1',
 				title : '第一节',
 				align : "center",
 				valign : "middle",
 				formatter : function(value, row, index) {
-					return "<input type='checkbox' name='section1' id='section1'/>"
+					var input="<input type='checkbox' name='section1' id='section1' value=1 ";
+					if(value==1)
+						input+="checked='checked'";
+						return input+=">"
 				}
 			},{
 				field : 'section2',
@@ -137,7 +119,11 @@
 				align : "center",
 				valign : "middle",
 				formatter : function(value, row, index) {
-					return "<input type='checkbox' name='section1' id='section1'/>"
+					if(value==1){
+						return "<input type='checkbox' name='section2' id='section2' checked='checked' value='1'>"
+					}else{
+						return "<input type='checkbox' name='section2' id='section2'/>"
+					}
 				}
 			},{
 				field : 'section3',
@@ -145,7 +131,11 @@
 				align : "center",
 				valign : "middle",
 				formatter : function(value, row, index) {
-					return "<input type='checkbox' name='section1' id='section1'/>"
+					if(value==1){
+						return "<input type='checkbox' name='section3' id='section3' checked='checked' value='1'>"
+					}else{
+						return "<input type='checkbox' name='section3' id='section3'/>"
+					}
 				}
 			}, {
 				field : 'section4',
@@ -153,7 +143,11 @@
 				align : "center",
 				valign : "middle",
 				formatter : function(value, row, index) {
-					return "<input type='checkbox' name='section1' id='section1'/>"
+					if(value==1){
+						return "<input type='checkbox' name='section4' id='section4' checked='checked' value='1'>"
+					}else{
+						return "<input type='checkbox' name='section4' id='section4'/>"
+					}
 				}
 			}, {
 				field : 'section5',
@@ -161,7 +155,11 @@
 				align : "center",
 				valign : "middle",
 				formatter : function(value, row, index) {
-					return "<input type='checkbox' name='section1' id='section1'/>"
+					if(value==1){
+						return "<input type='checkbox' name='section5' id='section5' checked='checked' value='1'>"
+					}else{
+						return "<input type='checkbox' name='section5' id='section5'/>"
+					}
 				}
 			}, {
 				field : 'section6',
@@ -169,7 +167,11 @@
 				align : "center",
 				valign : "middle",
 				formatter : function(value, row, index) {
-					return "<input type='checkbox' name='section1' id='section1'/>"
+					if(value==1){
+						return "<input type='checkbox' name='section6' id='section6' checked='checked' value='1'>"
+					}else{
+						return "<input type='checkbox' name='section6' id='section6'/>"
+					}
 				}
 			},  {
 				field : 'section7',
@@ -177,7 +179,11 @@
 				align : "center",
 				valign : "middle",
 				formatter : function(value, row, index) {
-					return "<input type='checkbox' name='section1' id='section1'/>"
+					if(value==1){
+						return "<input type='checkbox' name='section7' id='section7' checked='checked' value='1'>"
+					}else{
+						return "<input type='checkbox' name='section7' id='section7'/>"
+					}
 				}
 			},{
 			    field : 'section8',
@@ -185,7 +191,11 @@
 				align : "center",
 				valign : "middle",
 				formatter : function(value, row, index) {
-					return "<input type='checkbox' name='section1' id='section1'/>"
+					if(value==1){
+						return "<input type='checkbox' name='section8' id='section8' checked='checked' value='1'>"
+					}else{
+						return "<input type='checkbox' name='section8' id='section8'/>"
+					}
 				}
 		    }, {
 			   field : 'section9',
@@ -193,7 +203,11 @@
 				align : "center",
 				valign : "middle",
 				formatter : function(value, row, index) {
-					return "<input type='checkbox' name='section1' id='section1'/>"
+					if(value==1){
+						return "<input type='checkbox' name='section9' id='section9' checked='checked' value='1'>"
+					}else{
+						return "<input type='checkbox' name='section9' id='section9'/>"
+					}
 				}
 		    },{
 				field : 'section10',
@@ -201,7 +215,11 @@
 				align : "center",
 				valign : "middle",
 				formatter : function(value, row, index) {
-					return "<input type='checkbox' name='section1' id='section1'/>"
+					if(value==1){
+						return "<input type='checkbox' name='section10' id='section10' checked='checked' value='1'>"
+					}else{
+						return "<input type='checkbox' name='section10' id='section10'/>"
+					}
 				}
 			},{
 				field : 'section11',
@@ -209,7 +227,11 @@
 				align : "center",
 				valign : "middle",
 				formatter : function(value, row, index) {
-					return "<input type='checkbox' name='section1' id='section1'/>"
+					if(value==1){
+						return "<input type='checkbox' name='section11' id='section11' checked='checked' value='1'>"
+					}else{
+						return "<input type='checkbox' name='section11' id='section11'/>"
+					}
 				}
 			},],
 			paginationInfo : true,
@@ -218,27 +240,23 @@
 				onDbClick(row, $element);
 			}
 		});
-
-		var onDbClick=function(row, $element){ 
-			$("#teacher_table tr").css('background-color','');
-			$(this).css('background-color','#D0D0D0');
-		    var id = $(this).find("input").val()
-		    var href = $.webapp.root + '/admin/system/student/student_form_UI.do?id='
-			+ row.id;
-			$.BOOT.page("content_addStu", href, function() {
-				$('#addStuModal').modal('toggle');
-				$(this).css('background-color','red');
-	           });
-        }
 		
 		$('#filter-bar').bootstrapTableFilter({
 			filters : [ {
-				field : 'stu_name',
-				label : '姓名',
+				field : 'school_year',
+				label : '学年',
 				type : 'search'
 			}, {
-				field : 'stu_no',
-				label : '学号',
+				field : 'semester',
+				label : '学期',
+				type : 'search'
+			},{
+				field : 'class_id',
+				label : '班级',
+				type : 'search'
+			},{
+				field : 'apply_date',
+				label : '日期',
 				type : 'search'
 			}],
 			connectTo : '#student_table'
@@ -269,11 +287,11 @@
 	
 	/* 筛选用户信息 */
 	$(document).on("click", "#buttonByKey", function() {
-	     $student_table.bootstrapTable('refresh', 
+	     $attendance_table.bootstrapTable('refresh', 
 				//{url: "/admin/system/user/datagridperson.do?searchKeyName="+$("#searchKeyName").val()+"&selectType="+$("#selectType").val()+""}); 
 	    		 {url: "/admin/system/student/datagridperson.do?class_id="+$("#class_id").val()+""}); 
 	  });
-	
+	 
 	 function classChange(){
 	 	 $("#class_id").html("");
 	 	  var selectId = $('#class_pid>option:selected');
@@ -284,77 +302,32 @@
 	 	 	}); 
 	   })
 	 }
+	 
+	 //条件筛选记录
+	  function recordChange(){
+		//首先加载考勤表信息，为空，从学生表获取信息
+		var keyUrl="/admin/system/attendance/datagrid.do?school_year="+$("#school_year").val()+"&semester="+$("#semester").val()+"&class_id="+$("#class_id").val()+"&apply_date="+$("#apply_date").val()+"";
+			 $.get(keyUrl, {}, function(result) {
+				             if(result.total==0){
+				            	 keyUrl=$.webapp.root+ "/admin/system/student/datagridperson.do?school_year="+$("#school_year").val()+"&semester="+$("#semester").val()+"&class_id="+$("#class_id").val()+"&apply_date="+$("#apply_date").val()+"";
+				            	 formUrl = $.webapp.root + "/admin/system/attendance/add.do";
+				             }
+				            $attendance_table.bootstrapTable('refresh', {url: keyUrl}); 
+						}, 'json'); 
+		 
+	 } 
+	 //指定班级学生
 	 function getStuByClass(){
-		  $student_table.bootstrapTable('refresh', 
+		  $attendance_table.bootstrapTable('refresh', 
 					{url: "/admin/system/student/datagridperson.do?class_id="+$("#class_id").val()+""}); 
 		
 	 }
-	
-	$("#batch_delete").click(function() {
-		console.info("okd")
-		var $input = $("tr.selected");
-		var ids = "";
-		for (var i = 0; i < $input.length; i++) {
-			var html = $input.find("li.person_edit").eq(i).prop('outerHTML');
-			var b = html.indexOf("\"");
-			var e = html.indexOf("\" ");
-			var id = html.substring(b + 1, e);
-			ids += id + ",";
-		}
-		var json = {
-			title : "",
-			text : "确定批量删除用户吗?",
-			showCancelButton : true,
-			type : 'warning',
-			call : function() {
-				var href = $.webapp.root + '/admin/system/user/delete.do';
-					$.post(href, {
-						ids : ids
-					}, function(result) {
-						$student_table.bootstrapTable('refresh');
-						$.BOOT.toast1(result);
-					}, 'json');
-			}
-		};
-		$.BOOT.alert(json, true);
-	});
 
-	$.BOOT.click(".person_delete", function(c) {
-		var id = $(c).attr("val");
-		var json = {
-			title : "",
-			text : "确定删除用户吗?",
-			showCancelButton : true,
-			type : 'warning',
-			call : function() {
-				var href = $.webapp.root + '/admin/system/user/delete.do';
-				$.post(href, {
-					ids : id
-				}, function(result) {
-					$student_table.bootstrapTable('refresh');
-					$.BOOT.toast1(result);
-				}, 'json');
-			}
-		};
-		$.BOOT.alert(json, true);
-	});
-	$.BOOT.click(".person_edit", function(c) {
-		var id = $(c).attr("val");
-		var href = $.webapp.root + '/admin/system/user/person_form_UI.do?id='
-				+ id;
-		$.BOOT.page("content_addStu", href, function() {
-			$('#addStuModal').modal('toggle');
-		});
-		
-	});
-
-	
-	
-	$(document).on("click", "#student_add", function() {
-		var href = $.webapp.root + '/admin/system/student/student_form_UI.do';
-		$.BOOT.page("content_addStu", href, function() {
-			$('#addStuModal').modal('toggle');
-		});
+	$(document).on("click", "#attendance_commit", function() {
+		$.post(formUrl, params, function(result) {
+			 $.BOOT.toast1(result); 
+			 $attendance_table.bootstrapTable('refresh'); 
+		}, 'json');
 	});
 
 	

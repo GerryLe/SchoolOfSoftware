@@ -259,7 +259,7 @@ public class TeacherAction extends BaseController {
                      }
                     if(hRow.getCell(11).getCellType()==HSSFCell.CELL_TYPE_NUMERIC){
                     	if(HSSFDateUtil.isCellDateFormatted(hRow.getCell(11))){ 
-                    		su.setEmploymentStr(sdf.format(HSSFDateUtil.getJavaDate(hRow.getCell(11).getNumericCellValue())).toString());
+                    		su.setEntrance_date_Str(sdf.format(HSSFDateUtil.getJavaDate(hRow.getCell(11).getNumericCellValue())).toString());
                     	}
                     }
                     if(!StringUtil.isEmpty(hRow.getCell(12).toString())){
@@ -336,7 +336,7 @@ public class TeacherAction extends BaseController {
                     XSSFRow xRow = xSheet.getRow(i); 
                     if(!StringUtil.isEmpty(xRow.getCell(1).toString())){
                         if(!StringUtil.isEmpty(xRow.getCell(1).toString())){
-                        	su.setTea_name(new BigDecimal(xRow.getCell(1).toString()).toPlainString());
+                        	su.setTea_no(new BigDecimal(xRow.getCell(1).toString()).toPlainString());
                         }
                       }
                     if(!StringUtil.isEmpty(xRow.getCell(2).toString())){
@@ -373,7 +373,7 @@ public class TeacherAction extends BaseController {
                      }
                     if(xRow.getCell(11).getCellType()==HSSFCell.CELL_TYPE_NUMERIC){
                     	if(HSSFDateUtil.isCellDateFormatted(xRow.getCell(11))){ 
-                    		su.setEmploymentStr(sdf.format(HSSFDateUtil.getJavaDate(xRow.getCell(11).getNumericCellValue())).toString());
+                    		su.setEntrance_date_Str(sdf.format(HSSFDateUtil.getJavaDate(xRow.getCell(11).getNumericCellValue())).toString());
                     	}
                     }
                     if(!StringUtil.isEmpty(xRow.getCell(12).toString())){

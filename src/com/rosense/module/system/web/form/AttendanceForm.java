@@ -1,38 +1,21 @@
-package com.rosense.module.system.entity;
+package com.rosense.module.system.web.form;
 
-/**
- * 考勤实体类
- * @author 黄家乐
- * 	
- * 2017年3月12日 上午10:51:49
- *
- */
+import java.io.Serializable;
 
-import java.util.Date;
+import com.rosense.basic.model.PageHelper;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Lob;
-import javax.persistence.Table;
-
-import com.rosense.basic.dao.IdEntity;
-
-/**
- * 考勤实体
- *
- */
-@Entity
-@Table(name = "simple_attendance")
-public class AttendanceEntity extends IdEntity {
+public class AttendanceForm extends PageHelper implements Serializable {
+	private static final long serialVersionUID = 1L;
 	
 	private String class_id;//班级编号
+	private String class_name;//班级名称
 	private String semester;//学期
 	private String school_year;//学年
-	/*private String stu_no;//学号；
+	private String stu_no;//学号；
 	private String stu_name;//姓名
-*/	private String apply_date;//申请日期
-    private  String uid;//用户id
-	
+	private String apply_date;//申请日期
+	private  String uid;//用户id
+	 
 	private Integer section1;//第一节(0:未选中，1：选中)
 	private Integer section2;//第二节
 	private Integer section3;//第三节
@@ -44,7 +27,6 @@ public class AttendanceEntity extends IdEntity {
 	private Integer section9;//第九节
 	private Integer section10;//第十节
 	private Integer section11;//第十一节
-	
 	public String getClass_id() {
 		return class_id;
 	}
@@ -63,12 +45,17 @@ public class AttendanceEntity extends IdEntity {
 	public void setSchool_year(String school_year) {
 		this.school_year = school_year;
 	}
-	
-	public String getUid() {
-		return uid;
+	public String getStu_no() {
+		return stu_no;
 	}
-	public void setUid(String uid) {
-		this.uid = uid;
+	public void setStu_no(String stu_no) {
+		this.stu_no = stu_no;
+	}
+	public String getStu_name() {
+		return stu_name;
+	}
+	public void setStu_name(String stu_name) {
+		this.stu_name = stu_name;
 	}
 	public String getApply_date() {
 		return apply_date;
@@ -142,6 +129,20 @@ public class AttendanceEntity extends IdEntity {
 	public void setSection11(Integer section11) {
 		this.section11 = section11;
 	}
+	public String getClass_name() {
+		return class_name;
+	}
+	public void setClass_name(String class_name) {
+		this.class_name = class_name;
+	}
+	public String getUid() {
+		return uid;
+	}
+	public void setUid(String uid) {
+		this.uid = uid;
+	}
+	
+	
 	
 	
 	

@@ -291,7 +291,7 @@ public class TeacherService extends BaseService implements ITeacherService {
 		try {
 			List<UserForm> forms = new ArrayList<UserForm>();
 			Map<String, Object> alias = new HashMap<String, Object>();
-			String sql = "select u.*,e.email,e.sex,e.phone,e.entrance_date_Str,e.province, e.grade, e.birthday,e.accountAddr,e.accountPro,e.idcard,e.nation,e.city,e.politicalFace,e.origin,e.contact,e.contactPhone,e.material,e.bankCard from simple_user u ";
+			String sql = "select u.*,e.email,e.sex,e.phone,e.entrance_date_Str,e.province, e.grade,e.cornet,e.birthday,e.accountAddr,e.accountPro,e.idcard,e.nation,e.city,e.politicalFace,e.origin,e.contact,e.contactPhone,e.material,e.bankCard from simple_user u ";
 			sql += "right join simple_teacher e ON(e.id=u.personId)  ";
 			sql += "where u.status=0 ";
 			if(StringUtil.isNotEmpty(searchKeyName)){
