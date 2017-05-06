@@ -27,8 +27,8 @@ public class AttendanceAction extends BaseController {
 	 */
 	@RequestMapping("/add.do")
 	@ResponseBody
-	public Msg add(List<AttendanceForm> forms) throws Exception {
-		return this.attenService.add(forms);
+	public Msg add(AttendanceForm form) throws Exception {
+		return this.attenService.add(form);
 	}
 
 	/**
@@ -45,8 +45,8 @@ public class AttendanceAction extends BaseController {
 	 */
 	@RequestMapping("/update.do")
 	@ResponseBody
-	public Msg update(List<AttendanceForm> forms) throws Exception {
-		return this.attenService.update(forms);
+	public Msg update(AttendanceForm form) throws Exception {
+		return this.attenService.update(form);
 	}
 
 	@RequestMapping("/get.do")

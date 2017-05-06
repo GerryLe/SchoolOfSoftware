@@ -36,14 +36,15 @@ public class AttendanceService implements IAttendanceService {
 	private IBaseDao<AttendanceEntity> attenDao;
 	
 	@Override
-	public Msg add(List<AttendanceForm> forms) {
+	public Msg add(AttendanceForm form) {
 		try{
-			for(AttendanceForm form :forms){
+			//for(AttendanceForm form :forms){
+			    form.setUid(form.getId());
 				final AttendanceEntity stu = new AttendanceEntity();
 				BeanUtils.copyProperties(form, stu);
 				attenDao.add(stu);
-				new Msg(false, "操作成功！");
-		     }
+				return new Msg(true, "操作成功！");
+		     //}
 			}catch(Throwable e){
 			e.printStackTrace();
 		}
@@ -51,13 +52,14 @@ public class AttendanceService implements IAttendanceService {
 	}
 
 	@Override
-	public Msg update(List<AttendanceForm> forms) {
-		for(AttendanceForm form:forms){
+	public Msg update(AttendanceForm form) {
+		//for(AttendanceForm form:forms){
 			AttendanceEntity attendanceEntity=this.attenDao.load(AttendanceEntity.class, form.getId());
+			form.setUid(attendanceEntity.getUid());
 			BeanUtils.copyProperties(form, attendanceEntity);
 			attenDao.update(attendanceEntity);	
-		}
-		return new Msg(false, "操作成功！");
+		//}
+		return new Msg(true, "操作成功！");
 	}
 
 	@Override

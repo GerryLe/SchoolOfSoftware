@@ -205,6 +205,7 @@ select{
 			}
 		}, */
  }, function(params) {
+	    
 			 if(flag){
 			$.post(form_url, params, function(result) {
 				 $.BOOT.toast1(result); 

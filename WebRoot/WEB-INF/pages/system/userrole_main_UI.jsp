@@ -39,7 +39,7 @@
 		var ids = $.map(selects, function(row) {
 			return row.id;
 		});
-		var form_url = $.webapp.root + "/admin/system/user/updateRole.do";
+	   var form_url = $.webapp.root + "/admin/system/user/updateRole.do";
 		$.post(form_url, {
 			id : $("#user_id").val(),
 			role_ids : ids.join(",")
@@ -47,6 +47,6 @@
 			$user_table.bootstrapTable('refresh');
 			modaladdroles();
 			$.BOOT.toast1(result);
-		}, 'json');
+		}, 'json'); 
 	});
 </script>

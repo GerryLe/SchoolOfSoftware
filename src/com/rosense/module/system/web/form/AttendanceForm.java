@@ -14,7 +14,7 @@ public class AttendanceForm extends PageHelper implements Serializable {
 	private String stu_no;//学号；
 	private String stu_name;//姓名
 	private String apply_date;//申请日期
-
+    private String uuid;
 	
 	private Integer section1;//第一节(0:未选中，1：选中)
 	private Integer section2;//第二节
@@ -143,6 +143,12 @@ public class AttendanceForm extends PageHelper implements Serializable {
 	}
 	public void setUid(String uid) {
 		this.uid = uid;
+	}
+	public String getUuid() {
+		return uuid;
+	}
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
 	}
 	
 	
