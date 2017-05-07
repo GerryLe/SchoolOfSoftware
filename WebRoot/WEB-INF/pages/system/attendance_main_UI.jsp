@@ -40,9 +40,14 @@ margin-top: 0px;
 				<input type="hidden" name="id" value="${id}"/>
 				<input type="hidden" name="uuid" value="${uuid}"/>
 				  <div id="filter-bar">
-					<div class="btn-toolbar" id="apply_date_change">
-						<input class="date_class"  type="text"  id="apply_date" name="apply_date"  style="height:34px;text-align: center;" 
-						readonly="readonly" onchange="recordChange()">
+				     <div class="btn-toolbar">
+					   <div class="btn-group btn-group-filter-refresh">
+					       <input id="buttonByKey" type="button"  value="搜一下" data-toggle="dropdown" onclick="recordChange()" style="width: 80px;height: 33px" />
+					   </div>
+		            </div> 
+					<div class="btn-toolbar">
+						<input class="date_class"  type="text"  id="apply_date" name="apply_date"  
+						style="height:34px;text-align: center;" >
 					     <span class="input-group form_date date col-md-5 input-group-addon" data-date="" 
 					     data-date-format="yyyy-mm-dd" data-link-field="apply_date" data-link-format="yyyy-mm-dd"  
 					     id="glyphicon-planComeDate-calendar" style="margin: 0;width: 34px; height:34px;
@@ -50,12 +55,11 @@ margin-top: 0px;
 					 </div> 
 					 
 					 <div class="btn-toolbar">
-						<select class="form-control" id="class_id" name="class_id" style="width: 200px;" onchange="recordChange()" > </select>
+						<select class="form-control" id="class_id" name="class_id" style="width: 180px;" onchange="recordChange()" > </select>
 					 </div>
 					 <div class="btn-toolbar">
 						<select class="form-control" id="class_pid" name="class_pid" style="width: 150px;" onchange="classChange()" > </select>
 					 </div>
-					 
 					  <div class="btn-toolbar">
 						<select class="form-control" id="semester" name="semester" style="width: 150px;"  onchange="recordChange()"> 
 						    <option value="" selected="selected">--选择学期--</option>
@@ -79,9 +83,9 @@ margin-top: 0px;
 				</div>
 			  <table id="attendance_table" class="table-condensed table table-hover"
 				  data-row-style="rowStyle" data-side-pagination="server"></table>
-					 <div class="btn-toolbar">
+					 <!-- <div class="btn-toolbar">
 						<button type="submit" class="btn btn1 btn-primary " id="attendance_commit" style="display: none">提交</button>
-					</div>
+					</div> -->
 			  </section>
 		      </div>
 			<div class="modal-footer">
@@ -91,9 +95,6 @@ margin-top: 0px;
 		</div>
 	</div>
 </div>
-	<%-- 	
-		<jsp:include page="/template/modal.jsp"><jsp:param
-		value="addAttendance" name="id" /><jsp:param value="编辑考勤信息信息" name="title" /></jsp:include> --%>
 <script type="text/javascript">
 	var $student_table;
 	var classtree = $.webapp.root + "/admin/system/class/pidtree.do";
@@ -270,7 +271,17 @@ margin-top: 0px;
 						input+="checked='checked'";
 						return input+=">";
 				}
-			},],
+			},{
+				field : 'apply_date',
+				title : '更新日期',
+				align : "center",
+				valign : "middle",
+				formatter : function(value, row, index) {
+					if(value==null)
+						return currentDate;
+						return value;
+				}
+			}],
 			paginationInfo : true,
 			showExport : true,
 			onDblClickRow:function(row, $element){
@@ -310,6 +321,7 @@ margin-top: 0px;
 			forceParse: 0
 	    });
 		//$('#attendance_table').bootstrapTable('hideColumn', 'status');
+		
 	});
 	
 	function rowStyle(row, index) {
@@ -321,16 +333,19 @@ margin-top: 0px;
 		return {};
 	}
 	
-	/* function apply_date_change(){
-		alert("edede")
-	}
-	 */
+
+	/* $("#apply_date").addEventListener("change",changeValue(),false)
+	
+	function changeValue(){
+		alert('changed');
+		}  */
+	
 	/* 筛选用户信息 */
-	$(document).on("click", "#buttonByKey", function() {
+	/* $(document).on("click", "#buttonByKey", function() {
 	     $attendance_table.bootstrapTable('refresh', 
 				//{url: "/admin/system/user/datagridperson.do?searchKeyName="+$("#searchKeyName").val()+"&selectType="+$("#selectType").val()+""}); 
 	    		 {url: "/admin/system/student/datagridperson.do?class_id="+$("#class_id").val()+""}); 
-	  });
+	  }); */
 	 
 	 function classChange(){
 	 	 $("#class_id").html("");
@@ -376,6 +391,11 @@ margin-top: 0px;
 	$.BOOT.form("form_addAttendance", {}, function(params) {
 		$("input.section:checked").val(1);
 		var selects = $attendance_table.bootstrapTable('getSelections');
+		if(selects.length==0){
+			alert("请在左边勾选要提交信息记录");
+			$("#save_addAttendance").removeAttr("disabled")
+			return;
+		}
 		var param=$.map(selects, function(row) {
 			    return 'id='+row.id+'&uuid='+row.uuid+'&stu_no='+row.stu_no+'&stu_name='+row.stu_name+'&section1='+$("input[name="+row.stu_no+"section1]").val()
 			    +'&section2='+$("input[name="+row.stu_no+"section2]").val()+'&section3='+$("input[name="+row.stu_no+"section3]").val()
@@ -395,7 +415,6 @@ margin-top: 0px;
 				$("#save_addAttendance").removeAttr("disabled")
 				}, 'json'); 
 		}
-		
 
 	});
 	

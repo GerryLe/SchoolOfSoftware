@@ -1,2 +1,6 @@
 /com/
+/init/
+/log4j.properties
+/messages/
 /org/
+/spring.xml

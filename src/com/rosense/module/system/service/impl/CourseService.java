@@ -252,7 +252,7 @@ public class CourseService extends BaseService implements ICourseService {
 	@Override
 	public List<CourseForm> tree() {
 		try{
-			String sql="select * from simple_course where 1=1";
+			String sql="select c.id,c.course_name from simple_course c where 1=1";
 			List<CourseForm> forms=this.courseDao.listSQL(sql, CourseForm.class,false);
 			if(forms!=null&&forms.size()>0){
 				return forms;

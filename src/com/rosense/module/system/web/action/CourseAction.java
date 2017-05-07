@@ -115,5 +115,10 @@ public class CourseAction extends BaseController {
 		return this.classService.datagridClass(form);
 	}
 	
+	@RequestMapping("/tree.do")
+	@ResponseBody
+	public List<CourseForm> tree(CourseForm form) throws Exception {
+		return this.courseService.tree();
+	}
 } 
 

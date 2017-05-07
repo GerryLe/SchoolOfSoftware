@@ -186,7 +186,7 @@ $.BOOT.autoselect = function(id, url, params) {
 };
 
 /**
- * 座机分号
+ * 课程
  */
 $.BOOT.autoselectCourse = function(id, url, params) {
 	params = params || {};
@@ -199,7 +199,7 @@ $.BOOT.autoselectCourse = function(id, url, params) {
 };
 
 /**
- * 座机组件select
+ * 组件select
  */
 $.BOOT.selectCourse = function(id, json, title) {
 	var select = $("#" + id);
@@ -210,7 +210,7 @@ $.BOOT.selectCourse = function(id, json, title) {
 				text += "&nbsp;&nbsp;";
 			}
 			text += data[n].course_name;
-			select.append("<option value='" + data[n].course_no + "'>" + text
+			select.append("<option value='" + data[n].id + "'>" + text
 					+ "</option>");
 			if (data[n].nodes) {
 				recursion(data[n].nodes, deep + 1);
