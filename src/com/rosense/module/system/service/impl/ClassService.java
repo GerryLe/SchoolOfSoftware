@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,18 +17,12 @@ import com.rosense.basic.model.Msg;
 import com.rosense.basic.model.Pager;
 import com.rosense.basic.util.BeanUtils;
 import com.rosense.basic.util.StringUtil;
-import com.rosense.basic.util.cons.Const;
-import com.rosense.basic.util.date.DateUtils;
 import com.rosense.module.common.service.BaseService;
 import com.rosense.module.common.web.servlet.WebContextUtil;
 import com.rosense.module.system.entity.ClassEntity;
-import com.rosense.module.system.entity.PositionEntity;
 import com.rosense.module.system.entity.UserEntity;
 import com.rosense.module.system.service.IClassService;
-import com.rosense.module.system.web.form.LoginSession;
 import com.rosense.module.system.web.form.ClassForm;
-import com.rosense.module.system.web.form.PositionForm;
-import com.rosense.module.system.web.form.RoleForm;
 import com.rosense.module.system.web.form.UserForm;
 
 /**

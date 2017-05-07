@@ -8,15 +8,11 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.poi.hssf.usermodel.HSSFCell;
@@ -35,23 +31,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import com.alibaba.fastjson.JSON;
 import com.rosense.basic.model.DataGrid;
 import com.rosense.basic.model.Msg;
 import com.rosense.basic.util.ImageUtils;
 import com.rosense.basic.util.StringUtil;
 import com.rosense.basic.util.cons.Const;
-import com.rosense.basic.util.date.DateUtils;
 import com.rosense.module.common.web.action.BaseController;
 import com.rosense.module.common.web.servlet.WebContextUtil;
-import com.rosense.module.system.entity.RoleEntity;
 import com.rosense.module.system.service.IClassService;
-import com.rosense.module.system.service.IPositionService;
 import com.rosense.module.system.service.IRoleService;
 import com.rosense.module.system.service.IStudentService;
 import com.rosense.module.system.web.form.ClassForm;
-import com.rosense.module.system.web.form.PositionForm;
-import com.rosense.module.system.web.form.RoleForm;
 import com.rosense.module.system.web.form.UserForm;
 
 @Controller
@@ -61,8 +51,6 @@ public class StudentAction extends BaseController {
 	private IStudentService stuService;
 	@Inject
 	private IClassService classService;
-	@Inject
-	private IPositionService posService;
 	@Inject
 	private IRoleService roleService;
 	
@@ -86,6 +74,16 @@ public class StudentAction extends BaseController {
 	}
 
 	/**
+	 * 修改用户
+	 */
+	@RequestMapping("/update.do")
+	@ResponseBody
+	public Msg update(UserForm form) throws Exception {
+		return this.stuService.update(form);
+	}
+
+	
+	/**
 	 * 删除用户
 	 */
 	@RequestMapping("/delete.do")
@@ -94,46 +92,11 @@ public class StudentAction extends BaseController {
 		return this.stuService.delete(form);
 	}
 
-	/**
-	* 锁定账号
-	*/
-	@RequestMapping("/lockUser.do")
-	@ResponseBody
-	public Msg lockUser(String id) {
-		return this.stuService.lockUser(id);
-	}
-
-	/**
-	 * 重置密码
-	 */
-	@RequestMapping("/resetPwd.do")
-	@ResponseBody
-	public Msg resetPwd(String id) {
-		return this.stuService.resetPwd(id);
-	}
-
-	/**
-	 * 修改账号
-	 */
-	@RequestMapping("/update.do")
-	@ResponseBody
-	public Msg update(UserForm form) throws Exception {
-		return this.stuService.update(form);
-	}
-
+	
 	@RequestMapping("/get.do")
 	@ResponseBody
 	public UserForm get(UserForm form) throws Exception {
 		return this.stuService.get(form.getId());
-	}
-
-	/**
-	 * 查询账号
-	 */
-	@RequestMapping("/datagrid.do")
-	@ResponseBody
-	public DataGrid datagrid(UserForm form,String selectType,String searchKeyName) throws Exception {
-		return this.stuService.datagrid(form,selectType,searchKeyName);
 	}
 
 	/**
@@ -145,20 +108,7 @@ public class StudentAction extends BaseController {
 		return this.stuService.datagridperson(form,selectType,searchKeyName);
 	}
 	
-	/**
-	 * 关联查询一些部门，角色，职位相关 的用户
-	 */
-	@RequestMapping("/datagrid_ref.do")
-	@ResponseBody
-	public DataGrid datagrid_ref(UserForm form) throws Exception {
-		if (StringUtil.isEmpty(form.getId())) {
-			form.setId(StringUtil.toString(getSession().getAttribute("ref_id"), ""));
-		} else {
-			getSession().setAttribute("ref_id", form.getId());
-		}
-		return this.stuService.datagrid_ref(form);
-	}
-
+	
 	/**
 	 * 查询用户
 	 */
@@ -168,114 +118,6 @@ public class StudentAction extends BaseController {
 		return this.stuService.searchUsers(content);
 	}
 
-	/**
-	 * 修改头像
-	 */
-	@RequestMapping("/updatephoto.do")
-	@ResponseBody
-	public Msg updatephoto() {
-		if (request instanceof MultipartHttpServletRequest) {
-			MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-			String userId = WebContextUtil.getUserId();
-			try {
-				String savePath = WebContextUtil.getAttachedRootPath("photo");
-				new File(savePath).mkdirs();
-				String path = WebContextUtil.getAttachedPath("photo");
-				List<MultipartFile> files = multipartRequest.getFiles(Const.uploadFieldName);
-				if (files == null || files.size() < 1) {
-					throw new RuntimeException("没有发生上传的文件！请检查");
-				}
-				if (files.size() > 0) {
-					MultipartFile multipartFile = files.get(0);
-					String orginalName = multipartFile.getOriginalFilename();
-					String extension = FilenameUtils.getExtension(orginalName);
-					String newName = userId + "." + extension;
-					ImageUtils.thumbnail(multipartFile.getInputStream(), 100, 100, new FileOutputStream(savePath + newName));
-					Msg msg = this.stuService.updatePhoto(path + newName);
-					msg.setObj(path + newName + "?t=" + System.currentTimeMillis());
-					return msg;
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		return new Msg(false, "照片上传异常");
-	}
-
-	/**
-	 * 修改密码
-	 */
-	@RequestMapping("/updatepwd.do")
-	@ResponseBody
-	public Msg updatepwd(UserForm form) {
-		return this.stuService.updatePwd(form);
-	}
-
-	/**
-	 * 修改角色
-	 */
-	@RequestMapping("/updateRole.do")
-	@ResponseBody
-	public Msg batchRole(UserForm form) {
-		return this.stuService.batchUserRole(form);
-	}
-
-	/**
-	 * 添加角色用户
-	 */
-	@RequestMapping("/adduserrole.do")
-	@ResponseBody
-	public Msg no_adduserrole(String roleId, String userIds) throws Exception {
-		return this.stuService.addRoleForUser(roleId, userIds);
-	}
-
-	/**
-	 * 删除角色用户
-	 */
-	@RequestMapping("/deleteuserrole.do")
-	@ResponseBody
-	public Msg deleteuserrole(String roleId, String userId) throws Exception {
-		return this.stuService.deleteRoleForUser(roleId, userId);
-	}
-
-	/**
-	 * 添加部门用户
-	 */
-	@RequestMapping("/adduserorg.do")
-	@ResponseBody
-	public Msg adduserorg(String orgId, String userIds) throws Exception {
-		return this.stuService.addOrgForUser(orgId, userIds);
-	}
-
-	/**
-	 * 删除部门用户
-	 */
-	@RequestMapping("/deleteuserorg.do")
-	@ResponseBody
-	public Msg deleteuserorg(String userId) throws Exception {
-		return this.stuService.deleteOrgForUser(userId);
-	}
-
-	/**
-	 * 添加职位用户
-	 */
-	@RequestMapping("/adduserposition.do")
-	@ResponseBody
-	public Msg adduserposition(String positionId, String userIds) throws Exception {
-		return this.stuService.addPositionForUser(positionId, userIds);
-	}
-
-	/**
-	 * 删除职位用户
-	 */
-	@RequestMapping("/deleteuserposition.do")
-	@ResponseBody
-	public Msg deleteuserposition(String userId) throws Exception {
-		return this.stuService.deletePositionForUser(userId);
-	}
-	
-	
-	
 	/**
 	 * 判断导入学生信息是否重复
 	 */
@@ -603,17 +445,4 @@ public class StudentAction extends BaseController {
 		return this.stuService.equlasValAccount(account);
 	}
 	
-	
-	
-	@RequestMapping("selectCurUser.do")
-	@ResponseBody
-	public UserForm selectCurUser(){
-		return stuService.selectCurUser();
-	}
-	
-	@RequestMapping("chargeTree.do")
-	@ResponseBody
-	public List<UserForm> chargeTree(){
-		return stuService.chargeTree();
-	}
 } 

@@ -2,23 +2,17 @@ package com.rosense.module.system.web.action;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import org.apache.commons.io.FilenameUtils;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.hssf.usermodel.HSSFRow;
@@ -33,26 +27,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import com.alibaba.fastjson.JSON;
 import com.rosense.basic.model.DataGrid;
 import com.rosense.basic.model.Msg;
-import com.rosense.basic.util.ImageUtils;
 import com.rosense.basic.util.StringUtil;
 import com.rosense.basic.util.cons.Const;
-import com.rosense.basic.util.date.DateUtils;
 import com.rosense.module.common.web.action.BaseController;
 import com.rosense.module.common.web.servlet.WebContextUtil;
-import com.rosense.module.system.entity.RoleEntity;
 import com.rosense.module.system.service.IClassService;
-import com.rosense.module.system.service.IPositionService;
 import com.rosense.module.system.service.IRoleService;
 import com.rosense.module.system.service.ITeacherService;
-import com.rosense.module.system.web.form.ClassForm;
-import com.rosense.module.system.web.form.OrgForm;
-import com.rosense.module.system.web.form.PositionForm;
-import com.rosense.module.system.web.form.RoleForm;
 import com.rosense.module.system.web.form.UserForm;
 
 @Controller
@@ -62,8 +46,6 @@ public class TeacherAction extends BaseController {
 	private ITeacherService teacherService;
 	@Inject
 	private IClassService classService;
-	@Inject
-	private IPositionService posService;
 	@Inject
 	private IRoleService roleService;
 	
@@ -113,11 +95,11 @@ public class TeacherAction extends BaseController {
 	/**
 	 * 查询账号
 	 */
-	@RequestMapping("/datagrid.do")
+	/*@RequestMapping("/datagrid.do")
 	@ResponseBody
 	public DataGrid datagrid(UserForm form,String selectType,String searchKeyName) throws Exception {
 		return this.teacherService.datagrid(form,selectType,searchKeyName);
-	}
+	}*/
 
 	/**
 	 * 查询用户信息
@@ -131,11 +113,11 @@ public class TeacherAction extends BaseController {
 	/**
 	 * 查询用户
 	 */
-	@RequestMapping("/search.do")
+	/*@RequestMapping("/search.do")
 	@ResponseBody
 	public List<UserForm> search(String content) throws Exception {
 		return this.teacherService.searchUsers(content);
-	}
+	}*/
 	/**
 	 * 判断导入用户信息是否重复
 	 */
@@ -449,13 +431,13 @@ public class TeacherAction extends BaseController {
 		return this.teacherService.equlasValAccount(account);
 	}
 	
-	
+	/*
 	
 	@RequestMapping("selectCurUser.do")
 	@ResponseBody
 	public UserForm selectCurUser(){
 		return teacherService.selectCurUser();
-	}
+	}*/
 	
 
 } 

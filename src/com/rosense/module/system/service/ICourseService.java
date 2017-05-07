@@ -2,14 +2,8 @@ package com.rosense.module.system.service;
 
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-
 import com.rosense.basic.model.DataGrid;
 import com.rosense.basic.model.Msg;
-import com.rosense.module.system.web.form.AuthForm;
-import com.rosense.module.system.web.form.ClassForm;
-import com.rosense.module.system.web.form.LoginUser;
-import com.rosense.module.system.web.form.OrgForm;
 import com.rosense.module.system.web.form.CourseForm;
 
 public interface ICourseService {

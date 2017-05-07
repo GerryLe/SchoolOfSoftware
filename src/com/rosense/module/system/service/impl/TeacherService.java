@@ -2,7 +2,6 @@ package com.rosense.module.system.service.impl;
 
 import java.net.URLDecoder;
 import java.net.URLEncoder;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -16,9 +15,7 @@ import java.util.Set;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.compress.archivers.ar.ArArchiveEntry;
 import org.apache.log4j.Logger;
-import org.jsoup.helper.DataUtil;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,28 +30,24 @@ import com.rosense.basic.model.SystemContext;
 import com.rosense.basic.util.BeanUtils;
 import com.rosense.basic.util.FreemarkerUtil;
 import com.rosense.basic.util.MD5Util;
-import com.rosense.basic.util.SendEmailUtil;
 import com.rosense.basic.util.StringUtil;
 import com.rosense.basic.util.cons.Const;
 import com.rosense.basic.util.date.DateUtils;
 import com.rosense.module.cache.Caches;
 import com.rosense.module.common.service.BaseService;
 import com.rosense.module.common.web.servlet.WebContextUtil;
-import com.rosense.module.system.entity.HolidaysUsersEntity;
 import com.rosense.module.system.entity.ClassEntity;
+import com.rosense.module.system.entity.HolidaysUsersEntity;
 import com.rosense.module.system.entity.PermitsMenuEntity;
-import com.rosense.module.system.entity.TeacherEntity;
 import com.rosense.module.system.entity.RoleEntity;
-import com.rosense.module.system.entity.TransferEntity;
+import com.rosense.module.system.entity.TeacherEntity;
 import com.rosense.module.system.entity.UserEntity;
 import com.rosense.module.system.service.ITeacherService;
 import com.rosense.module.system.web.form.ACLForm;
 import com.rosense.module.system.web.form.AuthForm;
 import com.rosense.module.system.web.form.LoginSession;
 import com.rosense.module.system.web.form.LoginUser;
-import com.rosense.module.system.web.form.OrgForm;
 import com.rosense.module.system.web.form.RoleForm;
-import com.rosense.module.system.web.form.UserForm;
 import com.rosense.module.system.web.form.UserForm;
 
 import net.sf.json.JSONObject;
@@ -251,7 +244,7 @@ public class TeacherService extends BaseService implements ITeacherService {
 		}
 	}
 
-	public DataGrid datagrid_ref(UserForm form) {
+	/*public DataGrid datagrid_ref(UserForm form) {
 		SystemContext.setSort("u.created");
 		SystemContext.setOrder("desc");
 		try {
@@ -277,7 +270,7 @@ public class TeacherService extends BaseService implements ITeacherService {
 			logger.error("加载人员列表信息失败===>异常信息：", e);
 			throw new ServiceException("加载人员列表信息异常：", e);
 		}
-	}
+	}*/
 
 	// 查询信息
 	public DataGrid datagridperson(UserForm form,String selectType,String searchKeyName) {
@@ -337,7 +330,7 @@ public class TeacherService extends BaseService implements ITeacherService {
 		}
 	}
 
-	@Override
+	/*@Override
 	public DataGrid commondatagridperson(UserForm form,String selectType,String searchKeyName) {
 		List<Integer> roleId=new ArrayList<Integer>();
 		List<String> roleName=new ArrayList<String>();
@@ -436,11 +429,11 @@ public class TeacherService extends BaseService implements ITeacherService {
 		try {
 			List<UserForm> forms = new ArrayList<UserForm>();
 			Map<String, Object> alias = new HashMap<String, Object>();
-			/*
+			
 			 * String sql =
 			 * "select u.*,e.chinaname,e.email, e.employmentDate, e.birthday, e.degree, e.sex, e.phone,e.province,e.city, e.genre, e.becomeStaffDate, e.job, e.employ, e.countStartDate,o.name orgName,p.name positionName from simple_user u "
 			 * ;
-			 */
+			 
 			String sql = "select u.*,e.chinaname,e.email,e.sex,e.employmentStr,e.phone,e.becomeStaffDate,e.province,e.job,e.leaveDate, e.birthday,e.securityDate,e.school,e.profession,e.graduation, e.degree,e.accountAddr,e.accountPro,e.address,e.age,e.workAge,e.probationLimit,e.probationEnd,e.marriage,e.agreementEndDate,e.agreementLimit,e.positionEng, e.agreementStartDate,e.agreementTimes,e.area,e.workOld,e.material,e.bankCard,e.bear,e.idcard,e.nation,e.origin,e.train,e.securityCard,e.politicalFace,e.certificate,e.contact,e.contactPhone,e.fund,e.fundDate,o.name orgName,oc.name orgChildName,p.name positionName from simple_user u ";
 			sql += "left join simple_person e ON(e.id=u.personId)  ";
 			sql += "left join simple_org o ON(e.orgId=o.id)  ";
@@ -547,7 +540,7 @@ public class TeacherService extends BaseService implements ITeacherService {
 		   sql = addWhere(sql, form, alias);
 		}
 		return this.userDao.findSQL(sql, alias, UserForm.class, false);
-	}
+	}*/
 
 	/**
 	 * 员工信息筛选
@@ -609,7 +602,7 @@ public class TeacherService extends BaseService implements ITeacherService {
 		return sql;
 	}
 
-	public Msg resetPwd(String id) {
+	/*public Msg resetPwd(String id) {
 		try {
 			if (StringUtil.isNotEmpty(id)) {
 				UserEntity user = this.userDao.load(UserEntity.class, id);
@@ -653,12 +646,12 @@ public class TeacherService extends BaseService implements ITeacherService {
 
 		return new Msg(true, "出现错误！");
 	}
-
+*/
 	private int equlasVal(String param) {
 		String sql = "select u.* from simple_user u where " + param;
 		return this.userDao.countSQL(sql, false).intValue();
 	}
-
+	
 	private String getUserId(String param) {
 		String idString = "";
 		String sql = "select u.* from simple_user u where u.account='" + param + "'";
@@ -670,7 +663,7 @@ public class TeacherService extends BaseService implements ITeacherService {
 		}
 		return idString;
 	}
-
+	/*
 	private int equlasValByPerson(String param) {
 		String sql = "select p.* from simple_person p where " + param;
 		return this.teaDao.countSQL(sql, false).intValue();
@@ -698,7 +691,7 @@ public class TeacherService extends BaseService implements ITeacherService {
 		} catch (BeansException e) {
 			return new Msg(false, "批量加入角色失败！");
 		}
-	}
+	}*/
 
 	public LoginUser loginCheck(LoginUser form) {
 		String sql = "select u.*,e.class_id,e.email,e.sex,e.phone,e.entrance_date_Str,e.province, e.grade, e.birthday,e.accountAddr,e.accountPro,c.class_name class_name from simple_user u ";
@@ -740,7 +733,7 @@ public class TeacherService extends BaseService implements ITeacherService {
 	 * 获取登陆用户的权限 如果同时拥有用户授权，角色授权，部门授权，岗位授权，则进行权限累加，并去除重复的权限
 	 */
 
-	public AuthForm getAuth(String userId) {
+	/*public AuthForm getAuth(String userId) {
 		AuthForm auth = new AuthForm();
 		List<Object> tree = new ArrayList<Object>();
 		List<ACLForm> opers = new ArrayList<ACLForm>();
@@ -754,25 +747,25 @@ public class TeacherService extends BaseService implements ITeacherService {
 		List<Object[]> roleIds = this.roleDao
 				.listSQL("select r.userId, r.roleId from simple_user_roles r where r.userId=?", userId);
 
-		/********************************* 用户权限 **************************************/
+		*//********************************* 用户权限 **************************************//*
 		// 获取用户权限
 		List<ACLForm> aclUserMenus = getAclMenus(userId, Const.PRINCIPAL_USER);
 		List<ACLForm> aclUserOpers = getAclOpers(userId, Const.PRINCIPAL_USER);
 		initTreeAndOpers(tree, opers, authUrl, aclUserMenus, aclUserOpers);
 
-		/********************************* 角色权限 **************************************/
+		*//********************************* 角色权限 **************************************//*
 		// 获取用户角色权限
 		for (Object[] o : roleIds) {
 			List<ACLForm> aclRoleMenus = getAclMenus((String) o[1], Const.PRINCIPAL_ROLE);
 			List<ACLForm> aclRoleOpers = getAclOpers((String) o[1], Const.PRINCIPAL_ROLE);
 			initTreeAndOpers(tree, opers, authUrl, aclRoleMenus, aclRoleOpers);
 		}
-		/********************************** 部门权限 *************************************/
+		*//********************************** 部门权限 *************************************//*
 		// 获取部门权限
 		List<ACLForm> aclOrgMenus = getAclMenus(user.getOrgId(), Const.PRINCIPAL_DEPT);
 		List<ACLForm> aclOrgOpers = getAclOpers(user.getOrgId(), Const.PRINCIPAL_DEPT);
 		initTreeAndOpers(tree, opers, authUrl, aclOrgMenus, aclOrgOpers);
-		/*********************************** 岗位权限 ************************************/
+		*//*********************************** 岗位权限 ************************************//*
 		// 获取岗位权限
 		List<ACLForm> aclPositionMenus = getAclMenus(user.getPositionId(), Const.PRINCIPAL_POSITION);
 		List<ACLForm> aclPositionOpers = getAclOpers(user.getPositionId(), Const.PRINCIPAL_POSITION);
@@ -839,8 +832,8 @@ public class TeacherService extends BaseService implements ITeacherService {
 		this.logService.add("删除用户角色", "账号：[" + user.getAccount() + "]");
 		return new Msg(true, "删除成功");
 	}
-
-	public Msg addOrgForUser(String orgId, String users) {
+*/
+	/*public Msg addOrgForUser(String orgId, String users) {
 		String sql="select * from simple_org where id='"+orgId+"'";
 		OrgForm orgForm=(OrgForm) basedaoClass.queryObjectSQL(sql,OrgForm.class,false);
 		if(orgForm!=null){
@@ -921,7 +914,7 @@ public class TeacherService extends BaseService implements ITeacherService {
 		} catch (Exception e) {
 		}
 		return new Msg(true);
-	}
+	}*/
 
 	@Override
 	public Msg importFile(List<UserForm> importUserList) {
@@ -944,71 +937,6 @@ public class TeacherService extends BaseService implements ITeacherService {
 		}
 	}
 
-	public DataGrid orgdatagridperson(HttpSession session, UserForm form) {
-		LoginSession user = (LoginSession) session.getAttribute(Const.USER_SESSION);
-		String orgId = user.getUser().getOrgId();
-		try {
-			List<UserForm> forms = new ArrayList<UserForm>();
-			Map<String, Object> alias = new HashMap<String, Object>();
-			String sql = "select u.*,e.chinaname,e.sex,e.employmentStr,e.phone,e.becomeStaffDate,e.job,e.province,e.leaveDate, e.birthday,e.securityDate,e.school,e.profession,e.graduation, e.degree,e.accountAddr,e.accountPro,e.address,e.age,e.workAge,e.probationLimit,e.probationEnd,e.marriage,e.agreementEndDate,e.agreementLimit,e.positionEng, e.agreementStartDate,e.agreementTimes,e.area,e.workOld,e.material,e.bankCard,e.bear,e.idcard,e.nation,e.origin,e.train,e.securityCard,e.politicalFace,e.certificate,e.contact,e.contactPhone,e.fund,e.fundDate,o.name orgName,oc.name orgChildName,p.name positionName from simple_user u ";
-			sql += "left join simple_person e ON(e.id=u.personId)  ";
-			sql += "left join simple_org o ON(e.orgId=o.id)  ";
-			sql += "left join simple_org oc ON(e.orgChildId=oc.id)  ";
-			sql += "left join simple_position p ON(e.positionId=p.id)  ";
-			sql += "where u.status=0  ";
-			sql = addWhere(sql, form, alias);
-			sql += "  and e.orgId in('" + orgId + "'";
-			sql = getOrgByPid(sql, orgId);
-			sql += ")";
-			Pager<UserForm> pager = this.userDao.findSQL(sql, alias, UserForm.class, false);
-			if (null != pager && !pager.getDataRows().isEmpty()) {
-				for (UserForm pf : pager.getDataRows()) {
-					if (pf.getEmploymentDate() != null) {
-						pf.setEmploymentStr(DateUtils.formatYYYYMMDD(pf.getEmploymentDate()));
-					}
-					if (null != pf.getId()) {
-						// 获取角色
-						List<RoleForm> roles = this.roleDao.listSQL(
-								"select r.name from simple_user_roles t LEFT JOIN simple_role r on(r.id=t.roleId) WHERE t.userId=?",
-								new Object[] { pf.getId() }, RoleForm.class, false);
-						if (null != roles) {
-							StringBuffer s = new StringBuffer();
-							for (RoleForm r : roles) {
-								s.append(r.getName() + ",");
-							}
-							pf.setRole_names((s.length() > 0 ? s.deleteCharAt(s.length() - 1).toString() : ""));
-						}
-					} else {
-						pf.setStatus(2);
-					}
-					forms.add(pf);
-				}
-			}
-			DataGrid dg = new DataGrid();
-			dg.setTotal(pager.getTotal());
-			dg.setRows(forms);
-			return dg;
-		} catch (Exception e) {
-			e.printStackTrace();
-			logger.error("加载人员列表信息失败===>异常信息：", e);
-			throw new ServiceException("加载人员列表信息异常：", e);
-		}
-	}
-
-	private String getOrgByPid(String sql, String pid) {
-		String sqlorg1 = "select t.* from simple_org t where t.pid='" + pid + "'";
-		List<OrgForm> orgs = this.basedaoClass.listSQL(sqlorg1, OrgForm.class, false);
-		if (null != orgs && orgs.size() > 0) {
-			for (OrgForm e : orgs) {
-				sql += ",'" + e.getId() + "'";
-				sql = getOrgByPid(sql, e.getId());
-			}
-		} else {
-
-		}
-		return sql;
-	}
-
 	/**
 	 * 判断用户账号是否存在
 	 */
@@ -1017,7 +945,7 @@ public class TeacherService extends BaseService implements ITeacherService {
 		return this.userDao.countSQL(sql, false).intValue();
 	}
 
-	@Override
+	/*@Override
 	public List<UserForm> searchUsersData() {
 		List<UserForm> forms = new ArrayList<UserForm>();
 		try {
@@ -1037,7 +965,7 @@ public class TeacherService extends BaseService implements ITeacherService {
 		}
 		return forms;
 	}
-
+*/
 
 
 	/**
@@ -1049,9 +977,8 @@ public class TeacherService extends BaseService implements ITeacherService {
 		try {
 			List<UserForm> forms = new ArrayList<UserForm>();
 			Map<String, Object> alias = new HashMap<String, Object>();
-			String sql = "select u.*,e.stu_no,e.class_id,e.class_name,e.email,e.sex,e.stu_name,e.phone,e.entrance_date_Str,e.province, e.grade, e.birthday, e.graduate_school,e.profession,e.accountAddr,e.accountPro,c.class_name class_name from simple_user u ";
-			sql += "left join simple_student e ON(e.id=u.personId)  ";
-			sql += "left join simple_class c ON(e.class_id=c.id)  ";
+			String sql = "select u.*,e.email,e.sex,e.phone,e.entrance_date_Str,e.province, e.grade, e.birthday, e.accountAddr,e.accountPro from simple_user u ";
+			sql += "left join simple_teacher e ON(e.id=u.personId)  ";
 			sql += "where u.status=0 ";
 			sql += "and u.account='" + WebContextUtil.getCurrentUser().getUser().getAccount() + "'";
 			Pager<UserForm> pager = this.userDao.findSQL(sql, alias, UserForm.class, false);
@@ -1092,11 +1019,11 @@ public class TeacherService extends BaseService implements ITeacherService {
 		}
 
 	}
-	
+
 	/**
 	 * 获取当前用户信息
 	 */
-	public UserForm selectCurUser(){
+	/*public UserForm selectCurUser(){
 		String sql="select e.*,c.class_name class_name from simple_user u left join simple_student e on(u.personId=e.id) ";
 		sql+= "left join simple_class c on(c.id=e.class_id) ";
 		sql+= "where u.id='"+WebContextUtil.getCurrentUser().getUser().getId()+"'";
@@ -1106,59 +1033,6 @@ public class TeacherService extends BaseService implements ITeacherService {
 		}else{
 			return null;
 		}
-	}
+	}*/
 	
-	/**
-	 * 获取当前用户的上级信息
-	 * @return
-	 */
-	public List<UserForm> chargeTree(){
-		List<Integer> roleId=new ArrayList<Integer>();
-		List<String> roleName=new ArrayList<String>();
-		//判断当前用户是否具有多个角色
-		if(WebContextUtil.getCurrentUser().getUser().getRole_ids().contains(",")){
-			String[] roleIds=WebContextUtil.getCurrentUser().getUser().getRole_ids().split(",");
-			for(String id:roleIds){
-				RoleForm role=(RoleForm) this.roleDao.queryObjectSQL("select * from simple_role where id=?",new Object[]{id},RoleForm.class,false);
-				if(role!=null){
-					roleId.add(role.getDefaultRole());
-					roleName.add(role.getSn());
-				}
-				
-			}
-			
-		}else{
-			RoleEntity role=this.roleDao.load(RoleEntity.class, WebContextUtil.getCurrentUser().getUser().getRole_ids());
-			roleId.add(role.getDefaultRole());
-			roleName.add(role.getSn());
-		}
-		String sql="select e.*,c.class_name class_name from simple_role r right join simple_user_roles ur on(ur.roleId=r.id) ";
-		sql+= "left join simple_user u on(ur.userId=u.id) ";
-		sql+= "left join simple_student e on(u.personId=e.id) ";
-		sql+= "left join simple_class o on(c.id=e.class_id) ";
-		if(roleId.contains(0)||roleId.contains(5)||roleId.contains(6)){
-			sql+= "where  r.defaultRole in(0,5,6)";
-		}else if(roleId.contains(4)){
-			sql+= "where  r.defaultRole in(5,6)";
-		}else if(roleId.contains(2)){
-			sql+= "where o.id='"+WebContextUtil.getCurrentUser().getUser().getOrgId()+"' and r.defaultRole in(4)";
-		}else if(roleId.contains(1)||roleId.contains(3)){
-			//子部门不存在或者与父部门相同
-			   if(WebContextUtil.getCurrentUser().getUser().getOrgChildId()==null||WebContextUtil.getCurrentUser().getUser().getOrgChildId().equals(WebContextUtil.getCurrentUser().getUser().getOrgId())){
-				   sql+= "where o.id='"+WebContextUtil.getCurrentUser().getUser().getOrgId()+"' and r.defaultRole in(2,4)";
-				}else{
-				   sql+= "where o.id='"+WebContextUtil.getCurrentUser().getUser().getOrgChildId()+"' and r.defaultRole in(2)";
-				}
-		}else{
-			
-		}
-		List<UserForm> chargeForm=this.userDao.listSQL(sql,UserForm.class,false);
-		if(chargeForm!=null&&chargeForm.size()>0){
-			return chargeForm;
-		}else{
-			return null;
-		}
-		
-	}
-
 }

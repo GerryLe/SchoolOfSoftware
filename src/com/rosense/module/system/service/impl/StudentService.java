@@ -1,7 +1,6 @@
 package com.rosense.module.system.service.impl;
 
 import java.net.URLDecoder;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -13,12 +12,8 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.inject.Inject;
-import javax.servlet.http.HttpSession;
 
-import org.apache.commons.compress.archivers.ar.ArArchiveEntry;
 import org.apache.log4j.Logger;
-import org.jsoup.helper.DataUtil;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,36 +27,27 @@ import com.rosense.basic.model.SystemContext;
 import com.rosense.basic.util.BeanUtils;
 import com.rosense.basic.util.FreemarkerUtil;
 import com.rosense.basic.util.MD5Util;
-import com.rosense.basic.util.SendEmailUtil;
 import com.rosense.basic.util.StringUtil;
 import com.rosense.basic.util.cons.Const;
 import com.rosense.basic.util.date.DateUtils;
 import com.rosense.module.cache.Caches;
 import com.rosense.module.common.service.BaseService;
 import com.rosense.module.common.web.servlet.WebContextUtil;
-import com.rosense.module.system.entity.HolidaysUsersEntity;
 import com.rosense.module.system.entity.ClassEntity;
 import com.rosense.module.system.entity.PermitsMenuEntity;
-import com.rosense.module.system.entity.StudentEntity;
 import com.rosense.module.system.entity.RoleEntity;
-import com.rosense.module.system.entity.TransferEntity;
+import com.rosense.module.system.entity.StudentEntity;
 import com.rosense.module.system.entity.UserEntity;
 import com.rosense.module.system.service.IStudentService;
 import com.rosense.module.system.web.form.ACLForm;
 import com.rosense.module.system.web.form.AuthForm;
-import com.rosense.module.system.web.form.LoginSession;
 import com.rosense.module.system.web.form.LoginUser;
-import com.rosense.module.system.web.form.OrgForm;
 import com.rosense.module.system.web.form.RoleForm;
-import com.rosense.module.system.web.form.UserForm;
 import com.rosense.module.system.web.form.UserForm;
 
 import net.sf.json.JSONObject;
 
-/**
- * 删除用户操作，只删除用户账号的数据，用户对于的员工信息见不会删除， 员工删除操作需员工管理页面下进行操作
- *
- */
+
 @Service("studentService")
 @Transactional
 public class StudentService extends BaseService implements IStudentService {
@@ -74,8 +60,6 @@ public class StudentService extends BaseService implements IStudentService {
 	private IBaseDao<RoleEntity> roleDao;
 	@Inject
 	private IBaseDao<PermitsMenuEntity> permitsMenuDao;
-	@Inject
-	private IBaseDao<HolidaysUsersEntity> huDao;
 	@Inject
 	private IBaseDao<ClassEntity> basedaoClass;
 
@@ -214,7 +198,7 @@ public class StudentService extends BaseService implements IStudentService {
 			return this.userDao.listSQL(sql, UserForm.class, false);
 		} catch (Exception e) {
 			e.printStackTrace();
-			logger.error("加载人员信息失败===>异常信息：", e);
+			logger.error("加载信息失败===>异常信息：", e);
 			throw new ServiceException("加载用户信息异常：", e);
 		}
 	}
@@ -265,8 +249,8 @@ public class StudentService extends BaseService implements IStudentService {
 			return dg;
 		} catch (Exception e) {
 			e.printStackTrace();
-			logger.error("加载人员列表信息失败===>异常信息：", e);
-			throw new ServiceException("加载人员列表信息异常：", e);
+			logger.error("加载列表信息失败===>异常信息：", e);
+			throw new ServiceException("加载列表信息异常：", e);
 		}
 	}
 
@@ -329,62 +313,8 @@ public class StudentService extends BaseService implements IStudentService {
 		}
 	}
 
-
-	public DataGrid datagrid(UserForm form,String selectType,String searchKeyName) {
-		if (null == form.getSort()) {
-			SystemContext.setSort("u.status desc,u.created");
-			SystemContext.setOrder("desc");
-		} else {
-			SystemContext.setSort("u." + form.getSort());
-			SystemContext.setOrder(form.getOrder());
-		}
-		try {
-			List<UserForm> forms = new ArrayList<UserForm>();
-			Pager<UserForm> pager = this.find(form,selectType,searchKeyName);
-			if (null != pager && !pager.getDataRows().isEmpty()) {
-				for (UserForm pf : pager.getDataRows()) {
-					if (null != pf.getId()) {
-						// 获取角色
-						List<RoleForm> roles = this.roleDao.listSQL(
-								"select r.name from simple_user_roles t LEFT JOIN simple_role r on(r.id=t.roleId) WHERE t.userId=?",
-								new Object[] { pf.getId() }, RoleForm.class, false);
-						if (null != roles) {
-							StringBuffer s = new StringBuffer();
-							for (RoleForm r : roles) {
-								s.append(r.getName() + ",");
-							}
-							pf.setRole_names((s.length() > 0 ? s.deleteCharAt(s.length() - 1).toString() : ""));
-						}
-					} else {
-						pf.setStatus(2);
-					}
-					forms.add(pf);
-				}
-			}
-			DataGrid dg = new DataGrid();
-			dg.setTotal(pager.getTotal());
-			dg.setRows(forms);
-			return dg;
-		} catch (Exception e) {
-			e.printStackTrace();
-			logger.error("加载人员列表信息失败===>异常信息：", e);
-			throw new ServiceException("加载人员列表信息异常：", e);
-		}
-	}
-
-	private Pager<UserForm> find(UserForm form,String selectType,String searchKeyName ) {
-		Map<String, Object> alias = new HashMap<String, Object>();
-		String sql = "select u.*, e.sex, e.phone,e.cornet, e.email from simple_user u left join simple_person e ON(e.id=u.personId)  where 1=1 ";
-		if(StringUtil.isNotEmpty(searchKeyName)){
-			sql=addWhereSearch(sql, form, alias,selectType,searchKeyName);
-		}else{
-		   sql = addWhere(sql, form, alias);
-		}
-		return this.userDao.findSQL(sql, alias, UserForm.class, false);
-	}
-
 	/**
-	 * 员工信息筛选
+	 * 信息筛选
 	 * @param sql
 	 * @param form
 	 * @param params
@@ -467,51 +397,6 @@ public class StudentService extends BaseService implements IStudentService {
 		return sql;
 	}
 
-	public Msg resetPwd(String id) {
-		try {
-			if (StringUtil.isNotEmpty(id)) {
-				UserEntity user = this.userDao.load(UserEntity.class, id);
-				user.setPassword(MD5Util.md5(Const.DEFAULTPASS));
-				user.setCreated(new Date());
-				this.userDao.update(user);
-				this.logService.add("重置密码", "账号：[" + user.getAccount() + "]");
-				return new Msg(true, "重设密码成功！");
-			} else {
-				return new Msg(false, "重设密码失败！");
-			}
-		} catch (ServiceException e) {
-			return new Msg(false, "重设密码失败！");
-		}
-	}
-
-	public Msg lockUser(String id) {
-		try {
-			if (StringUtil.isNotEmpty(id)) {
-				UserEntity user = this.userDao.load(UserEntity.class, id);
-				if ("admin".equals(user.getAccount())) {
-					return new Msg(false, "演示账号不能锁定！");
-				}
-				if (user.getStatus() == 0) {
-					user.setStatus(1);
-					this.logService.add("账号锁定", "账号：[" + user.getAccount() + "]");
-				} else {
-					this.logService.add("账号解锁", "账号：[" + user.getAccount() + "]");
-					user.setStatus(0);
-				}
-				this.userDao.update(user);
-				if (user.getStatus() == 0) {
-					return new Msg(true, "账号已锁定！");
-				} else if (user.getStatus() == 1) {
-					return new Msg(true, "账号已解锁！");
-				}
-			}
-		} catch (ServiceException e) {
-			return new Msg(false, "程序发送错误！");
-		}
-
-		return new Msg(true, "出现错误！");
-	}
-
 	private int equlasVal(String param) {
 		String sql = "select u.* from simple_user u where " + param;
 		return this.userDao.countSQL(sql, false).intValue();
@@ -529,34 +414,7 @@ public class StudentService extends BaseService implements IStudentService {
 		return idString;
 	}
 
-	private int equlasValByPerson(String param) {
-		String sql = "select p.* from simple_person p where " + param;
-		return this.stuDao.countSQL(sql, false).intValue();
-	}
-
-	public Msg batchUserRole(UserForm form) {
-		try {
-			if (StringUtil.isNotEmpty(form.getId())) {
-				Set<RoleEntity> roles = new HashSet<RoleEntity>();
-				if (null != form.getRole_ids() && !"".equals(form.getRole_ids())) {
-					String[] ids = form.getRole_ids().split(",");
-					for (String id : ids) {
-						roles.add(this.roleDao.load(RoleEntity.class, id));
-					}
-				}
-
-				UserEntity user = this.userDao.load(UserEntity.class, form.getId());
-				user.setRoles(roles);
-				this.userDao.update(user);
-				this.logService.add("修改角色", "账号：[" + user.getAccount() + "]");
-				return new Msg(true, "加入角色成功！");
-			} else {
-				return new Msg(false, "加入角色失败！");
-			}
-		} catch (BeansException e) {
-			return new Msg(false, "批量加入角色失败！");
-		}
-	}
+	
 
 	public LoginUser loginCheck(LoginUser form) {
 		String sql = "select u.*,e.class_id,e.email,e.sex,e.phone,e.entrance_date_Str,e.province,e.cornet, e.grade, e.birthday, e.graduate_school,e.profession,e.accountAddr,e.accountPro,c.class_name class_name from simple_user u ";
@@ -572,7 +430,6 @@ public class StudentService extends BaseService implements IStudentService {
 			return null;
 		}
 
-		// 鑾峰彇瑙掕壊
 		List<RoleForm> roles = this.roleDao.listSQL(
 				"select r.id, r.name,r.defaultRole from simple_user_roles t LEFT JOIN simple_role r on(r.id=t.roleId) WHERE t.userId=?",
 				new Object[] { lu.getUserId() }, RoleForm.class, false);
@@ -594,9 +451,7 @@ public class StudentService extends BaseService implements IStudentService {
 		return lu;
 	}
 
-	/**
-	 * 获取登陆用户的权限 如果同时拥有用户授权，角色授权，部门授权，岗位授权，则进行权限累加，并去除重复的权限
-	 */
+	
 
 	public AuthForm getAuth(String userId) {
 		AuthForm auth = new AuthForm();
@@ -612,30 +467,20 @@ public class StudentService extends BaseService implements IStudentService {
 		List<Object[]> roleIds = this.roleDao
 				.listSQL("select r.userId, r.roleId from simple_user_roles r where r.userId=?", userId);
 
-		/********************************* 用户权限 **************************************/
+		//********************************* 用户权限 **************************************//*
 		// 获取用户权限
 		List<ACLForm> aclUserMenus = getAclMenus(userId, Const.PRINCIPAL_USER);
 		List<ACLForm> aclUserOpers = getAclOpers(userId, Const.PRINCIPAL_USER);
 		initTreeAndOpers(tree, opers, authUrl, aclUserMenus, aclUserOpers);
 
-		/********************************* 角色权限 **************************************/
+		//********************************* 角色权限 **************************************//*
 		// 获取用户角色权限
 		for (Object[] o : roleIds) {
 			List<ACLForm> aclRoleMenus = getAclMenus((String) o[1], Const.PRINCIPAL_ROLE);
 			List<ACLForm> aclRoleOpers = getAclOpers((String) o[1], Const.PRINCIPAL_ROLE);
 			initTreeAndOpers(tree, opers, authUrl, aclRoleMenus, aclRoleOpers);
 		}
-		/********************************** 部门权限 *************************************/
-		// 获取部门权限
-		List<ACLForm> aclOrgMenus = getAclMenus(user.getOrgId(), Const.PRINCIPAL_DEPT);
-		List<ACLForm> aclOrgOpers = getAclOpers(user.getOrgId(), Const.PRINCIPAL_DEPT);
-		initTreeAndOpers(tree, opers, authUrl, aclOrgMenus, aclOrgOpers);
-		/*********************************** 岗位权限 ************************************/
-		// 获取岗位权限
-		List<ACLForm> aclPositionMenus = getAclMenus(user.getPositionId(), Const.PRINCIPAL_POSITION);
-		List<ACLForm> aclPositionOpers = getAclOpers(user.getPositionId(), Const.PRINCIPAL_POSITION);
-		initTreeAndOpers(tree, opers, authUrl, aclPositionMenus, aclPositionOpers);
-
+		
 		auth.setAuthTree(tree);
 		auth.setAuthOpers(opers);
 		auth.setAuthUrl(authUrl);
@@ -698,89 +543,6 @@ public class StudentService extends BaseService implements IStudentService {
 		return new Msg(true, "删除成功");
 	}
 
-	public Msg addOrgForUser(String orgId, String users) {
-		String sql="select * from simple_org where id='"+orgId+"'";
-		OrgForm orgForm=(OrgForm) basedaoClass.queryObjectSQL(sql,OrgForm.class,false);
-		if(orgForm!=null){
-			
-			for (String userId : users.split(",")) {
-				try {
-					UserForm user = get(userId);
-					userId = user.getPersonId();
-					if(orgForm.getPid()!=null){
-						this.roleDao.executeSQL("update simple_person set orgId=?, orgChildId=? where id=?", new Object[] {orgForm.getPid(), orgId, userId });
-					}else{
-						this.roleDao.executeSQL("update simple_person set orgId=?, orgChildId=? where id=?", new Object[] {orgId, orgId, userId });
-					}
-					this.logService.add("添加用户部门", "账号：[" + user.getAccount() + "]");
-				} catch (Exception e) {
-				}
-			}
-			return new Msg(true, "添加成功");
-		}else{
-			return new Msg(false,"添加失败");
-		}
-		
-	}
-
-	public Msg deleteOrgForUser(String userId) {
-		this.roleDao.executeSQL("update simple_person set orgId=null where id=?", new Object[] { userId });
-		final LoginUser user = WebContextUtil.getCurrentUser().getUser();
-		this.logService.add("删除用户部门", "账号：[" + user.getAccount() + "]");
-		return new Msg(true, "删除成功");
-	}
-
-	public Msg addPositionForUser(String positionId, String users) {
-		for (String userId : users.split(",")) {
-			try {
-				UserForm user = get(userId);
-				userId = user.getPersonId();
-				this.roleDao.executeSQL("update simple_person set positionId=? where id=?",
-						new Object[] { positionId, userId });
-				this.logService.add("添加用户职位", "账号：[" + user.getAccount() + "]");
-			} catch (Exception e) {
-			}
-		}
-		return new Msg(true, "添加成功");
-	}
-
-	public Msg deletePositionForUser(String userId) {
-		this.roleDao.executeSQL("update simple_person set positionId=null where id=?", new Object[] { userId });
-		final LoginUser user = WebContextUtil.getCurrentUser().getUser();
-		this.logService.add("删除用户职位", "账号：[" + user.getAccount() + "]");
-		return new Msg(true, "删除成功");
-	}
-
-	public Msg updatePwd(UserForm form) {
-		final UserEntity user = this.userDao.load(UserEntity.class, WebContextUtil.getUserId());
-		if (!user.getPassword().equals(MD5Util.md5(form.getOldPwd()))) {
-			return new Msg(false, "旧密码不正确");
-		}
-		if ("admin".equals(user.getAccount())) {
-			return new Msg(false, "Demo系统，无法修改admin密码");
-		}
-		user.setPassword(MD5Util.md5(form.getPassword()));
-		this.userDao.update(user);
-		this.logService.add("修改密码", "账号：[" + user.getAccount() + "]");
-		return new Msg(true, "密码修改成功");
-	}
-
-	public Msg updatePhoto(final String photo) {
-		try {
-			final LoginUser user = WebContextUtil.getCurrentUser().getUser();
-			StudentEntity entity = this.stuDao.load(StudentEntity.class, user.getPersonId());
-			entity.setPhoto(photo);
-			this.stuDao.update(entity);
-			user.setPhoto(photo);
-			Map<String, String> map = Caches.getMap("USER", user.getUserId());
-			map.put("PHOTO", photo);
-			Caches.set("USER", user.getUserId(), map);
-			this.logService.add("上传照片", "账号：[" + user.getAccount() + "]");
-		} catch (Exception e) {
-		}
-		return new Msg(true);
-	}
-
 	@Override
 	public Msg importFile(List<UserForm> importUserList) {
 		// TODO Auto-generated method stub
@@ -825,7 +587,6 @@ public class StudentService extends BaseService implements IStudentService {
 			String nextDate = sd.format(cal.getTime());
 			String sql = "select * from simple_person where becomeStaffDate between '" + toDate + "' and '" + nextDate
 					+ "'";
-			//System.out.println(sql);
 			forms = this.userDao.listSQL(sql, UserForm.class, false);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -887,11 +648,11 @@ public class StudentService extends BaseService implements IStudentService {
 		}
 
 	}
-	
+
 	/**
 	 * 获取当前用户信息
 	 */
-	public UserForm selectCurUser(){
+	/*public UserForm selectCurUser(){
 		String sql="select e.*,c.class_name class_name from simple_user u left join simple_student e on(u.personId=e.id) ";
 		sql+= "left join simple_class c on(c.id=e.class_id) ";
 		sql+= "where u.id='"+WebContextUtil.getCurrentUser().getUser().getId()+"'";
@@ -903,10 +664,10 @@ public class StudentService extends BaseService implements IStudentService {
 		}
 	}
 	
-	/**
+	*//**
 	 * 获取当前用户的上级信息
 	 * @return
-	 */
+	 *//*
 	public List<UserForm> chargeTree(){
 		List<Integer> roleId=new ArrayList<Integer>();
 		List<String> roleName=new ArrayList<String>();
@@ -955,5 +716,5 @@ public class StudentService extends BaseService implements IStudentService {
 		}
 		
 	}
-
+*/
 }

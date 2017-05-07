@@ -6,33 +6,23 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.inject.Inject;
-import javax.xml.ws.Service.Mode;
 
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.servlet.ModelAndView;
 
-import com.alibaba.fastjson.support.spring.FastJsonJsonView;
 import com.rosense.basic.model.DataGrid;
 import com.rosense.basic.model.Msg;
 import com.rosense.basic.util.ImageUtils;
-import com.rosense.basic.util.SystemPath;
 import com.rosense.basic.util.cons.Const;
 import com.rosense.module.common.web.action.BaseController;
 import com.rosense.module.common.web.servlet.WebContextUtil;
-import com.rosense.module.system.entity.UserEntity;
 import com.rosense.module.system.service.IHolidayApplysService;
-import com.rosense.module.system.service.IOrgService;
-import com.rosense.module.system.service.IRoleService;
 import com.rosense.module.system.service.IUserService;
 import com.rosense.module.system.web.form.HolidayApplysForm;
-import com.rosense.module.system.web.form.OrgForm;
-import com.rosense.module.system.web.form.RoleForm;
 import com.rosense.module.system.web.form.UserForm;
 
 @Controller
@@ -42,8 +32,6 @@ public class HolidayApplyAction extends BaseController {
 	private IHolidayApplysService holidayApplysService;
 	@Inject
 	private IUserService userService;
-	@Inject
-	private IOrgService orgService;
 
 	@RequestMapping("/add.do")
 	@ResponseBody

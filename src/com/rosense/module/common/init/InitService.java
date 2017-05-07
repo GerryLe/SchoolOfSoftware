@@ -27,9 +27,7 @@ import com.rosense.basic.util.cons.Const;
 import com.rosense.module.cache.Caches;
 import com.rosense.module.cache.CachesUtil;
 import com.rosense.module.system.entity.MenuEntity;
-import com.rosense.module.system.entity.ProcedureEntity;
 import com.rosense.module.system.service.IMenuService;
-import com.rosense.module.system.service.IProcedureService;
 
 /**
  * 

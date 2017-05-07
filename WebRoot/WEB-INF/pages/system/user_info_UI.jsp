@@ -90,81 +90,6 @@ display:none;
 				</div>
 			</div>
 		</div>
-	
-	
-		<div class="panel panel-default" style="display: none">
-			 <div class="panel-heading" role="tab" id="headingOne">
-				<h4 class="panel-title">
-					<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne"> 修改资料 </a>
-				</h4>
-			</div> 
-			<div id="collapseOne" class="panel-collapse collapse in" role="tabpanel">
-				<div class="panel-body row">
-				   <form id="form-user-info" method="post">
-						<input type="hidden" name="id" value="<%=WebContextUtil.getUserId()%>">
-					<div class="form-group col-md-6 user_inf">
-						<label for="chinaname">中文名</label> 
-					<input type="text" class="form-control" name="chinaname" id="chinaname" placeholder="输入中文名">
-					</div>
-					
-					<div class="form-group col-md-6">
-						<label for="name">英文名</label> 
-						<input type="text" class="form-control" name="name" id="name" placeholder="输入英文名">
-					</div>
-					
-					<div class="form-group col-md-6">
-						<label for="email">邮箱</label> 
-						<input type="email" class="form-control" name="email" id="email" placeholder="输入邮箱">
-					</div>
-					
-					<div class="form-group col-md-6">
-						<label for="phone">手机<span id="phonereg" style="color: red; font-size: 12px;  display：none;"></span></label> 
-						<input type="tel" class="form-control" name="phone" id="phone" placeholder="输入手机">
-					</div>
-					
-					<div class="form-group col-md-6">
-						<label for="sex">性别</label> 
-						<select class="form-control" id="sex" name="sex">
-							<option value="男">男</option>
-							<option value="女">女</option>
-						</select>
-					</div>
-					
-					<div class="form-group col-md-6">
-						<label for="province">地区</label>
-						<div class="form-control formselect" style="border:none">
-						<select name="province" id="province" style="height: 30px;width:120px;"></select> 
-				        <select name="city" id="city" style="height: 30px;width:120px;"></select> 
-				        <select id="area" name="area" style="display: none"></select>
-				        </div> 
-					</div>
-					
-					<div class="form-group col-md-6 user_inf" >
-						<label for="orgId">部门</label>
-						 <select class="form-control" id="orgId" name="orgId"> </select>
-					</div>
-					
-					<div class="form-group col-md-6 user_inf">
-						<label for="positionId">岗位</label>
-						<select class="form-control" id="positionId" name="positionId"> </select>
-					</div>
-					
-					<div class="form-group col-md-6 user_inf">
-						<label for="employmentStr">入职日期</label> 
-						  <div class="input-group date form_dateu col-md-5" data-date="" data-date-format="yyyy-mm-dd" data-link-field="employmentDate" data-link-format="yyyy-mm-dd">
-					                   <input class=""  type="text" id="employmentStr" name="employmentStr" readonly >
-					                   <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-									<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-					      </div>
-						 <!--  <input type="hidden" id="employmentDate" name="employmentDate" value="" /><br/>--> 
-				    </div>
-						<div class="form-group col-md-12">
-							<button class="btn btn-success phone-success" style="float: right;" type="submit">保存</button>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div> 
 		<div class="panel panel-default">
 			<div class="panel-heading" role="tab" id="headingOne">
 				<h4 class="panel-title">
@@ -217,29 +142,11 @@ display:none;
 <script>
      var flag=false;
 	 var form_url = null;
-	 var orgtree = $.webapp.root + "/admin/system/org/tree.do";
-	 var ptree = $.webapp.root + "/admin/system/position/tree.do";
 	 var $person_table;
+	 var currentRole=<%=WebContextUtil.getCurrentUser().getUser().getDefaultRole()%>
 	$(function() {
 		var href = $.webapp.root + "/admin/system/user/get.do";
 		form_url = $.webapp.root + "/admin/system/user/update.do";
-		region_init("province","city","area");
-		$.BOOT.autoselect("orgId", orgtree, {
-			title : "选择部门"
-		});
-		$.BOOT.autoselect("positionId", ptree, {
-			title : "选择职位"
-		});
-		$('.form_dateu').datetimepicker({
-	        language:  'zh-CN',
-	        weekStart: 1,
-	        todayBtn:  1,
-			autoclose: 1,
-			todayHighlight: 1,
-			startView: 2,
-			minView: 2,
-			forceParse: 0
-	    });
 		if ($('input[name=id]').val().length > 0) {
 			$.post(href, {
 				id : $('input[name=id]').val()
@@ -247,8 +154,8 @@ display:none;
 				$('#form-user-info').form('load', result);
 			}, 'json');
 		}
-		
-		$person_table = $.BOOT.table("person_table", $.webapp.root
+		if(currentRole==4){
+		 $person_table = $.BOOT.table("person_table", $.webapp.root
 				+ "/admin/system/student/datagridpersonal.do", {
 					columns : [ {
 						field : 'stu_no',
@@ -267,6 +174,9 @@ display:none;
 					},{
 						field : 'phone',
 						title : '手机',
+					},{
+						field : 'cornet',
+						title : '短号',
 					},{
 						field : 'email',
 						title : '邮箱',
@@ -318,9 +228,77 @@ display:none;
 					}],
 			paginationInfo : true,
 			showExport : true
-		});
-
-		
+		  });
+		}else{
+			$person_table = $.BOOT.table("person_table", $.webapp.root
+					+ "/admin/system/teacher/datagridpersonal.do", {
+						columns : [ {
+							field : 'tea_no',
+							title : '编号',
+							sortable : true
+						}, {
+							field : 'tea_name',
+							title : '姓名',
+							sortable : true
+						}, {
+							field : 'stu_name',
+							title : '姓名',
+						}, {
+							field : 'sex',
+							title : '性别',
+						},{
+							field : 'phone',
+							title : '手机',
+						},{
+							field : 'cornet',
+							title : '短号',
+						},{
+							field : 'email',
+							title : '邮箱',
+						}, {
+							field : 'birthday',
+							title : '出生年月'
+						}, {
+							field : 'idcard',
+							title : '身份证号码',
+						}, {
+							field : 'province',
+							title : '省份',
+						},  {
+							field : 'city',
+							title : '城市',
+						},{
+						    field : 'entrance_date_Str',
+						    title : '入学日期'
+					    }, {
+						   field : 'nation',
+						   title : '民族',
+					    },{
+							field : 'politicalFace',
+							title : '政治面貌',
+						},{
+							field : 'origin',
+							title : '籍贯',
+						},{
+							field : 'accountAddr',
+							title : '户籍地址',
+						},{
+							field : 'accountPro',
+							title : '户口性质',
+						},{
+							field : 'contact',
+							title : '联系人',
+						},{
+							field : 'contactPhone',
+							title : '联系人电话',
+						},{
+							field : 'material',
+							title : '资料',
+						}],
+				paginationInfo : true,
+				showExport : true
+			  });
+		}
 	}); 
 	
 	$.BOOT.form("form-user-info", {}, function(params) {
@@ -378,28 +356,4 @@ display:none;
 		};
 		$("#formhomepage-0").ajaxSubmit(options);
 	}
- 	
- 	$("#phone").blur(function(){
-		 var flag=false;
-	      var message = "";
-	      //var myreg = /^(((13[0-9]{1})|(14[0-9]{1})|(17[0]{1})|(15[0-3]{1})|(15[5-9]{1})|(18[0-9]{1}))+\d{8})$/;  
-	      var myreg=/^1[3|4|5|8]\d{9}$/;
-		  phone = this.value;
-	      if(phone.length !=11){
-	        message = "请输入有效的手机号码,为11位！";
-	      }else if(!myreg.test(phone)){
-	        message = "请输入有效的手机号码！";
-	      }else{
-	    	  $("#phonereg").hide();
-	    	  $(".phone-success").removeAttr("disabled"); 
-	    	  flag=true;
-	      }
-	      if(!flag){
-	     //提示错误效果
-	        $("#phonereg").html(message);
-	        $(".phone-success").attr("disabled", true);
-	      }
-	      
-	}); 
- 	
 </script>
