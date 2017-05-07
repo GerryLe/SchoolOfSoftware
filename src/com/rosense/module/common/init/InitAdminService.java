@@ -16,7 +16,7 @@ import com.rosense.basic.util.MD5Util;
 import com.rosense.module.system.entity.MenuEntity;
 import com.rosense.module.system.entity.PermitsMenuEntity;
 import com.rosense.module.system.entity.PermitsOperEntity;
-import com.rosense.module.system.entity.StudentEntity;
+import com.rosense.module.system.entity.TeacherEntity;
 import com.rosense.module.system.entity.RoleEntity;
 import com.rosense.module.system.entity.UserEntity;
 import com.rosense.module.system.web.form.MenuForm;
@@ -39,7 +39,7 @@ public class InitAdminService {
 	@Autowired
 	private IBaseDao<RoleEntity> basedaoRole;
 	@Autowired
-	private IBaseDao<StudentEntity> basedaoStudent;
+	private IBaseDao<TeacherEntity> teacherStudent;
 	@Autowired
 	private IBaseDao<UserEntity> basedaoUser;
 
@@ -58,11 +58,13 @@ public class InitAdminService {
 
 		List<UserEntity> list = this.basedaoUser.list("from UserEntity where account='admin'");
 		if (list == null || list.isEmpty()) {
-			StudentEntity p = new StudentEntity();
+			TeacherEntity p = new TeacherEntity();
 			p.setSex("女");
 			p.setEmail("1980921973@qq.com");
 			p.setPhone("18320323579");
-			this.basedaoStudent.add(p);
+			p.setTea_name("admin");
+			p.setTea_no("201314354117");
+			this.teacherStudent.add(p);
 
 			Set<RoleEntity> roles = new HashSet<RoleEntity>();
 			roles.add(role);
@@ -70,8 +72,8 @@ public class InitAdminService {
 			UserEntity u = new UserEntity();
 			u.setAccount("admin");
 			u.setName("admin");
-			u.setStu_name("admin");
-			u.setStu_no("2013354117");
+			u.setTea_name("admin");
+			u.setTea_no("201314354117");
 			u.setPassword(MD5Util.md5("123456"));
 			u.setStatus(0);
 			u.setCreated(new Date());

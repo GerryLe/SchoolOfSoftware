@@ -54,9 +54,9 @@ body {
 			}
 		}
 	}, function(params) {
-		var hrefLogin="/system/login/login.do";
-		if($("input:radio:checked").val()=="teacher"){
-			hrefLogin="/system/login/loginTeacher.do";
+		var hrefLogin="/system/login/loginTeacher.do";
+		if($("input:radio:checked").val()=="student"){
+			hrefLogin="/system/login/login.do";
 		}
 		$.post(hrefLogin, params, function(result) {
 			var href = "window.location.replace('/admin/index/index.do')";

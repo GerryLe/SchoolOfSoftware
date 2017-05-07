@@ -22,6 +22,7 @@ import com.rosense.basic.model.SystemContext;
 import com.rosense.basic.util.BeanUtils;
 import com.rosense.basic.util.StringUtil;
 import com.rosense.basic.util.date.DateUtils;
+import com.rosense.module.common.web.servlet.WebContextUtil;
 import com.rosense.module.system.entity.ScoreEntity;
 import com.rosense.module.system.service.IScoreService;
 import com.rosense.module.system.web.form.ScoreForm;
@@ -102,6 +103,40 @@ public class ScoreService implements IScoreService {
 		}
 	}
 
+	@Override
+	public DataGrid datagridPersonal(ScoreForm form) {
+		if (null == form.getSort()) {
+			SystemContext.setSort("u.account");
+			SystemContext.setOrder("desc");
+		}else {
+			SystemContext.setSort("u." + form.getSort());
+			SystemContext.setOrder(form.getOrder());
+		}
+		try{
+			List<ScoreForm> forms=new ArrayList<ScoreForm>();
+			Map<String, Object> alias=new HashMap<String,Object>();
+			String sql="select u.id uuid, u.account stu_no,u.name stu_name ,c.course_name course_name ,a.* from simple_user u ";
+			sql+=" right join simple_score a on(u.id=a.uid) ";
+			sql+=" left join simple_course c on(c.id=a.course_id) ";
+			sql += "where u.id='"+WebContextUtil.getUserId()+"' ";
+			 sql = addWhere(sql, form, alias);
+			 Pager<ScoreForm> pager = this.scoreDao.findSQL(sql, alias, ScoreForm.class, false);
+				if (null != pager && !pager.getDataRows().isEmpty()) {
+					for (ScoreForm pf : pager.getDataRows()) {
+						 forms.add(pf);
+					}
+				}
+				DataGrid dg = new DataGrid();
+				dg.setTotal(pager.getTotal());
+				dg.setRows(forms);
+				return dg;
+		}catch(Exception e){
+			e.printStackTrace();
+			logger.error("加载列表信息失败===>异常信息：", e);
+			throw new ServiceException("加载列表信息异常：", e);
+		}
+	}
+	
 	@Override
 	public Msg delete(UserForm form) {
 		// TODO Auto-generated method stub

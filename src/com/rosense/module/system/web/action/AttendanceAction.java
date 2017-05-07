@@ -63,5 +63,14 @@ public class AttendanceAction extends BaseController {
 	public DataGrid datagrid(AttendanceForm form) throws Exception {
 		return this.attenService.datagrid(form);
 	}
+	
+	/**
+	 * 查询个人考勤信息
+	 */
+	@RequestMapping("/datagridPersonal.do")
+	@ResponseBody
+	public DataGrid datagridPersonal(AttendanceForm form) throws Exception {
+		return this.attenService.datagridPersonal(form);
+	}
 
 } 

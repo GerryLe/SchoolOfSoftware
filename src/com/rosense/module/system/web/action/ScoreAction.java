@@ -104,4 +104,13 @@ public class ScoreAction extends BaseController {
 	public DataGrid datagrid(ScoreForm form) throws Exception {
 		return this.scoreService.datagrid(form);
 	}
+	
+	/**
+	 * 查询个人成绩信息
+	 */
+	@RequestMapping("/datagridPersonal.do")
+	@ResponseBody
+	public DataGrid datagridPersonal(ScoreForm form) throws Exception {
+		return this.scoreService.datagridPersonal(form);
+	}
 } 

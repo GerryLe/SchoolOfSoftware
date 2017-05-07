@@ -256,6 +256,26 @@ margin-top: 0px;
 				$("#save_addScore").removeAttr("disabled")
 				return;
 			}
+			if($("#school_year").val()==null){
+				alert("请选择学年");
+				$("#save_addAttendance").removeAttr("disabled")
+				return;
+			}
+			if($("#semester").val()==null){
+				alert("请选择学期");
+				$("#save_addAttendance").removeAttr("disabled")
+				return;
+			}
+			if($("#class_id").val()==null){
+				alert("请选择班级");
+				$("#save_addAttendance").removeAttr("disabled")
+				return;
+			}
+			if($("#course_id").val()==null){
+				alert("请选择课程");
+				$("#save_addAttendance").removeAttr("disabled")
+				return;
+			}
 			var param=$.map(selects, function(row) {
 				    return 'id='+row.id+'&uuid='+row.uuid+'&stu_no='+row.stu_no+'&stu_name='+row.stu_name
 				    +'&credit='+$("input[name="+row.stu_no+"credit]").val()

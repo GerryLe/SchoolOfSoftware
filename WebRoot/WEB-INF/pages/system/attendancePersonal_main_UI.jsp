@@ -30,11 +30,6 @@ margin-top: 0px;
 }
 -->
 </style>
-<div class="" id="addAttendanceModal" role="dialog" tabindex="-1">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<form id="form_addAttendance" novalidate="novalidate" class="bv-form">
-			   <div class="modal-body" id="content_addAttendance">
 			      <section class="content">
 				<!-- <div id="person-form-id"></div> -->
 				<input type="hidden" name="id" value="${id}"/>
@@ -54,12 +49,6 @@ margin-top: 0px;
 					     background-color: #F0F0F0; float: right" ><span class="glyphicon glyphicon-calendar"></span></span>
 					 </div> 
 					 
-					 <div class="btn-toolbar">
-						<select class="form-control" id="class_id" name="class_id" style="width: 180px;" onchange="recordChange()" > </select>
-					 </div>
-					 <div class="btn-toolbar">
-						<select class="form-control" id="class_pid" name="class_pid" style="width: 150px;" onchange="classChange()" > </select>
-					 </div>
 					  <div class="btn-toolbar">
 						<select class="form-control" id="semester" name="semester" style="width: 150px;"  onchange="recordChange()"> 
 						    <option value="" selected="selected">--选择学期--</option>
@@ -83,29 +72,14 @@ margin-top: 0px;
 				</div>
 			  <table id="attendance_table" class="table-condensed table table-hover"
 				  data-row-style="rowStyle" data-side-pagination="server"></table>
-					 <!-- <div class="btn-toolbar">
-						<button type="submit" class="btn btn1 btn-primary " id="attendance_commit" style="display: none">提交</button>
-					</div> -->
 			  </section>
-		      </div>
-			<div class="modal-footer">
-				<button type="submit" class="btn btn1 btn-primary" id="save_addAttendance">提交</button>
-			</div>
-			</form>
-		</div>
-	</div>
-</div>
 <script type="text/javascript">
 	var $student_table;
 	var classtree = $.webapp.root + "/admin/system/class/pidtree.do";
 	var  currentDate='<%=DateUtils.formatYYYYMMDD(new Date())%>';
-	var getUrl=$.webapp.root+ "/admin/system/attendance/datagrid.do";
-	var formUrl = $.webapp.root + "/admin/system/attendance/update.do";
+	var getUrl=$.webapp.root+ "/admin/system/attendance/datagridPersonal.do";
 	$(function() {
 		$("#apply_date").val(currentDate);
-		$.BOOT.autoselect("class_pid", classtree, {
-			title : "选择年级"
-		});
 		
 		$attendance_table = $.BOOT.table("attendance_table",getUrl, {
 			columns : [{
@@ -125,32 +99,6 @@ margin-top: 0px;
 					return value;
 				}
 			},{
-				field : 'status',
-				title : '全选',
-				align : "center",
-				valign : "middle",
-				checkbox : true,
-				//visible : false,
-				formatter : function(value, row, index) {
-						return {
-						checked : true
-					    };
-				}
-			},{
-				field : 'stu_no',
-				title : '学号',
-				sortable : true,
-				formatter : function(value, row, index) {
-					$("#uuid").val(value)
-					return value;
-				}
-			}, {
-				field : 'stu_name',
-				title : '姓名',
-				formatter : function(value, row, index) {
-					return value;
-				}
-			}, {
 				field : 'section1',
 				title : '第一节',
 				align : "center",
@@ -316,7 +264,6 @@ margin-top: 0px;
 			minView: 2,
 			forceParse: 0
 	    });
-		//$('#attendance_table').bootstrapTable('hideColumn', 'status');
 		
 	});
 	
@@ -329,104 +276,13 @@ margin-top: 0px;
 		return {};
 	}
 	
-
-	/* $("#apply_date").addEventListener("change",changeValue(),false)
-	
-	function changeValue(){
-		alert('changed');
-		}  */
-	
-	/* 筛选用户信息 */
-	/* $(document).on("click", "#buttonByKey", function() {
-	     $attendance_table.bootstrapTable('refresh', 
-				//{url: "/admin/system/user/datagridperson.do?searchKeyName="+$("#searchKeyName").val()+"&selectType="+$("#selectType").val()+""}); 
-	    		 {url: "/admin/system/student/datagridperson.do?class_id="+$("#class_id").val()+""}); 
-	  }); */
-	 
-	 function classChange(){
-	 	 $("#class_id").html("");
-	 	  var selectId = $('#class_pid>option:selected');
-	       selectId.html(function(){
-	     	  var orgchildtree = $.webapp.root + '/admin/system/class/treeChild.do?pid='+this.value;
-	 		  $.BOOT.autoselect("class_id", orgchildtree, {
-	 	 			title : "选择班级"
-	 	 	}); 
-	   })
-	 }
-	 
 	 //条件筛选记录
 	  function recordChange(){
 		//首先加载考勤表信息，为空，从学生表获取信息
-		var keyUrl="/admin/system/attendance/datagrid.do?school_year="+$("#school_year").val()+"&semester="+$("#semester").val()+"&class_id="+$("#class_id").val()+"&apply_date="+$("#apply_date").val()+"";
+		var keyUrl="/admin/system/attendance/datagridPersonal.do?school_year="+$("#school_year").val()+"&semester="+$("#semester").val()+"&apply_date="+$("#apply_date").val()+"";
 			 $.get(keyUrl, {}, function(result) {
-				             if(result.total==0){
-				            	 keyUrl=$.webapp.root+ "/admin/system/student/datagridperson.do?school_year="+$("#school_year").val()+"&semester="+$("#semester").val()+"&class_id="+$("#class_id").val()+"&apply_date="+$("#apply_date").val()+"";
-				            	 formUrl = $.webapp.root + "/admin/system/attendance/add.do";
-				             }
 				            $attendance_table.bootstrapTable('refresh', {url: keyUrl}); 
 						}, 'json'); 
 		 
 	 } 
-	 //指定班级学生
-	 function getStuByClass(){
-		  $attendance_table.bootstrapTable('refresh', 
-					{url: "/admin/system/student/datagridperson.do?class_id="+$("#class_id").val()+""}); 
-		
-	 }
-	 
-	 //选中考勤时自动赋值
-	/*  function AttenCheck(c){
-		  $("input.section:checked").each(function(){
-			    var name=$(c).attr("name")
-				$("input[name="+name+"]").val(1)
-				//alert( $("input[name="+name+"]").val())
-	 		})
-	 	
-	 } */
-
-	$.BOOT.form("form_addAttendance", {}, function(params) {
-		$("input.section:checked").val(1);
-		var selects = $attendance_table.bootstrapTable('getSelections');
-		if(selects.length==0){
-			alert("请在左边勾选要提交信息记录");
-			$("#save_addAttendance").removeAttr("disabled")
-			return;
-		}
-		if($("#school_year").val()==null){
-			alert("请选择学年");
-			$("#save_addAttendance").removeAttr("disabled")
-			return;
-		}
-		if($("#semester").val()==null){
-			alert("请选择学期");
-			$("#save_addAttendance").removeAttr("disabled")
-			return;
-		}
-		if($("#class_id").val()==null){
-			alert("请选择班级");
-			$("#save_addAttendance").removeAttr("disabled")
-			return;
-		}
-		var param=$.map(selects, function(row) {
-			    return 'id='+row.id+'&uuid='+row.uuid+'&stu_no='+row.stu_no+'&stu_name='+row.stu_name+'&section1='+$("input[name="+row.stu_no+"section1]").val()
-			    +'&section2='+$("input[name="+row.stu_no+"section2]").val()+'&section3='+$("input[name="+row.stu_no+"section3]").val()
-			    +'&section4='+$("input[name="+row.stu_no+"section4]").val()+'&section5='+$("input[name="+row.stu_no+"section5]").val()
-			    +'&section6='+$("input[name="+row.stu_no+"section6]").val()+'&section7='+$("input[name="+row.stu_no+"section7]").val()
-			    +'&section8='+$("input[name="+row.stu_no+"section8]").val()+'&section9='+$("input[name="+row.stu_no+"section9]").val()
-			    +'&section10='+$("input[name="+row.stu_no+"section10]").val()+'&section11='+$("input[name="+row.stu_no+"section11]").val()
-			    +'&school_year='+$("#school_year").val() +'&class_id='+$("#class_id").val()+'&semester='+$("#semester").val()
-			    +'&apply_date='+$("#apply_date").val();
-		  });
-		param=param.join(",");
-		var par=param.split(",");
-		for(var i=0;i<par.length;i++){
-			 $.post(formUrl, par[i], function(result) {
-				 $attendance_table.bootstrapTable('refresh');
-				$.BOOT.toast1(result);
-				$("#save_addAttendance").removeAttr("disabled")
-				}, 'json'); 
-		}
-
-	});
-	
 </script>

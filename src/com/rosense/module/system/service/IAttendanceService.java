@@ -29,6 +29,11 @@ public interface IAttendanceService {
 	public DataGrid datagrid(AttendanceForm form);
 	
 	/**
+	 * 查询个人信息
+	 */
+	public DataGrid datagridPersonal(AttendanceForm form);
+	
+	/**
 	 * 删除信息
 	 */
 	public Msg delete(UserForm form);

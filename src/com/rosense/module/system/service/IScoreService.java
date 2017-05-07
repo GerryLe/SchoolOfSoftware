@@ -29,6 +29,11 @@ public interface IScoreService {
 	public DataGrid datagrid(ScoreForm form);
 	
 	/**
+	 * 查询个人信息
+	 */
+	public DataGrid datagridPersonal(ScoreForm form);
+	
+	/**
 	 * 删除信息
 	 */
 	public Msg delete(UserForm form);

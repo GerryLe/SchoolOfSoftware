@@ -49,6 +49,8 @@
 			<entity name="删除信息" type="O" href="/admin/system/attendance/delete.do"/>
 			<entity name="查看对象" type="O" href="/admin/system/attendance/get.do"/>
 	    </entity>
+	     <entity name="考勤查询" iconCls="fa-user-secret" type="M" href="/admin/system/attendance/attendancePersonal_main_UI.do">
+	    </entity>
 	    
 		<entity name="请假管理" type="M" iconCls="fa-calendar" href="/admin/system/holidayapplys/holidayapply_main_UI.do">
 			<entity name="申请假期" type="O" href="/admin/system/holidayapplys/add.do"/>
@@ -79,6 +81,8 @@
 			<entity name="删除成绩" type="O" href="/admin/system/score/delete.do"/>
 			<entity name="修改成绩" type="O" href="/admin/system/score/update.do"/>
 			<entity name="添加成绩" type="O" href="/admin/system/score/add.do"/>
+		</entity>
+		<entity name="成绩查询" type="M" iconCls="fa-calendar" href="/admin/system/score/scorePersonal_main_UI.do">
 		</entity>
 	    
 	    <entity name="角色管理" type="M" iconCls="fa-share-alt" href="/admin/system/role/role_main_UI.do">

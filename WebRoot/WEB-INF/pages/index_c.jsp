@@ -178,69 +178,12 @@ a {
 			<a href="#wheel" class="wheel-button">
 				<span style="width:180px; height:180px; border-radius:50%; overflow:hidden;"><img alt="点击" src="${webRoot}/template/resource/procedure/images/lingnan.png" width="180px" height="180" border-radius="50%" style="vertical-align: middle;"></span>
 			</a>
-			<div class="pointer">Ling-Nan网址</div>
-			<ul id="wheel" class="wheel" data-angle="all">
-				<li class="item">
-					<a href="/admin/system/procedure/entry_main_UI.do" target="kk">图书馆</a>
-				</li>
-				<li class="item">
-					<a href="/admin/system/procedure/leave_main_UI.do" target="kk">正方系统</a>
-				</li>
-				<li class="item">
-					<a href="/admin/system/procedure/employLeave_main_UI.do" target="kk">ACM网址</a>
-				</li>
-				<li class="item">
-					<a href="/admin/system/procedure/employEntry_main_UI.do" target="kk">PRC员工入职</a>
-				</li>
-				<li class="item">
-					<a href="/admin/system/procedure/becomestaff_main_UI.do" target="kk">内部PRC转正流程图</a>
-				</li>
-				<li class="item">
-					<a href="/admin/system/procedure/ reassign_main_UI.do" target="kk">内部PRC转调流程图</a>
-				</li>
-				<li class="item">
-					<a href="/admin/system/procedure/suAddWorkHoliday_main_UI.do" target="kk">加班与假期申请及审批流程（日常）</a>
-				</li>
-				<!-- <li class="item">
-					<a href="/admin/system/procedure/otherHoliday_main_UI.do" target="kk">病假、婚假、产假（陪产假）申请流程</a>
-				</li>
-				<li class="item">
-					<a href="/admin/system/procedure/addWorkHoliday_main_UI.do" target="kk">加班与假期申请及审批流程</a>
-				</li> -->
-				<li class="item">
-					<a href="/admin/system/procedure/procecar_main_UI.do" target="kk">预订出差人员机票、车票流程</a>
-				</li>
-				<li class="item">
-					<a href="/admin/system/procedure/proceroom_main_UI.do" target="kk">预订出差人员住宿酒店流程</a>
-				</li>
-				<li class="item">
-					<a href="/admin/system/procedure/suStationery_main_UI.do" target="kk">文具采购流程（日常）</a>
-				</li>
-				<li class="item">
-					<a href="/admin/system/procedure/stationery_main_UI.do" target="kk">文具采购流程</a>
-				</li>
-				<li class="item">
-					<a href="/admin/system/procedure/circuitcard_main_UI.do" target="kk">印制名片流程</a>
-				</li>
-				<li class="item">
-					<a href="/admin/system/procedure/check_main_UI.do" target="kk">每月考勤统计流程</a>
-				</li>
-				<li class="item">
-					<a href="/admin/system/procedure/comeAndLeaCard_main_UI.do" target="kk">入、离职员工工卡管理流程</a>
-				</li>
-				<li class="item">
-					<a href="/admin/system/procedure/seal_main_UI.do" target="kk">盖章流程（</a>
-				</li>
-				<li class="item">
-					<a href="/admin/system/procedure/place_main_UI.do" target="kk">场地管理流程</a>
-				</li>
-			</ul>
+			<div class="pointer">Ling-Nan</div>
 		</div>
 	   </div> 
 	</div>
 	<div class="control-sidebar-bg"></div>
 </div>
-<!-- ./wrapper -->
 <script type="text/javascript">
 	var cache_json = "${cache}".replace(/=/g, ":");
 	cache_json = eval("(" + cache_json + ")");
@@ -259,13 +202,6 @@ a {
 		});
 		$("#sidebar-menu").css("height", $.webapp.getInner().height - 50);
 		
-		//动态获取流程节点信息
-		 /* var href = $.webapp.root + "/admin/system/procedure/treeToJSON.do";
-		$.post(href, {
-			d : new Date().getTime()
-		}, function(result) {
-			new AccordionMenu({menuArrs:result});
-		}, 'json');  */
 		
 		$(".wheel-button").wheelmenu({
 	        trigger: "hover",
@@ -273,20 +209,11 @@ a {
 	        animationSpeed: "fast"
 	      });
 	});
-	/* $("#simle-tab_content").load("/admin/system/procedure/proceduremenu_main_UI.do"); */
-	
-	
-	//点击菜单隐藏流程图菜单
+	//点击菜单隐藏图标
 	 $("#sidebar-menu").click(function(){
 		 $(".wrapperr").hide();
-		//$("#simle-tab_content").html("");
 	});  
 	
-	 $(document).on("click",".item",function(){
-		  window.open($.webapp.root + $(this).children("a")[0].getAttribute('href'), 'newwindow','height=700,width=1000,top=180,left=300,toolbar=no,menubar=no,resizable=no,localtion=no,status=no,scrolbars=yes,text-align=center'
-		  
-		  );
-	  });
 	
 	 $("#photoloat").click(function(){
 		  location.reload();
