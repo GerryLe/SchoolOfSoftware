@@ -1,40 +1,33 @@
 package com.rosense.module.system.service.impl;
 
-import java.math.BigInteger;
-import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 import javax.inject.Inject;
+
 import org.apache.log4j.Logger;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import com.rosense.basic.dao.IBaseDao;
 import com.rosense.basic.exception.ServiceException;
 import com.rosense.basic.model.DataGrid;
 import com.rosense.basic.model.Msg;
 import com.rosense.basic.model.Pager;
-import com.rosense.basic.model.SystemContext;
 import com.rosense.basic.util.BeanUtils;
-import com.rosense.basic.util.StringUtil;
 import com.rosense.basic.util.date.DateUtils;
 import com.rosense.module.common.service.BaseService;
 import com.rosense.module.common.web.servlet.WebContextUtil;
 import com.rosense.module.system.entity.HolidayApplysEntity;
-import com.rosense.module.system.entity.HolidaysUsersEntity;
 import com.rosense.module.system.entity.PersonEntity;
 import com.rosense.module.system.entity.RoleEntity;
 import com.rosense.module.system.entity.UserEntity;
 import com.rosense.module.system.service.IHolidayApplysService;
 import com.rosense.module.system.web.form.HolidayApplysForm;
 import com.rosense.module.system.web.form.UserForm;
-import net.sf.json.JSONObject;
 
 @Service("holidayApplysService")
 @Transactional
@@ -49,8 +42,6 @@ public class HolidayApplysService extends BaseService implements IHolidayApplysS
 	private IBaseDao<PersonEntity> pDao;
 	@Inject
 	private IBaseDao<UserEntity> uDao;
-	@Inject
-	private IBaseDao<HolidaysUsersEntity> huDao;
 
 	@Override
 	public Msg add(HolidayApplysForm form) {

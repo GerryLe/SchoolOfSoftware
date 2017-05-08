@@ -180,18 +180,6 @@ margin-top: 0px;
 			}
 		});
 
-		/* var onDbClick=function(row, $element){ 
-			$("#teacher_table tr").css('background-color','');
-			$(this).css('background-color','#D0D0D0');
-		    var id = $(this).find("input").val()
-		    var href = $.webapp.root + '/admin/system/student/student_form_UI.do?id='
-			+ row.id;
-			$.BOOT.page("content_addStu", href, function() {
-				$('#addStuModal').modal('toggle');
-				$(this).css('background-color','red');
-	           });
-        } */
-		
 		$('#filter-bar').bootstrapTableFilter({
 			filters : [ {
 				field : 'stu_name',
@@ -215,15 +203,6 @@ margin-top: 0px;
 		return {};
 	}
 	
-	
-	
-	/* 筛选用户信息 */
-	/* $(document).on("click", "#buttonByKey", function() {
-	     $student_table.bootstrapTable('refresh', 
-				{url: "/admin/system/user/datagridperson.do?searchKeyName="+$("#searchKeyName").val()+"&selectType="+$("#selectType").val()+""}); 
-
-	
-	  }); */
 	
 	 function classChange(){
 	 	 $("#class_id").html("");
@@ -256,26 +235,26 @@ margin-top: 0px;
 				$("#save_addScore").removeAttr("disabled")
 				return;
 			}
-			if($("#school_year").val()==null){
+			  if($("#school_year>option:selected").attr("value")==null||$("#school_year>option:selected").attr("value")==""){
 				alert("请选择学年");
-				$("#save_addAttendance").removeAttr("disabled")
+				$("#save_addScore").removeAttr("disabled")
 				return;
 			}
-			if($("#semester").val()==null){
+			if($("#semester>option:selected").attr("value")==null||$("#semester>option:selected").attr("value")==""){
 				alert("请选择学期");
-				$("#save_addAttendance").removeAttr("disabled")
+				$("#save_addScore").removeAttr("disabled")
 				return;
 			}
-			if($("#class_id").val()==null){
+			if($("#class_id>option:selected").attr("value")==null||$("#class_id>option:selected").attr("value")==""){
 				alert("请选择班级");
-				$("#save_addAttendance").removeAttr("disabled")
+				$("#save_addScore").removeAttr("disabled")
 				return;
-			}
-			if($("#course_id").val()==null){
+			} 
+			if($("#course_id>option:selected").attr("value")==null||$("#course_id>option:selected").attr("value")==""){
 				alert("请选择课程");
-				$("#save_addAttendance").removeAttr("disabled")
+				$("#save_addScore").removeAttr("disabled")
 				return;
-			}
+			} 
 			var param=$.map(selects, function(row) {
 				    return 'id='+row.id+'&uuid='+row.uuid+'&stu_no='+row.stu_no+'&stu_name='+row.stu_name
 				    +'&credit='+$("input[name="+row.stu_no+"credit]").val()
@@ -287,13 +266,14 @@ margin-top: 0px;
 			  });
 			param=param.join(",");
 			var par=param.split(",");
-			for(var i=0;i<par.length;i++){
+			 for(var i=0;i<par.length;i++){
+				var keyUrl="/admin/system/score/datagrid.do?school_year="+$("#school_year").val()+"&semester="+$("#semester").val()+"&class_id="+$("#class_id").val()+"&course_id="+$("#course_id").val()+"";
 				 $.post(formUrl, par[i], function(result) {
-					 $score_table.bootstrapTable('refresh');
+					 $score_table.bootstrapTable('refresh',{url: keyUrl});
 					$.BOOT.toast1(result);
 					$("#save_addScore").removeAttr("disabled")
 					}, 'json'); 
-			}
+			} 
 
 		});
 

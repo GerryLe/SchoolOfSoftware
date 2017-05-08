@@ -10,13 +10,7 @@ import com.rosense.basic.dao.IBaseDao;
 import com.rosense.module.system.entity.IncrementEntity;
 import com.rosense.module.system.service.IIncrementService;
 
-/**
- * 
-* @author 黄家乐
- * 	
- * 2017年3月20日 
- *
- */
+
 @Service("increment")
 @Transactional
 public class IncrementService implements IIncrementService {

@@ -392,17 +392,17 @@ margin-top: 0px;
 			$("#save_addAttendance").removeAttr("disabled")
 			return;
 		}
-		if($("#school_year").val()==null){
-			alert("请选择学年");
-			$("#save_addAttendance").removeAttr("disabled")
-			return;
+		 if($("#school_year>option:selected").attr("value")==null||$("#school_year>option:selected").attr("value")==""){
+				alert("请选择学年");
+				$("#save_addAttendance").removeAttr("disabled")
+				return;
 		}
-		if($("#semester").val()==null){
+		if($("#semester>option:selected").attr("value")==null||$("#semester>option:selected").attr("value")==""){
 			alert("请选择学期");
 			$("#save_addAttendance").removeAttr("disabled")
 			return;
 		}
-		if($("#class_id").val()==null){
+		if($("#class_id>option:selected").attr("value")==null||$("#class_id>option:selected").attr("value")==""){
 			alert("请选择班级");
 			$("#save_addAttendance").removeAttr("disabled")
 			return;
@@ -421,7 +421,8 @@ margin-top: 0px;
 		var par=param.split(",");
 		for(var i=0;i<par.length;i++){
 			 $.post(formUrl, par[i], function(result) {
-				 $attendance_table.bootstrapTable('refresh');
+				 var keyUrl="/admin/system/attendance/datagrid.do?school_year="+$("#school_year").val()+"&semester="+$("#semester").val()+"&class_id="+$("#class_id").val()+"&apply_date="+$("#apply_date").val()+"";
+				 $attendance_table.bootstrapTable('refresh',{url: keyUrl});
 				$.BOOT.toast1(result);
 				$("#save_addAttendance").removeAttr("disabled")
 				}, 'json'); 

@@ -55,6 +55,7 @@ public class ScoreService implements IScoreService {
 
 	@Override
 	public Msg update(ScoreForm form) {
+		System.err.println(form.getId());
 			ScoreEntity attendanceEntity=this.scoreDao.load(ScoreEntity.class, form.getId());
 			form.setApply_date(DateUtils.formatYYYYMMDD(new Date()));
 			form.setUid(attendanceEntity.getUid());

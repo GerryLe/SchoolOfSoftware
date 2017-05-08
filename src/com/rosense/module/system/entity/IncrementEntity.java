@@ -6,9 +6,6 @@ import javax.persistence.Table;
 
 /**
  * 递增类
- * @author 黄家乐
- * 	
- * 2016年5月12日 上午10:51:49
  *
  */
 @Entity

@@ -4,7 +4,6 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -13,10 +12,8 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.inject.Inject;
-import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,20 +29,15 @@ import com.rosense.basic.util.FreemarkerUtil;
 import com.rosense.basic.util.MD5Util;
 import com.rosense.basic.util.StringUtil;
 import com.rosense.basic.util.cons.Const;
-import com.rosense.basic.util.date.DateUtils;
 import com.rosense.module.cache.Caches;
 import com.rosense.module.common.service.BaseService;
 import com.rosense.module.common.web.servlet.WebContextUtil;
 import com.rosense.module.system.entity.ClassEntity;
-import com.rosense.module.system.entity.HolidaysUsersEntity;
 import com.rosense.module.system.entity.PermitsMenuEntity;
 import com.rosense.module.system.entity.RoleEntity;
 import com.rosense.module.system.entity.TeacherEntity;
 import com.rosense.module.system.entity.UserEntity;
 import com.rosense.module.system.service.ITeacherService;
-import com.rosense.module.system.web.form.ACLForm;
-import com.rosense.module.system.web.form.AuthForm;
-import com.rosense.module.system.web.form.LoginSession;
 import com.rosense.module.system.web.form.LoginUser;
 import com.rosense.module.system.web.form.RoleForm;
 import com.rosense.module.system.web.form.UserForm;
@@ -68,8 +60,6 @@ public class TeacherService extends BaseService implements ITeacherService {
 	private IBaseDao<RoleEntity> roleDao;
 	@Inject
 	private IBaseDao<PermitsMenuEntity> permitsMenuDao;
-	@Inject
-	private IBaseDao<HolidaysUsersEntity> huDao;
 	@Inject
 	private IBaseDao<ClassEntity> basedaoClass;
 
