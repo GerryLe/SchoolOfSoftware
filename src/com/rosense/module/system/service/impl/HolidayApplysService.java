@@ -50,14 +50,6 @@ public class HolidayApplysService extends BaseService implements IHolidayApplysS
 			String hql="from UserEntity u where u.id='"+WebContextUtil.getCurrentUser().getUser().getUserId()+"'";
 			List<UserEntity> uList=this.uDao.list(hql);
 			form.setApplyForTime(DateUtils.getSysDateStr());
-			Date startDate = DateUtils.getDate(form.getHoliapplyStartDate(), "date");
-			Date endDate = DateUtils.getDate(form.getHoliapplyEndDate(), "date");
-			if(null==startDate||startDate.toString().equals(""))
-				return new Msg(false,"请假日期有误");
-			if(null==endDate||endDate.toString().equals(""))
-				return new Msg(false,"请假日期有误");	
-			if(Double.parseDouble(form.getHoliapplyDays())<=0)
-				return new Msg(false,"请假日期有误");
 			/*if (DateUtils.isWeekend(form.getHoliapplyStartDate())) {
 				return new Msg(false, "假期开始日为周末");
 			}*/
@@ -86,7 +78,7 @@ public class HolidayApplysService extends BaseService implements IHolidayApplysS
 				}
 			}
 			//发送邮件通知辅导员
-			SendEmailUtil.sendMail("审核通知/n", p.getHoliapplyUserName()+"同学申请请假，请审批！",emailArrays.toArray(new String[0]));
+			//SendEmailUtil.sendMail("审核通知/n", p.getHoliapplyUserName()+"同学申请请假，请审批！",emailArrays.toArray(new String[0]));
 			
 			this.hDao.add(p);
 			this.logService.add("申请假期", "账号：[" + form.getHoliapplyUserName() + "]");

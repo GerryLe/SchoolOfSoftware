@@ -94,7 +94,6 @@ public interface IStudentService {
 	
 	public int equlasValAccount(String account);
 
-	public List<UserForm> searchUsersData();
 	
 	/**
 	 * 查看个人信息

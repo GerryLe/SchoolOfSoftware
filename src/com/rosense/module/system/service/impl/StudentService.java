@@ -320,13 +320,13 @@ public class StudentService extends BaseService implements IStudentService {
 		        sql+= " and c.id like '%"+form.getClass_id()+"%'";
 				if (selectType.equals("class_name")) {
 					try {
-						sql += " and c.class_name like '%"+searchKeyName+"%'";
+						sql += " and c.class_name like '%"+new String(searchKeyName.getBytes("ISO-8859-1"),"UTF-8")+"%'";
 					} catch (Exception e) {
 					}
 				}
 				if (selectType.equals("stu_name")) {
 					try {
-						sql += " and e.stu_name like '%"+searchKeyName+"%'";
+						sql += " and e.stu_name like '%"+new String(searchKeyName.getBytes("ISO-8859-1"),"UTF-8")+"%'";
 					} catch (Exception e) {
 					}
 				}
@@ -553,27 +553,6 @@ public class StudentService extends BaseService implements IStudentService {
 		String sql = "select u.* from simple_user u where u.account='" + account + "'";
 		return this.userDao.countSQL(sql, false).intValue();
 	}
-
-	@Override
-	public List<UserForm> searchUsersData() {
-		List<UserForm> forms = new ArrayList<UserForm>();
-		try {
-			Date date = new Date();
-			SimpleDateFormat sd = new SimpleDateFormat("yyyy/MM/dd");
-			String toDate = sd.format(date);
-			Calendar cal = Calendar.getInstance();
-			cal.setTime(sd.parse(toDate));
-			cal.add(Calendar.DAY_OF_YEAR, +30);
-			String nextDate = sd.format(cal.getTime());
-			String sql = "select * from simple_person where becomeStaffDate between '" + toDate + "' and '" + nextDate
-					+ "'";
-			forms = this.userDao.listSQL(sql, UserForm.class, false);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return forms;
-	}
-
 
 
 	/**

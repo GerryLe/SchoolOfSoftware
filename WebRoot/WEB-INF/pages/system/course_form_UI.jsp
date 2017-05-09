@@ -112,34 +112,19 @@ select{
 			flag = false;
 		 } 
 	}); 
-	 
+	 function getcredit(c){
+		 var val=$(c).val();
+		 if(val%0.5!=0){
+			 alert("天数格式有误，请输入正确的天数！")
+			 $("#save_addCourse").attr("disabled","disabled");
+		 }	
+		 $("#save_addCourse").removeAttr("disabled");
+	}
 </script>
 
 	
 <div>
 	<input type="hidden" name="id" value="${id}"/>
-	<!-- <table class="employ">
-	  <tr class="trsolid trcenter form-group">
-	  <td>学号</td>
-	  <td>班级</td>
-	  <td>姓名</td>
-	  <td>性别</td>
-	  </tr>
-	  
-	  <tr class="trcenter form-group">
-	  <td><input type="text" name="stu_no" id="stu_no" style="width: 100%" placeholder="输入学号"/></td>
-	  <td><input type="text" name="class_id" id="class_id" style="width: 100%" placeholder="输入班级"/></td>
-	  <td><input type="text" name="stu_name" id="stu_name" placeholder="输入姓名" style="width: 100%"/></td>
-	  <td><select id="sex" name="sex" style="width: 100%;text-align: center">
-				<option value="男" >男</option>
-				<option value="女">女</option>
-			 </select>
-	  </td>
-	  </tr>
-	  
-	</table> -->
-	
-	
 	<div class="form-group">
 		<label for="course_no">课程编号</label> <input type="text" class="form-control" name="course_no" id="course_no" placeholder="输入课程编号">
 	</div>
@@ -148,6 +133,6 @@ select{
     </div>
 	  <div class="form-group">
 		<label for="credit">学分：</label> 
-		<input type="text" class="form-control" name="credit" id="credit" placeholder="输入学分">
+		<input type="text" class="form-control" name="credit" id="credit" placeholder="输入学分" onchange="getcredit(this)">
 	  </div>
 	</div>

@@ -38,6 +38,8 @@ public class UserForm extends PageHelper implements Serializable {
 	private int approveStatus;//审批状态
 	private String approveAuth;//审批权限（1：可审批，0：不可审批）
 	private  String cornet;//短号
+	private String selectType;//查询类型
+	private String searchKeyName;//查询关键字
 	
 	//学生信息
 	private String stu_no;//学号
@@ -75,6 +77,7 @@ public class UserForm extends PageHelper implements Serializable {
 	
 	private String tea_no;//编号
 	private String tea_name;//姓名
+	
 	public String getPassword() {
 		return password;
 	}
@@ -447,6 +450,18 @@ public class UserForm extends PageHelper implements Serializable {
 	}
 	public void setTea_name(String tea_name) {
 		this.tea_name = tea_name;
+	}
+	public String getSelectType() {
+		return selectType;
+	}
+	public void setSelectType(String selectType) {
+		this.selectType = selectType;
+	}
+	public String getSearchKeyName() {
+		return searchKeyName;
+	}
+	public void setSearchKeyName(String searchKeyName) {
+		this.searchKeyName = searchKeyName;
 	}
 
 }

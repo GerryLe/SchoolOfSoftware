@@ -3,7 +3,7 @@
 	<!-- 用户数据缓存,结构:Map<String,String> -->
 	<Cache name="USER" thread="false" maxElementsInMemory="100" cacheEngine="EHCACHE_DISK" cacheType="map_string">
 		<![CDATA[
-	     	select u.id as cacheid,u.id,u.name,u.personid,p.photo from simple_user u left join simple_person p on u.personid=p.id
+	     	select u.id as cacheid,u.id,u.name,u.personid,p.photo from simple_user u left join simple_student p on u.personid=p.id
 	  	]]>
 	</Cache>
 </Caches>

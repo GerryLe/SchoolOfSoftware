@@ -125,9 +125,6 @@
 				if(result.holiapplydirectorsapproval==1){
 					$("#directorsApproval").val("通过");
 				}
-				if(result.holiapplyhrapproval==2){
-					$("#directorsApproval").val("不通过");
-				}
 				if($("#look").attr("href")==""){
 					$("#look").removeAttr('href');
 				}
@@ -176,7 +173,15 @@
 		//参数拒绝
 		form_url = $.webapp.root + '/admin/system/holidayapplys/true.do?pr=refuse&id='+userId;
 	});
- 	$.BOOT.form("form_addholidayapplys", {},function(params) {
+ 	$.BOOT.form("form_addholidayapplys", {
+ 		holiapplyDays : {
+			validators : {
+				notEmpty : {
+					message : '申请天数不能为空'
+				}
+			}
+		},
+ 	},function(params) {
 		if(flag){
 		$.post(form_url, params, function(result) {
 			$.BOOT.toast1(result);
@@ -213,26 +218,7 @@
 		};
 		$("#formhomepage-2").ajaxSubmit(options);
 	}
-	function getholidayday(){
-		var startDate = $("#holiapplyStartDate").val();
-		var endDate = $("#holiapplyEndDate").val();
-		var startHours = $("#startHours").val();
-		var endHours = $("#endHours").val();
-		var holiday ;
-		if(endDate!=""&&startDate!=""){
-			var start = Date.parse(startDate)/1000;
-			var end = Date.parse(endDate)/1000;
-		    var day = (end - start)/(3600 * 24) - 1;
-			if(startHours==9)
-				day+=1;
-			else if(startHours==14)
-				day+=0.5;
-			if(endHours==14)
-				day+=0.5;
-			else if(endHours==18)
-				day+=1;
-		}
-	} 
+	 
 	function showSave(){
 		$("#permit_addholidayapplys").hide();
 		$("#refuse_addholidayapplys").hide();
@@ -297,6 +283,15 @@
 		}
 	}, 'json');
 	
+	 function getholidayday(c){
+		 var val=$(c).val();
+		 if(val%0.5!=0){
+			 alert("天数格式有误，请输入正确的天数！")
+			 $("#save_addholidayapplys").attr("disabled","disabled");
+		 }	
+		 $("#save_addholidayapplys").removeAttr("disabled");
+	}
+	
 </script>
 <section class="content">
 	<div class="panel-group" id="accordion" role="tablist">
@@ -355,7 +350,7 @@
 						</span>
 					</div>
 				</td>
-				<td>共<input type="text" name="holiapplyDays" id="holiapplyDays" style="width: 45px"   onchange="getholidayday()"/>天</td>
+				<td>共<input type="text" name="holiapplyDays" id="holiapplyDays" style="width: 45px"   onchange="getholidayday(this)"/>天</td>
 			</tr>
 			<tr style="height: 45px;" class="form-group">
 				<td>申请人：</td>

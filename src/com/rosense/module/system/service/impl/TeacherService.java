@@ -234,33 +234,7 @@ public class TeacherService extends BaseService implements ITeacherService {
 		}
 	}
 
-	/*public DataGrid datagrid_ref(UserForm form) {
-		SystemContext.setSort("u.created");
-		SystemContext.setOrder("desc");
-		try {
-			Map<String, Object> alias = new HashMap<String, Object>();
-			String sql = "";
-			if ("role".equals(form.getParam1())) {
-				sql = "select  u.* from simple_user u right join simple_student e ON(e.id=u.personId) left join simple_user_roles ur on u.id=ur.userId where ur.roleId=:roleId ";
-				alias.put("roleId", form.getId());
-			} else if ("class".equals(form.getParam1())) {
-				sql = "select  u.account, u.name from simple_user u left join simple_student e ON(e.id=u.personId) left join simple_class c on e.class_id=c.id where e.class_id=:class_id ";
-				alias.put("class_id", form.getId());
-			} 
-			if (form.getEntrance_date() != null) {
-				form.setEntrance_date_Str(DateUtils.formatYYYYMMDD(form.getEntrance_date()));
-			}
-			Pager<UserForm> pager = this.userDao.findSQL(sql, alias, UserForm.class, false);
-			DataGrid dg = new DataGrid();
-			dg.setTotal(pager.getTotal());
-			dg.setRows(pager.getDataRows());
-			return dg;
-		} catch (Exception e) {
-			e.printStackTrace();
-			logger.error("加载人员列表信息失败===>异常信息：", e);
-			throw new ServiceException("加载人员列表信息异常：", e);
-		}
-	}*/
+
 
 	// 查询信息
 	public DataGrid datagridperson(UserForm form,String selectType,String searchKeyName) {
@@ -314,218 +288,6 @@ public class TeacherService extends BaseService implements ITeacherService {
 		}
 	}
 
-	/*@Override
-	public DataGrid commondatagridperson(UserForm form,String selectType,String searchKeyName) {
-		List<Integer> roleId=new ArrayList<Integer>();
-		List<String> roleName=new ArrayList<String>();
-		//判断当前用户是否具有多个角色
-		if(WebContextUtil.getCurrentUser().getUser().getRole_ids().contains(",")){
-			String[] roleIds=WebContextUtil.getCurrentUser().getUser().getRole_ids().split(",");
-			for(String ids:roleIds){
-				RoleForm role=(RoleForm) this.roleDao.queryObjectSQL("select * from simple_role where id=?",new Object[]{ids},RoleForm.class,false);
-				if(role!=null){
-					roleId.add(role.getDefaultRole());
-					roleName.add(role.getSn());
-				}
-				
-			}
-			
-		}else{
-			RoleEntity role=this.roleDao.load(RoleEntity.class, WebContextUtil.getCurrentUser().getUser().getRole_ids());
-			roleId.add(role.getDefaultRole());
-			roleName.add(role.getSn());
-		}
-		 //RoleEntity currole=this.roleDao.load(RoleEntity.class, WebContextUtil.getCurrentUser().getUser().getRole_ids());
-		 UserForm curform=(UserForm) this.userDao.queryObjectSQL("select e.* from simple_user u left join simple_person e on(u.personId=e.id) where u.id='"+WebContextUtil.getCurrentUser().getUser().getId()+"'",UserForm.class,false);
-		try {
-			List<UserForm> forms = new ArrayList<UserForm>();
-			Map<String, Object> alias = new HashMap<String, Object>();
-			String sql = "select u.*,e.locateid,e.callerid,e.chinaname,e.sex,e.employmentStr,e.email,e.phone,e.becomeStaffDate,e.job,e.province,e.leaveDate, e.birthday,e.securityDate,e.school,e.profession,e.graduation, e.degree,e.accountAddr,e.accountPro,e.address,e.age,e.workAge,e.probationLimit,e.probationEnd,e.marriage,e.agreementEndDate,e.agreementLimit,e.positionEng, e.agreementStartDate,e.agreementTimes,e.area,e.workOld,e.material,e.bankCard,e.bear,e.idcard,e.nation,e.origin,e.train,e.securityCard,e.politicalFace,e.certificate,e.contact,e.contactPhone,e.fund,e.fundDate,o.name orgName,oc.name orgChildName,p.name positionName from simple_user u ";
-			sql += "left join simple_person e ON(e.id=u.personId)  ";
-			sql += "left join simple_org o ON(e.orgId=o.id)  ";
-			sql += "left join simple_org oc ON(e.orgChildId=oc.id)  ";
-			sql += "left join simple_position p ON(e.positionId=p.id)  ";
-			sql += "where u.status=0 ";
-			if (roleId.contains(1)) {
-				sql += "and u.name= '" + WebContextUtil.getCurrentUser().getUser().getName() + "'";
-			}else if(roleId.contains(3)){
-				sql+="";
-			}else if(roleId.contains(2)||roleId.contains(4)){
-				if(!StringUtil.isEmpty(curform.getOrgChildId())){
-					sql += "  and e.orgChildId in('" + curform.getOrgChildId() + "'";
-					sql = getOrgByPid(sql, curform.getOrgChildId());
-					sql += ")";
-				}
-			}
-			if(StringUtil.isNotEmpty(searchKeyName)){
-				sql=addWhereSearch(sql, form, alias,selectType,searchKeyName);
-			}else{
-			   sql = addWhere(sql, form, alias);
-			}
-			Pager<UserForm> pager = this.userDao.findSQL(sql, alias, UserForm.class, false);
-			if (null != pager && !pager.getDataRows().isEmpty()) {
-				for (UserForm pf : pager.getDataRows()) {
-					if (null != pf.getId()) {
-						// 获取角色
-						List<RoleForm> roles = this.roleDao.listSQL(
-								"select r.name from simple_user_roles t LEFT JOIN simple_role r on(r.id=t.roleId) WHERE t.userId=?",
-								new Object[] { pf.getId() }, RoleForm.class, false);
-						if (null != roles) {
-							StringBuffer s = new StringBuffer();
-							for (RoleForm r : roles) {
-								s.append(r.getName() + ",");
-							}
-							pf.setRole_names((s.length() > 0 ? s.deleteCharAt(s.length() - 1).toString() : ""));
-						}
-					} else {
-						pf.setStatus(2);
-					}
-					if (!StringUtil.isEmpty(pf.getEmploymentStr())) {
-						SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
-						String[] fromDate = pf.getEmploymentStr().split("/");
-						String[] toDate = df.format(new Date()).split("/");
-						pf.setWorkAge((Integer.parseInt(toDate[0]) - Integer.parseInt(fromDate[0])) + "年");
-					}
-					forms.add(pf);
-				}
-			}
-			DataGrid dg = new DataGrid();
-			dg.setTotal(pager.getTotal());
-			dg.setRows(forms);
-			return dg;
-		} catch (Exception e) {
-			e.printStackTrace();
-			logger.error("加载人员列表信息失败===>异常信息：", e);
-			throw new ServiceException("加载人员列表信息异常：", e);
-		}
-	}
-
-	// 查询离职用户信息
-	public DataGrid datagridleaveperson(UserForm form) {
-       
-		if (null == form.getSort()) {
-			SystemContext.setSort("u.created");
-			SystemContext.setOrder("desc");
-		} else {
-			SystemContext.setSort("u." + form.getSort());
-			SystemContext.setOrder(form.getOrder());
-		}
-		try {
-			List<UserForm> forms = new ArrayList<UserForm>();
-			Map<String, Object> alias = new HashMap<String, Object>();
-			
-			 * String sql =
-			 * "select u.*,e.chinaname,e.email, e.employmentDate, e.birthday, e.degree, e.sex, e.phone,e.province,e.city, e.genre, e.becomeStaffDate, e.job, e.employ, e.countStartDate,o.name orgName,p.name positionName from simple_user u "
-			 * ;
-			 
-			String sql = "select u.*,e.chinaname,e.email,e.sex,e.employmentStr,e.phone,e.becomeStaffDate,e.province,e.job,e.leaveDate, e.birthday,e.securityDate,e.school,e.profession,e.graduation, e.degree,e.accountAddr,e.accountPro,e.address,e.age,e.workAge,e.probationLimit,e.probationEnd,e.marriage,e.agreementEndDate,e.agreementLimit,e.positionEng, e.agreementStartDate,e.agreementTimes,e.area,e.workOld,e.material,e.bankCard,e.bear,e.idcard,e.nation,e.origin,e.train,e.securityCard,e.politicalFace,e.certificate,e.contact,e.contactPhone,e.fund,e.fundDate,o.name orgName,oc.name orgChildName,p.name positionName from simple_user u ";
-			sql += "left join simple_person e ON(e.id=u.personId)  ";
-			sql += "left join simple_org o ON(e.orgId=o.id)  ";
-			sql += "left join simple_org oc ON(e.orgChildId=oc.id)  ";
-			sql += "left join simple_position p ON(e.positionId=p.id)  ";
-			sql += "where u.status=0 and e.job='离职'  ";
-			sql = addWhere(sql, form, alias);
-			Pager<UserForm> pager = this.userDao.findSQL(sql, alias, UserForm.class, false);
-			if (null != pager && !pager.getDataRows().isEmpty()) {
-				for (UserForm pf : pager.getDataRows()) {
-					if (null != pf.getId()) {
-						// 获取角色
-						List<RoleForm> roles = this.roleDao.listSQL(
-								"select r.name from simple_user_roles t LEFT JOIN simple_role r on(r.id=t.roleId) WHERE t.userId=?",
-								new Object[] { pf.getId() }, RoleForm.class, false);
-						if (null != roles) {
-							StringBuffer s = new StringBuffer();
-							for (RoleForm r : roles) {
-								s.append(r.getName() + ",");
-							}
-							pf.setRole_names((s.length() > 0 ? s.deleteCharAt(s.length() - 1).toString() : ""));
-						}
-					} else {
-						pf.setStatus(2);
-					}
-					if (!StringUtil.isEmpty(pf.getEmploymentStr())) {
-						SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
-						String[] fromDate = pf.getEmploymentStr().split("/");
-						String[] toDate = df.format(new Date()).split("/");
-						pf.setWorkAge((Integer.parseInt(toDate[0]) - Integer.parseInt(fromDate[0])) + "年");
-
-						// long to= df.parse(df.format(new Date())).getTime();
-						// long from =
-						// df.parse(pf.getEmploymentStr()).getTime();
-						// System.out.println((to - from) / (1000 * 60 * 60 *
-						// 24));
-						// pf.setWorkAge(Long.toString(((to - from) / (1000 * 60
-						// * 60 * 24)))+"天");
-					} else {
-
-					}
-					forms.add(pf);
-				}
-			}
-			DataGrid dg = new DataGrid();
-			dg.setTotal(pager.getTotal());
-			dg.setRows(forms);
-			return dg;
-		} catch (Exception e) {
-			e.printStackTrace();
-			logger.error("加载人员列表信息失败===>异常信息：", e);
-			throw new ServiceException("加载人员列表信息异常：", e);
-		}
-	}
-
-	public DataGrid datagrid(UserForm form,String selectType,String searchKeyName) {
-		if (null == form.getSort()) {
-			SystemContext.setSort("u.status desc,u.created");
-			SystemContext.setOrder("desc");
-		} else {
-			SystemContext.setSort("u." + form.getSort());
-			SystemContext.setOrder(form.getOrder());
-		}
-		try {
-			List<UserForm> forms = new ArrayList<UserForm>();
-			Pager<UserForm> pager = this.find(form,selectType,searchKeyName);
-			if (null != pager && !pager.getDataRows().isEmpty()) {
-				for (UserForm pf : pager.getDataRows()) {
-					if (null != pf.getId()) {
-						// 获取角色
-						List<RoleForm> roles = this.roleDao.listSQL(
-								"select r.name from simple_user_roles t LEFT JOIN simple_role r on(r.id=t.roleId) WHERE t.userId=?",
-								new Object[] { pf.getId() }, RoleForm.class, false);
-						if (null != roles) {
-							StringBuffer s = new StringBuffer();
-							for (RoleForm r : roles) {
-								s.append(r.getName() + ",");
-							}
-							pf.setRole_names((s.length() > 0 ? s.deleteCharAt(s.length() - 1).toString() : ""));
-						}
-					} else {
-						pf.setStatus(2);
-					}
-					forms.add(pf);
-				}
-			}
-			DataGrid dg = new DataGrid();
-			dg.setTotal(pager.getTotal());
-			dg.setRows(forms);
-			return dg;
-		} catch (Exception e) {
-			e.printStackTrace();
-			logger.error("加载人员列表信息失败===>异常信息：", e);
-			throw new ServiceException("加载人员列表信息异常：", e);
-		}
-	}
-
-	private Pager<UserForm> find(UserForm form,String selectType,String searchKeyName ) {
-		Map<String, Object> alias = new HashMap<String, Object>();
-		String sql = "select u.*, e.sex, e.phone, e.email from simple_user u left join simple_person e ON(e.id=u.personId)  where 1=1 ";
-		if(StringUtil.isNotEmpty(searchKeyName)){
-			sql=addWhereSearch(sql, form, alias,selectType,searchKeyName);
-		}else{
-		   sql = addWhere(sql, form, alias);
-		}
-		return this.userDao.findSQL(sql, alias, UserForm.class, false);
-	}*/
-
 	/**
 	 * 员工信息筛选
 	 * @param sql
@@ -539,14 +301,12 @@ public class TeacherService extends BaseService implements ITeacherService {
 				
 				if (selectType.equals("tea_name")) {
 					try {
-						//params.put("name", "%%" + URLDecoder.decode(searchKeyName, "UTF-8") + "%%");
-						sql += " and e.tea_name like '%"+URLEncoder.encode(searchKeyName)+"%'";
+						sql += " and e.tea_name like '%"+new String(searchKeyName.getBytes("ISO-8859-1"),"UTF-8")+"%'";
 					} catch (Exception e) {
 					}
 				}
 				if (selectType.equals("tea_no")) {
 					try {
-						//params.put("chinaname", "%%" + URLDecoder.decode(searchKeyName, "UTF-8") + "%%");
 						sql += " and e.tea_no like '%"+searchKeyName+"%'";
 					} catch (Exception e) {
 					}
@@ -647,36 +407,7 @@ public class TeacherService extends BaseService implements ITeacherService {
 		}
 		return idString;
 	}
-	/*
-	private int equlasValByPerson(String param) {
-		String sql = "select p.* from simple_person p where " + param;
-		return this.teaDao.countSQL(sql, false).intValue();
-	}
-
-	public Msg batchUserRole(UserForm form) {
-		try {
-			if (StringUtil.isNotEmpty(form.getId())) {
-				Set<RoleEntity> roles = new HashSet<RoleEntity>();
-				if (null != form.getRole_ids() && !"".equals(form.getRole_ids())) {
-					String[] ids = form.getRole_ids().split(",");
-					for (String id : ids) {
-						roles.add(this.roleDao.load(RoleEntity.class, id));
-					}
-				}
-
-				UserEntity user = this.userDao.load(UserEntity.class, form.getId());
-				user.setRoles(roles);
-				this.userDao.update(user);
-				this.logService.add("修改角色", "账号：[" + user.getAccount() + "]");
-				return new Msg(true, "加入角色成功！");
-			} else {
-				return new Msg(false, "加入角色失败！");
-			}
-		} catch (BeansException e) {
-			return new Msg(false, "批量加入角色失败！");
-		}
-	}*/
-
+	
 	public LoginUser loginCheck(LoginUser form) {
 		String sql = "select u.*,e.class_id,e.email,e.sex,e.phone,e.entrance_date_Str,e.province, e.grade, e.birthday,e.accountAddr,e.accountPro,c.class_name class_name from simple_user u ";
 		sql += "right join simple_teacher e ON(e.id=u.personId)  ";
@@ -741,28 +472,6 @@ public class TeacherService extends BaseService implements ITeacherService {
 		String sql = "select u.* from simple_user u where u.account='" + account + "'";
 		return this.userDao.countSQL(sql, false).intValue();
 	}
-
-	/*@Override
-	public List<UserForm> searchUsersData() {
-		List<UserForm> forms = new ArrayList<UserForm>();
-		try {
-			Date date = new Date();
-			SimpleDateFormat sd = new SimpleDateFormat("yyyy/MM/dd");
-			String toDate = sd.format(date);
-			Calendar cal = Calendar.getInstance();
-			cal.setTime(sd.parse(toDate));
-			cal.add(Calendar.DAY_OF_YEAR, +30);
-			String nextDate = sd.format(cal.getTime());
-			String sql = "select * from simple_person where becomeStaffDate between '" + toDate + "' and '" + nextDate
-					+ "'";
-			//System.out.println(sql);
-			forms = this.userDao.listSQL(sql, UserForm.class, false);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return forms;
-	}
-*/
 
 
 	/**

@@ -1,7 +1,6 @@
 package com.rosense.module.system.service.impl;
 
 import java.net.URLDecoder;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -28,7 +27,6 @@ import com.rosense.basic.util.FreemarkerUtil;
 import com.rosense.basic.util.MD5Util;
 import com.rosense.basic.util.StringUtil;
 import com.rosense.basic.util.cons.Const;
-import com.rosense.basic.util.date.DateUtils;
 import com.rosense.module.cache.Caches;
 import com.rosense.module.common.service.BaseService;
 import com.rosense.module.common.web.servlet.WebContextUtil;
@@ -163,12 +161,13 @@ public class UserService extends BaseService implements IUserService {
 
 	private Pager<UserForm> find(UserForm form,String selectType,String searchKeyName ) {
 		Map<String, Object> alias = new HashMap<String, Object>();
-		String sql = "select u.*, e.sex, e.phone, e.email from simple_user u left join simple_person e ON(e.id=u.personId)  where 1=1 ";
+		String sql = "select u.* from simple_user u  where 1=1 ";
 		if(StringUtil.isNotEmpty(searchKeyName)){
 			sql=addWhereSearch(sql, form, alias,selectType,searchKeyName);
 		}else{
 		   sql = addWhere(sql, form, alias);
 		}
+		sql = addWhere(sql, form, alias);
 		return this.userDao.findSQL(sql, alias, UserForm.class, false);
 	}
 
@@ -182,33 +181,16 @@ public class UserService extends BaseService implements IUserService {
 	 * @return
 	 */
 	private String addWhereSearch(String sql, UserForm form, Map<String, Object> params,String selectType,String searchKeyName) {
-				if (selectType.equals("phone")) {
-					try {
-						sql += " and e.phone like '%"+searchKeyName+"%'";
-					} catch (Exception e) {
-					}
-				}
 				if (selectType.equals("name")) {
 					try {
-						sql += " and e.name like '%"+searchKeyName+"%'";
-					} catch (Exception e) {
-					}
-				}
-				if (selectType.equals("chinaname")) {
-					try {
-						sql += " and e.chinaname like '%"+searchKeyName+"%'";
-					} catch (Exception e) {
-					}
-				}
-				if (selectType.equals("area")) {
-					try {
-						sql += " and e.area like '%"+searchKeyName+"%'";
+						searchKeyName=new String(searchKeyName.getBytes("ISO-8859-1"),"UTF-8");
+						sql += " and u.name like '%"+searchKeyName+"%'";
 					} catch (Exception e) {
 					}
 				}
 				if (selectType.equals("account")) {
 					try {
-						sql += " and u.account like '%"+searchKeyName+"%'";
+						sql += " and u.account like '%"+form.getSearchKeyName()+"%'";
 					} catch (Exception e) {
 					}
 				}
@@ -263,6 +245,16 @@ public class UserService extends BaseService implements IUserService {
 		if (StringUtil.isNotEmpty(form.getAccount())) {
 			sql += " and u.account like :account ";
 			params.put("account", "%%" + form.getAccount() + "%%");
+		}
+		if (StringUtil.isNotEmpty(form.getSelectType())) {
+			if(form.getSelectType().equals("account")){
+				sql += " and u.account like :account ";
+				params.put("account", "%%" + form.getSearchKeyName() + "%%");
+			}else{
+					sql += " and u.name like :name ";
+					params.put("name", "%%" + form.getSearchKeyName()+ "%%");
+				
+			}
 		}
 		return sql;
 	}
