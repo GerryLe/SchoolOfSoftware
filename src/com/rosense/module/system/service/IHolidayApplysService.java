@@ -51,12 +51,6 @@ public interface IHolidayApplysService {
 	 * @return
 	 */
 	public Msg getLimit(String id);
-	/**
-	 * 判断是否有权限审核
-	 * @param id
-	 * @return
-	 */
-	public Msg getaudit(String id);
 
 	/**
 	 * 返回辅导员的姓名

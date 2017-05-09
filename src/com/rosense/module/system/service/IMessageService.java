@@ -22,7 +22,7 @@ public interface IMessageService {
 	 */
 	public Msg add(String userId, String type, String content);
 
-	public Msg delete(String id);
+	public Msg delete(String ids);
 
 	public Msg update(String id);
 
@@ -33,5 +33,6 @@ public interface IMessageService {
 	public DataGrid datagrid(MessageForm form);
 
 	public List<MessageForm> list(MessageForm form);
+
 
 }

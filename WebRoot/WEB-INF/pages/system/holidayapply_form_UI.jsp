@@ -148,30 +148,6 @@
 					$('#holiapplydirectorsopinion').removeAttr("disabled");
 					showAudit();
 				}
-				/* $.post($.webapp.root + '/admin/system/holidayapplys/getaudit.do', {
-					id : $("input[name=id]").val()
-				}, function(data) {
-					if(data.status==false&&$("input[name=uid]").val()==$("input[name=userId]").val()){//获取自己假期申请内容
-							$.get($.webapp.root + '/admin/system/holidayapplys/getLimit.do?id='+ $("input[name=id]").val(),function(s){
-								if(s.status==true){//未审核可以修改，暂时不具更新功能
-									$('#holiapplydirectorsopinion').attr("disabled","disabled");
-									showSave(); 
-									form_url = $.webapp.root+ "/admin/system/holidayapplys/update.do";
-							        $('#form_addholidayapplys').form('load', result);
-									
-								}else{//已经审核或者通过审核,不能修改
-									hideAll1();										
-								}
-							},"json");
-					}else if(data.status==true){//获取审核请假信息
-						//直属上级审核
-						if(userName==result.director&&result.holiapplydirectorsapproval==0){
-							$('input,textarea').attr("disabled","disabled");
-							$('#holiapplydirectorsopinion').removeAttr("disabled");
-							showAudit();
-						}
-					}
-				},"json") */
 			}, 'json');
 		}
 		else if ($('input[name=id]').val().length == 0) {//新增

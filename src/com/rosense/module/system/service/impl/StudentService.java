@@ -293,12 +293,6 @@ public class StudentService extends BaseService implements IStudentService {
 					} else {
 						pf.setStatus(2);
 					}
-					if (!StringUtil.isEmpty(pf.getEmploymentStr())) {
-						SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
-						String[] fromDate = pf.getEmploymentStr().split("/");
-						String[] toDate = df.format(new Date()).split("/");
-						pf.setWorkAge((Integer.parseInt(toDate[0]) - Integer.parseInt(fromDate[0])) + "年");
-					}
 					forms.add(pf);
 				}
 			}
@@ -326,21 +320,18 @@ public class StudentService extends BaseService implements IStudentService {
 		        sql+= " and c.id like '%"+form.getClass_id()+"%'";
 				if (selectType.equals("class_name")) {
 					try {
-						//params.put("phone", "%%" + searchKeyName + "%%");
 						sql += " and c.class_name like '%"+searchKeyName+"%'";
 					} catch (Exception e) {
 					}
 				}
 				if (selectType.equals("stu_name")) {
 					try {
-						//params.put("name", "%%" + URLDecoder.decode(searchKeyName, "UTF-8") + "%%");
 						sql += " and e.stu_name like '%"+searchKeyName+"%'";
 					} catch (Exception e) {
 					}
 				}
 				if (selectType.equals("stu_no")) {
 					try {
-						//params.put("chinaname", "%%" + URLDecoder.decode(searchKeyName, "UTF-8") + "%%");
 						sql += " and e.stu_no like '%"+searchKeyName+"%'";
 					} catch (Exception e) {
 					}
@@ -459,10 +450,6 @@ public class StudentService extends BaseService implements IStudentService {
 		List<ACLForm> opers = new ArrayList<ACLForm>();
 		List<String> authUrl = new ArrayList<String>();
 
-		// 获取用户和人员信息
-		String sql = "select u.*,  e.orgId, e.orgChildId, e.positionId from simple_user u  left join simple_person e ON(e.id=u.personId)  where u.id=? ";
-		UserForm user = (UserForm) this.userDao.queryObjectSQL(sql, userId, UserForm.class, false);
-
 		// 获取用户的角色ID
 		List<Object[]> roleIds = this.roleDao
 				.listSQL("select r.userId, r.roleId from simple_user_roles r where r.userId=?", userId);
@@ -535,13 +522,6 @@ public class StudentService extends BaseService implements IStudentService {
 		return new Msg(true, "添加成功");
 	}
 
-	public Msg deleteRoleForUser(String roleId, String userId) {
-		this.roleDao.executeSQL("delete from simple_user_roles where userId=? and roleId=?",
-				new Object[] { userId, roleId });
-		UserEntity user = this.userDao.load(UserEntity.class, userId);
-		this.logService.add("删除用户角色", "账号：[" + user.getAccount() + "]");
-		return new Msg(true, "删除成功");
-	}
 
 	@Override
 	public Msg importFile(List<UserForm> importUserList) {
@@ -628,12 +608,6 @@ public class StudentService extends BaseService implements IStudentService {
 					} else {
 						pf.setStatus(2);
 					}
-					if (!StringUtil.isEmpty(pf.getEmploymentStr())) {
-						SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
-						String[] fromDate = pf.getEmploymentStr().split("/");
-						String[] toDate = df.format(new Date()).split("/");
-						pf.setWorkAge((Integer.parseInt(toDate[0]) - Integer.parseInt(fromDate[0])) + "年");
-					}
 					forms.add(pf);
 				}
 			}
@@ -649,72 +623,4 @@ public class StudentService extends BaseService implements IStudentService {
 
 	}
 
-	/**
-	 * 获取当前用户信息
-	 */
-	/*public UserForm selectCurUser(){
-		String sql="select e.*,c.class_name class_name from simple_user u left join simple_student e on(u.personId=e.id) ";
-		sql+= "left join simple_class c on(c.id=e.class_id) ";
-		sql+= "where u.id='"+WebContextUtil.getCurrentUser().getUser().getId()+"'";
-		UserForm form=(UserForm) this.userDao.queryObjectSQL(sql,UserForm.class,false);
-		if(form!=null){
-			return form;
-		}else{
-			return null;
-		}
-	}
-	
-	*//**
-	 * 获取当前用户的上级信息
-	 * @return
-	 *//*
-	public List<UserForm> chargeTree(){
-		List<Integer> roleId=new ArrayList<Integer>();
-		List<String> roleName=new ArrayList<String>();
-		//判断当前用户是否具有多个角色
-		if(WebContextUtil.getCurrentUser().getUser().getRole_ids().contains(",")){
-			String[] roleIds=WebContextUtil.getCurrentUser().getUser().getRole_ids().split(",");
-			for(String id:roleIds){
-				RoleForm role=(RoleForm) this.roleDao.queryObjectSQL("select * from simple_role where id=?",new Object[]{id},RoleForm.class,false);
-				if(role!=null){
-					roleId.add(role.getDefaultRole());
-					roleName.add(role.getSn());
-				}
-				
-			}
-			
-		}else{
-			RoleEntity role=this.roleDao.load(RoleEntity.class, WebContextUtil.getCurrentUser().getUser().getRole_ids());
-			roleId.add(role.getDefaultRole());
-			roleName.add(role.getSn());
-		}
-		String sql="select e.*,c.class_name class_name from simple_role r right join simple_user_roles ur on(ur.roleId=r.id) ";
-		sql+= "left join simple_user u on(ur.userId=u.id) ";
-		sql+= "left join simple_student e on(u.personId=e.id) ";
-		sql+= "left join simple_class o on(c.id=e.class_id) ";
-		if(roleId.contains(0)||roleId.contains(5)||roleId.contains(6)){
-			sql+= "where  r.defaultRole in(0,5,6)";
-		}else if(roleId.contains(4)){
-			sql+= "where  r.defaultRole in(5,6)";
-		}else if(roleId.contains(2)){
-			sql+= "where o.id='"+WebContextUtil.getCurrentUser().getUser().getOrgId()+"' and r.defaultRole in(4)";
-		}else if(roleId.contains(1)||roleId.contains(3)){
-			//子部门不存在或者与父部门相同
-			   if(WebContextUtil.getCurrentUser().getUser().getOrgChildId()==null||WebContextUtil.getCurrentUser().getUser().getOrgChildId().equals(WebContextUtil.getCurrentUser().getUser().getOrgId())){
-				   sql+= "where o.id='"+WebContextUtil.getCurrentUser().getUser().getOrgId()+"' and r.defaultRole in(2,4)";
-				}else{
-				   sql+= "where o.id='"+WebContextUtil.getCurrentUser().getUser().getOrgChildId()+"' and r.defaultRole in(2)";
-				}
-		}else{
-			
-		}
-		List<UserForm> chargeForm=this.userDao.listSQL(sql,UserForm.class,false);
-		if(chargeForm!=null&&chargeForm.size()>0){
-			return chargeForm;
-		}else{
-			return null;
-		}
-		
-	}
-*/
 }

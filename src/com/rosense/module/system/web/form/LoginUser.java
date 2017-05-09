@@ -11,8 +11,6 @@ public class LoginUser implements Serializable {
 	private String personId;
 	private String name;
 	private String photo;
-	private String orgId;
-	private String orgChildId;//子部门
 	private String orgName;
 	private String email;
 	private String validCode;
@@ -137,13 +135,7 @@ public class LoginUser implements Serializable {
 		this.password = password;
 	}
 
-	public void setOrgId(String orgId) {
-		this.orgId = orgId;
-	}
-
-	public String getOrgId() {
-		return orgId;
-	}
+	
 
 	public void setOrgName(String orgName) {
 		this.orgName = orgName;
@@ -203,14 +195,6 @@ public class LoginUser implements Serializable {
 
 	public void setDefaultRole(int defaultRole) {
 		this.defaultRole = defaultRole;
-	}
-
-	public String getOrgChildId() {
-		return orgChildId;
-	}
-
-	public void setOrgChildId(String orgChildId) {
-		this.orgChildId = orgChildId;
 	}
 
 	public String getApproveAuth() {

@@ -72,15 +72,6 @@ select{
 							$("td#role").append('<input id="'+data.rows[i].name+'" type="checkbox" value="'+data.rows[i].id+'" class="roleName" onclick="role()"><label for="'+data.rows[i].name+'">'+data.rows[i].name+'</label>')
 						}
 					},"json")
-	   /*  $.BOOT.autoselect("orgId", orgtree, {
-			title : "选择部门"
-		}); 
-		 $.BOOT.autoselect("orgChildId", orgtree, {
-			title : "选择子部门"
-		});  */
-		/* $.BOOT.autoselect("positionId", ptree, {
-			title : "选择职位",
-			callback : function() { */
 				if ($('input[name=id]').val().length > 0) {
 				
 						$.post(get, {
@@ -88,19 +79,10 @@ select{
 						}, function(result) {
 							form_url = $.webapp.root+ "/admin/system/teacher/update.do";
 							$('#form_addTea').form('load', result);
-							//获取员工信息时，勾选已有角色
-							/* var ids = $('input[name=role_ids]').val();
-							var id = new Array();
-							id = ids.split(",");
-							for (var i = 0; i < id.length; i++) {
-								$('input[value='+id[i]+']').attr("checked",'true')
-							} */
 						}, 'json');
 					
 				} else {
 				}
-		/* 	}
-		});  */ 
 		
 		$('.form_date').datetimepicker({
 	        language:  'zh-CN',

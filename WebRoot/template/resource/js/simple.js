@@ -225,7 +225,7 @@ $.BOOT.selectCourse = function(id, json, title) {
 };
 
 /**
- * 部门主管
+ * 
  */
 $.BOOT.autoselectcharge = function(id, url, params) {
 	params = params || {};

@@ -52,7 +52,7 @@ public class LoginAction extends BaseController {
 	private ILogService logService;
 
 	/**
-	 * 学生或者管理员登录
+	 * 学生登录
 	 */
 	@RequestMapping("/login.do")
 	@ResponseBody
@@ -122,7 +122,7 @@ public class LoginAction extends BaseController {
 	
 	
 	/**
-	 * 教师登录
+	 * 教师或者管理员登录
 	 */
 	@RequestMapping("/loginTeacher.do")
 	@ResponseBody
@@ -201,9 +201,6 @@ public class LoginAction extends BaseController {
 		if (null != ls) {
 			LoginUser currentUser=ls.getUser();
 			String name=currentUser.getName();
-			if(name.equals("Myolie")||name.equals("Cathy")||name.equals("Emily")||name.equals("Rachel")||name.equals("admin")){
-			messageUser();
-			}
 			AuthForm auth = ls.getAuth();
 			//返回的是拼装的JSON字符串，需将字符串转换为JSON对象
 			return JSON.parse("[" + auth.getAuthTree() + "]");
@@ -219,15 +216,6 @@ public class LoginAction extends BaseController {
 		if (null != ls) {
 			LoginUser currentUser=ls.getUser();
 			String name=currentUser.getName();
-			if(name.equals("Myolie")||name.equals("Cathy")||name.equals("Emily")||name.equals("Rachel")||name.equals("admin")){
-				//每隔一个小时提醒一次
-				 Timer timer = new Timer();
-				  timer.schedule(new TimerTask() {
-				          public void run() {
-				        	  messageUser();
-				          }
-				  }, new Date() , 1000*60*60);
-			}
 			AuthForm auth = ls.getAuth();
 			//返回的是拼装的JSON字符串，需将字符串转换为JSON对象
 			return JSON.parse(auth.getAuthTree());
@@ -262,27 +250,4 @@ public class LoginAction extends BaseController {
 		return new Msg(true);
 	}
 	
-	private void messageUser() {
-		// TODO Auto-generated method stub
-		try {
-		String username="";
-		String userdate="";
-		List<UserForm> list=this.stuService.searchUsersData();
-		if(null != list && list.size() > 0){
-		for(UserForm user : list){
-			username+=user.getName()+",";
-			userdate=user.getBecomeStaffDate();
-		}
-		
-			username.substring(0, username.length()-1);
-			JOptionPane.showMessageDialog(null,"用户"+username+"合同期为"+userdate, "系统信息", JOptionPane.INFORMATION_MESSAGE);
-		}
-		else{
-			
-		}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
 }

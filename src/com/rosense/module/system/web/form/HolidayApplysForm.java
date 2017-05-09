@@ -9,7 +9,6 @@ public class HolidayApplysForm extends PageHelper implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	private String uid;//用户id
-	private String positionname;//部门名称
 	private String chinaname;//中文名
 	private String holiapplyUserName;// 假期申请人英文名
 	private String holiapplyName;// 假期申请类型
@@ -17,10 +16,9 @@ public class HolidayApplysForm extends PageHelper implements Serializable{
 	private String  holiapplyDays;// 假期申请天数
 	private String holiapplyStartDate;// 假期开始日期
 	private String  holiapplyEndDate;// 假期结束日期
-	private String holiapplydirectorsopinion;//部门主管意见
-	private int holiapplydirectorsapproval;//部门主管审批(0:未通过，1：不通过，2：通过)
+	private String holiapplydirectorsopinion;//辅导员主管意见
+	private int holiapplydirectorsapproval;//辅导员主管审批(0:未通过，1：不通过，2：通过)
 	private String holiapplyhropinion;//人事意见
-	private int holiapplyhrapproval;//人事审批(0:未通过，1：不通过，2：通过)
 	private int holiapplystatement;//假期状态 (0:未通过，1：不通过，2：通过)
 	private String holiapplyremark;//备注
 	private String englishName;
@@ -97,12 +95,6 @@ public class HolidayApplysForm extends PageHelper implements Serializable{
 	public void setHoliapplyhropinion(String holiapplyhropinion) {
 		this.holiapplyhropinion = holiapplyhropinion;
 	}
-	public int getHoliapplyhrapproval() {
-		return holiapplyhrapproval;
-	}
-	public void setHoliapplyhrapproval(int holiapplyhrapproval) {
-		this.holiapplyhrapproval = holiapplyhrapproval;
-	}
 	
 	public String getHoliapplyremark() {
 		return holiapplyremark;
@@ -135,12 +127,7 @@ public class HolidayApplysForm extends PageHelper implements Serializable{
 	public void setUid(String uid) {
 		this.uid = uid;
 	}
-	public String getPositionname() {
-		return positionname;
-	}
-	public void setPositionname(String positionname) {
-		this.positionname = positionname;
-	}
+
 	public String getStartHours() {
 		return startHours;
 	}

@@ -119,12 +119,7 @@ public class HolidayApplyAction extends BaseController {
 		return this.holidayApplysService.getLimit(id);
 	}
 
-	
-	@RequestMapping("/getaudit.do")
-	@ResponseBody
-	public Msg getaudit(String id){
-		return this.holidayApplysService.getaudit(id);
-	}
+
 	
 	@RequestMapping("/getDirector.do")
 	@ResponseBody

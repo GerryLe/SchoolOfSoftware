@@ -77,9 +77,6 @@ select{
 						}
 					},"json")
 	   
-		/* $.BOOT.autoselect("positionId", ptree, {
-			title : "选择职位",
-			callback : function() { */
 				if ($('input[name=id]').val().length > 0) {
 				
 						$.post(get, {
@@ -87,19 +84,10 @@ select{
 						}, function(result) {
 							form_url = $.webapp.root+ "/admin/system/student/update.do";
 							$('#form_addStu').form('load', result);
-							//获取员工信息时，勾选已有角色
-							/* var ids = $('input[name=role_ids]').val();
-							var id = new Array();
-							id = ids.split(",");
-							for (var i = 0; i < id.length; i++) {
-								$('input[value='+id[i]+']').attr("checked",'true')
-							} */
 						}, 'json');
 					
 				} else {
 				}
-		/* 	}
-		});  */ 
 		
 		$('.form_date').datetimepicker({
 	        language:  'zh-CN',

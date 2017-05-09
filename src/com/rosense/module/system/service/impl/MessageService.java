@@ -53,9 +53,12 @@ public class MessageService implements IMessageService {
 	}
 
 	
-	public Msg delete(String id) {
+	public Msg delete(String ids) {
 		try {
-			this.messageDao.delete(MessageEntity.class, id);
+			String[] idss = ids.split(",");
+			for (String id : idss) {
+				this.messageDao.delete(MessageEntity.class, id);
+			}
 			return new Msg(true, "删除成功！");
 		} catch (Exception e) {
 			return new Msg(false, "删除失败！");
@@ -117,7 +120,7 @@ public class MessageService implements IMessageService {
 
 	private Pager<MessageForm> find(MessageForm form) {
 		Map<String, Object> alias = new HashMap<String, Object>();
-		String sql = "select * from simple_message t  where 1=1 ";
+		String sql = "select * from simple_message t  where userId='"+WebContextUtil.getUserId()+"' ";
 		sql = addWhere(sql, form, alias);
 		return this.messageDao.findSQL(sql, alias, MessageForm.class, false);
 	}

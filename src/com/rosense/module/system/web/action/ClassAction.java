@@ -98,13 +98,4 @@ public class ClassAction extends BaseController {
 	}
 	
 	
-	@RequestMapping("/getUserCurrentAuthMenu.do")
-	public @ResponseBody
-	Object getUserCurrentAuthMenu(ClassForm e) {
-			//返回的是拼装的JSON字符串，需将字符串转换为JSON对象
-		String result="{" + "id : '" + e.getId() + "'" + ", name : '" + "can-dao" + "'" + ", iconCls : '" + e.getIconCls() + "'"
-		+ ", sort : '" + e.getSort() +"'" + ", pid : '" + e.getPid() + "'" + ", children :[ " + classService.userAndOrgtree(e.getPid()) + "]}";
-		return JSON.parse(result);
-	}
-	
 }

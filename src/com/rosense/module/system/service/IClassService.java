@@ -53,15 +53,7 @@ public interface IClassService {
 	 */
 	public ClassForm getId(String orgName);
 	
-	/**
-	 * 根据id获取班级及学生
-	 */
-	public String userAndOrgtree(String pid);
-	
-	/**
-	 * 根据名字获取班级对象
-	 */
-	public String getName(String id);
+
 	/**
 	 * 获取班级信息
 	 */

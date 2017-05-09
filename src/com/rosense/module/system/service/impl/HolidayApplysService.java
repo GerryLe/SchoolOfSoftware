@@ -18,11 +18,12 @@ import com.rosense.basic.model.DataGrid;
 import com.rosense.basic.model.Msg;
 import com.rosense.basic.model.Pager;
 import com.rosense.basic.util.BeanUtils;
+import com.rosense.basic.util.SendEmailUtil;
 import com.rosense.basic.util.date.DateUtils;
 import com.rosense.module.common.service.BaseService;
 import com.rosense.module.common.web.servlet.WebContextUtil;
 import com.rosense.module.system.entity.HolidayApplysEntity;
-import com.rosense.module.system.entity.PersonEntity;
+import com.rosense.module.system.entity.MessageEntity;
 import com.rosense.module.system.entity.RoleEntity;
 import com.rosense.module.system.entity.UserEntity;
 import com.rosense.module.system.service.IHolidayApplysService;
@@ -39,9 +40,9 @@ public class HolidayApplysService extends BaseService implements IHolidayApplysS
 	@Inject
 	private IBaseDao<RoleEntity> rDao;
 	@Inject
-	private IBaseDao<PersonEntity> pDao;
-	@Inject
 	private IBaseDao<UserEntity> uDao;
+	@Inject
+    private IBaseDao<MessageEntity> messageDao;
 
 	@Override
 	public Msg add(HolidayApplysForm form) {
@@ -66,6 +67,27 @@ public class HolidayApplysService extends BaseService implements IHolidayApplysS
 			}
 			form.setUid(WebContextUtil.getCurrentUser().getUser().getUserId());
 			BeanUtils.copyNotNullProperties(form, p);
+			//查询辅导员信息
+			String instructorSql="select u.id,t.email from simple_role r right join simple_user_roles ru on(ru.roleId=r.id)  ";
+			instructorSql+="right join simple_user u  on(ru.userId=u.id) ";
+			instructorSql+="right join simple_teacher t  on(u.personId=t.id) ";
+			instructorSql+="where r.defaultRole=1 ";
+			List<UserForm> instrutorForms=this.uDao.listSQL(instructorSql, UserForm.class,false);
+			List<String> emailArrays=new ArrayList<String>();
+			if(instrutorForms!=null&&instrutorForms.size()>=0){
+				for(UserForm instrutorform:instrutorForms){
+				     emailArrays.add(instrutorform.getEmail());
+				     MessageEntity mess=new MessageEntity();
+					 mess.setContent(p.getHoliapplyUserName()+"同学申请请假");
+					 mess.setUserId(instrutorform.getId());
+					 mess.setCreated(new Date());
+					 mess.setReaded(0);
+					 this.messageDao.add(mess);
+				}
+			}
+			//发送邮件通知辅导员
+			SendEmailUtil.sendMail("审核通知/n", p.getHoliapplyUserName()+"同学申请请假，请审批！",emailArrays.toArray(new String[0]));
+			
 			this.hDao.add(p);
 			this.logService.add("申请假期", "账号：[" + form.getHoliapplyUserName() + "]");
             this.logService.add("申请假期", "账号：[" + form.getHoliapplyUserName() + "]");
@@ -255,42 +277,6 @@ public Msg getLimit(String id) {
 		}else{
 			return new Msg(false,"已经撤销");
 		}
-	}else{
-		return new Msg(false,"权限不足");
-	}
-}
-
-@Override
-public Msg getaudit(String id) {
-	//获取审批权限
-	if(WebContextUtil.getCurrentUser().getUser().getApproveAuth().equals("1")){
-		String[] ids = WebContextUtil.getCurrentUser().getUser().getRole_ids().split(",");
-		String defaultRoles = "";
-		for (int i = 0; i < ids.length; i++) {
-			defaultRoles += this.rDao.load(RoleEntity.class, ids[i]).getDefaultRole();
-		}
-		HolidayApplysEntity h = this.hDao.load(HolidayApplysEntity.class, id);
-		if(WebContextUtil.getUserId().equals(h.getUid())){
-			if(defaultRoles.indexOf("3")>-1&&defaultRoles.indexOf("2")>-1&&h.getHoliapplydirectorsapproval()==1&&h.getHoliapplyhrapproval()==0)
-				return new Msg(true);
-			else if(defaultRoles.indexOf("3")>-1&&h.getHoliapplydirectorsapproval()==1&&h.getHoliapplyhrapproval()==0)
-				return new Msg(true);
-			return new Msg(false,"权限不足");
-		}
-		if(h.getHoliapplystatement()==0){
-			if(h.getHoliapplydirectorsapproval()==0){
-				if(defaultRoles.indexOf("2")>-1||defaultRoles.indexOf("5")>-1||defaultRoles.indexOf("0")>-1)
-					return new Msg(true);
-				else
-					return new Msg(false,"权限不足");
-			}else if(h.getHoliapplydirectorsapproval()==1&&h.getHoliapplyhrapproval()==0){
-				if(defaultRoles.indexOf("3")>-1||defaultRoles.indexOf("0")>-1)
-					return new Msg(true);
-				else 
-					return new Msg(false,"权限不足");
-			}
-		}
-		return new Msg(false,"已审核");
 	}else{
 		return new Msg(false,"权限不足");
 	}

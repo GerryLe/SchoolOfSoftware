@@ -43,7 +43,6 @@ public class OnlineUserAction extends BaseController {
 				userMap.put("status", loginSession.getUser().getStatus());
 				userMap.put("personId", loginSession.getUser().getPersonId());
 				userMap.put("name", loginSession.getUser().getName());
-				userMap.put("orgId", loginSession.getUser().getOrgId());
 				userMap.put("orgName", loginSession.getUser().getOrgName());
 				userMap.put("ip", loginSession.getUser().getIp());
 				onlineUsers.add(userMap);

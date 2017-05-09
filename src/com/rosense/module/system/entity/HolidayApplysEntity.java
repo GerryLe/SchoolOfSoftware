@@ -18,17 +18,15 @@ public class HolidayApplysEntity extends IdEntity{
 	private String holiapplyDays;// 假期申请天数 
 	private String  holiapplyStartDate;// 假期开始日期
 	private String  holiapplyEndDate;// 假期结束日期
-	private String holiapplydirectorsopinion;//部门主管意见
-	private int holiapplydirectorsapproval;//部门主管审批(0:未通过，1：通过，2：不通过)
-	private String holiapplyhropinion;//人事意见
-	private int holiapplyhrapproval;//人事审批(0:未通过，1：通过，2：不通过)
+	private String holiapplydirectorsopinion;//辅导员意见
+	private int holiapplydirectorsapproval;//辅导员主管审批(0:未通过，1：通过，2：不通过)
 	private int holiapplystatement;//假期状态 (0:未通过，1：通过，2：不通过,3：撤销)
 	private String holiapplyremark;//备注
 	private String enclosure;//附件
 	private String enclosuretwo;//附件2
 	private String applyForTime;//申请时间
-	private String director;//主管姓名
-	private String approvalTime;//主管审批时间
+	private String director;//辅导员姓名
+	private String approvalTime;//辅导员审批时间
 	private String startHours;//开始小时
 	private String endHours;//结束小时
 	private String class_name;//班级名称
@@ -74,18 +72,6 @@ public class HolidayApplysEntity extends IdEntity{
 	}
 	public void setHoliapplydirectorsapproval(int holiapplydirectorsapproval) {
 		this.holiapplydirectorsapproval = holiapplydirectorsapproval;
-	}
-	public String getHoliapplyhropinion() {
-		return holiapplyhropinion;
-	}
-	public void setHoliapplyhropinion(String holiapplyhropinion) {
-		this.holiapplyhropinion = holiapplyhropinion;
-	}
-	public int getHoliapplyhrapproval() {
-		return holiapplyhrapproval;
-	}
-	public void setHoliapplyhrapproval(int holiapplyhrapproval) {
-		this.holiapplyhrapproval = holiapplyhrapproval;
 	}
 	
 	public String getHoliapplyremark() {

@@ -32,6 +32,12 @@ public class MessageAction extends BaseController {
 	public List<MessageForm> list(MessageForm form) {
 		return this.messageService.list(form);
 	}
+	
+	@RequestMapping("/delete.do")
+	@ResponseBody
+	public Msg delete(String ids) {
+		return this.messageService.delete(ids);
+	}
 
 	@RequestMapping("/no_update.do")
 	@ResponseBody
@@ -54,5 +60,4 @@ public class MessageAction extends BaseController {
 		form.setContent(sb.toString());
 		return form;
 	}
-
 }

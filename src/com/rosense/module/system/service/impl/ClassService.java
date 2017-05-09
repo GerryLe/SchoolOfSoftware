@@ -41,7 +41,7 @@ public class ClassService extends BaseService implements IClassService {
 	
 	public Msg add(ClassForm form) {
 		if (this.getByName(form.getClass_name()) != null)
-			throw new ServiceException("该机构或部门的名称[" + form.getClass_name() + "]已存在，无法添加！");
+			throw new ServiceException("该班级的名称[" + form.getClass_name() + "]已存在，无法添加！");
 		final ClassEntity clas = new ClassEntity();
 		BeanUtils.copyNotNullProperties(form, clas);
 		clas.setSort(WebContextUtil.getNextId("class"));
@@ -52,7 +52,7 @@ public class ClassService extends BaseService implements IClassService {
 		}
 
 		this.basedaoClass.add(clas);
-		this.logService.add("添加部门", "名称：[" + clas.getClass_name() + "]");
+		this.logService.add("添加班级", "名称：[" + clas.getClass_name() + "]");
 		form.setId(clas.getId());
 		return new Msg(true, "添加成功！");
 	}
@@ -102,7 +102,7 @@ public class ClassService extends BaseService implements IClassService {
 			 org.setPid(null);
 			}
 		this.basedaoClass.update(org);
-		this.logService.add("修改部门", "名称：[" + org.getClass_name() + "]");
+		this.logService.add("修改班级", "名称：[" + org.getClass_name() + "]");
 		return new Msg(true, "修改成功！");
 	}
 
@@ -184,105 +184,7 @@ public class ClassService extends BaseService implements IClassService {
 		return cf;
 	}
 
-	/**
-	 * 查询各部门及子部门的员工
-	 */
-	public String userAndOrgtree(String pid) {
-		String result="";
-		String sql = "select t.* from simple_org t where t.pid is null order by t.sort asc";
-		List<ClassForm> list = this.basedaoClass.listSQL(sql, ClassForm.class, false);
-		for (ClassForm e : list) {
-			String MGTName="";
-			String MGTChinaNamre="";
-			//String userMGT = "select e.* from simple_person e left join simple_org o ON(e.orgId=o.id) where e.genre='MGT' and e.orgId='" + e.getId() + "'";
-			//String userMGT = "select e.*,p.name positionName from simple_person e left join simple_org o ON(e.orgId=o.id) left join simple_position p ON(e.positionId=p.id) where p.name='MGT' and e.orgId='" + e.getId() + "'";
-			String userMGT = "select e.*,r.defaultRole,r.sn from simple_person e left join simple_org o ON(e.orgId=o.id) left join  "
-					+ "simple_user u ON(u.personId=e.id) left join simple_user_roles ur ON(u.id=ur.userId) "
-					+ "left join  simple_role r ON(ur.roleId=r.id) where r.defaultRole='2' and r.sn='CHARGE' and e.orgChildId='" + e.getId() + "'";
-			List<UserForm> listMGT = this.userDao.listSQL(userMGT, UserForm.class, false);
-			if(listMGT!=null&&listMGT.size()>0){
-			for(UserForm user : listMGT){
-				MGTName+=user.getName()+" ";
-				MGTChinaNamre+=user.getChinaname()+" ";
-				}
-			}
-			result += "{" + "id : '" + e.getId() + "'" + ", name : '" + e.getClass_name()+"  "+MGTName+" "+MGTChinaNamre + "'" + ", iconCls : '" + e.getIconCls() + "'"
-					+ ", sort : '" + e.getSort() + "'" + ", pid : '" + e.getPid() + "'";
-				result += ", children : ";
-			String sqluser = "select e.* from simple_person e left join simple_org o ON(e.orgId=o.id) where e.orgChildId='" + e.getId() + "'";
-			List<UserForm> userlist = this.userDao.listSQL(sqluser, UserForm.class, false);
-			result+="[";
-			if(userlist!=null&&userlist.size()>0){
-				for(UserForm user : userlist){
-					result += toUserString(e,user);
-					}
-			}	
-			result += childrentoString(e.getId());
-			result+="]";
-			result += "},";
-		}
-		
-		result=result.substring(0, result.length() - 1);
-		return result;
-	}
 
-	private String childrentoString(String id) {
-		List<ClassForm> orgs = this.basedaoClass.listSQL("select t.* from simple_org t where t.pid='" + id + "' order by t.sort asc", ClassForm.class, false);
-		String result = "";
-		if (null != orgs && orgs.size() > 0) {
-			for (ClassForm e : orgs) {
-				String MGTName="";
-				String MGTChinaNamre="";
-				//String userMGT = "select e.*,p.name positionName from simple_person e left join simple_org o ON(e.orgId=o.id) left join simple_position p ON(e.positionId=p.id) where p.name='MGT' and e.orgId='" + e.getId() + "'";
-				String userMGT = "select e.*,r.defaultRole,r.sn from simple_person e left join simple_org o ON(e.orgId=o.id) left join  simple_user u ON(u.personId=e.id) left join simple_user_roles ur ON(u.id=ur.userId) left join  simple_role r ON(ur.roleId=r.id) where r.defaultRole='2' and r.sn='CHARGE' and e.orgChildId='" + e.getId() + "'";
-				List<UserForm> listMGT = this.userDao.listSQL(userMGT, UserForm.class, false);
-				if(listMGT!=null&&listMGT.size()>0){
-				for(UserForm user : listMGT){
-					MGTName+=user.getName()+" ";
-					MGTChinaNamre+=user.getChinaname()+" ";
-					}
-				}
-				result += "{" + "id : '" + e.getId() + "'" + ", name : '" + e.getClass_name()+"  "+MGTName+" "+MGTChinaNamre+ "'" + ", iconCls : '" + e.getIconCls() + "'"
-						+ ", sort : '" + e.getSort() + "'" + ", pid : '" + e.getPid() + "'";
-					result += ", children : ";
-				
-				String sql = "select e.* from simple_person e left join simple_org o ON(e.orgId=o.id) where e.orgChildId='" + e.getId() + "'";
-				List<UserForm> list = this.userDao.listSQL(sql, UserForm.class, false);
-				result+="[";
-				if(list!=null&&list.size()>0){
-					
-					for(UserForm user : list){
-						result += toUserString(e,user);
-						}
-				    }
-					result += childrentoString(e.getId());
-					result+="]";
-				result+="},";
-			}
-			result = result.substring(0, result.length() - 1);
-			return result;
-		}else{
-		return result+="";
-		}
-	}
-
-	private String toUserString(ClassForm e,UserForm user) {
-		String result = "{" + "id : '" + user.getId() + "'" + ", name : '" + user.getName()+"  "+user.getChinaname()+ "'" + ", account : '" + user.getAccount() + "'"
-				+ ", sex : '" + user.getSex() + "'" + ", pid : '" + e.getId()+ "'";
-		return result + "},";
-	}
-
-
-	@Override
-	public String getName(String id) {
-		// TODO Auto-generated method stub
-		String name;
-		String hql = "from OrgEntity o where o.id='" + id + "'";
-		List<ClassEntity> list = this.basedaoClass.list(hql);
-		name=list.get(0).getClass_name();
-		return name;
-	}
-	
 	/**
 	 * 获取班级信息
 	 */

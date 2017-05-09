@@ -16,9 +16,9 @@
 				<div id="treeview1" class="" style="min-height: 500px;"></div>
 			</td>
 			 <td style="width: 50%;vertical-align: top;">
-				<div id="filter-bar">
+				<!-- <div id="filter-bar">
 					<button type="button" class="btn btn-primary " onclick="$('#userModal').modal('show');">添加学生</button>
-				</div>
+				</div> -->
 				<table id="refuser_table" class="table-condensed table table-hover" data-side-pagination="server"></table>
 			</td> 
 		</tr>
@@ -74,43 +74,6 @@
 	}
 	var $refuser_table;
 	$(function() {
-		// $users.initUsers();
-		/* $users.callback = function(userId) {
-			if (classId == null) {
-				$.BOOT.toast(false, "<spring:message code="Pleaseselectadepartment" />");
-			} else {
-				var form_url = $.webapp.root
-						+ "/admin/system/student/adduserclass.do";
-				$.post(form_url, {
-					userIds : userId,
-					classId : classId
-				}, function(result) {
-					$refuser_table.bootstrapTable('refresh');
-					$.BOOT.toast1(result);
-				}, 'json');
-			}
-		};
-		var url = $.webapp.root
-				+ "/admin/system/user/datagrid_ref.do?param1=class";
-		$refuser_table = $.BOOT.table("refuser_table", url, {
-			columns : [ {
-				field : 'stu_no',
-				title : '学号'
-			}, {
-				field : 'stu_name',
-				title : '姓名'
-			}, {
-				field : 'sex',
-				title : '性别'
-			}, {
-				title : "操作",
-				formatter : function(value, row, index) {
-					return buildact(row);
-				}
-			} ],
-			paginationInfo : true,
-			showExport : true
-		}); */
 		loadclassTree();
 		$.BOOT.click(".class_del", function(c) {
 			var id = $(c).attr("val");
@@ -154,9 +117,5 @@
 			});
 		});
 	});
-	function buildact(row) {
-		var html = "<button class='btn btn-danger btn-xs' onclick=\"delete_datas('"
-				+ row.personId + "');\">移除</button>";
-		return html;
-	}
+	
 </script>

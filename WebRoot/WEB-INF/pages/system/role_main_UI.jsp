@@ -11,11 +11,11 @@
 				<table id="role_table" class="table-condensed table table-hover" data-side-pagination="server"></table>
 			</td>
 			<td style="width: 50%;vertical-align: top;">
-				<div id="filter-bar">
+			<!-- 	<div id="filter-bar">
 					<button type="button" class="btn btn-primary " onclick="$('#userModal').modal('show');">添加用户</button>
 				</div>
 				<table id="refuser_table" class="table-condensed table table-hover" data-side-pagination="server"></table>
-			</td>
+			 --></td> 
 		</tr>
 	</table>
 
@@ -24,51 +24,8 @@
 <script type="text/javascript">
 	var $role_table, $refuser_table;
 	var roleId = null;
-	function delete_datas(userId) {
-		var form_url = $.webapp.root + "/admin/system/user/deleteuserrole.do";
-		$.post(form_url, {
-			userId : userId,
-			roleId : roleId
-		}, function(result) {
-			$refuser_table.bootstrapTable('refresh');
-			$.BOOT.success(result.msg);
-		}, 'json');
-	}
 	$(function() {
 		$users.initUsers();
-		$users.callback = function(userId) {
-			if (roleId == null) {
-				$.BOOT.toast(false, "请先选择角色");
-			} else {
-				var form_url = $.webapp.root
-						+ "/admin/system/user/adduserrole.do";
-				$.post(form_url, {
-					userIds : userId,
-					roleId : roleId
-				}, function(result) {
-					$refuser_table.bootstrapTable('refresh');
-					$.BOOT.toast1(result);
-				}, 'json');
-			}
-		};
-		var userurl = $.webapp.root
-				+ "/admin/system/user/datagrid_ref.do?param1=role";
-		$refuser_table = $.BOOT.table("refuser_table", userurl, {
-			columns : [ {
-				field : 'account',
-				title : '账号'
-			}, {
-				field : 'name',
-				title : '姓名'
-			}, {
-				title : "操作",
-				formatter : function(value, row, index) {
-					return buildact(row);
-				}
-			} ],
-			paginationInfo : true,
-			showExport : true
-		});
 		var roleurl = $.webapp.root + "/admin/system/role/datagrid.do";
 		$role_table = $.BOOT.table("role_table", roleurl, {
 			columns : [ {
@@ -129,7 +86,6 @@
 		
 		var id = $(c).attr("val");
 		var href = '/admin/system/role/role_form_UI.do?id=' + id;
-		//href += (id ? id : "");
 		$.BOOT.page("content_addroles", href, function() {
 			$('#addrolesModal').modal('toggle');
 		});

@@ -19,15 +19,15 @@ public class SendEmailUtil {
 		// 设置收件人，寄件人 用数组发送多个邮件
 		//String[] array = new String[] { to};
 		mailMessage.setTo(str);
-		mailMessage.setFrom("honylong@lingnan.com");
+		mailMessage.setFrom("honylong@51wm.com");
 		mailMessage.setSubject(title);
 		mailMessage.setText(content);
 
-		senderImpl.setUsername("honylong@lingnan.com");
+		senderImpl.setUsername("honylong@51wm.com");
 		senderImpl.setPassword("Dragon520");
 
 		Properties prop = new Properties();
-		prop.put("mail.smtp.auth", "true"); // 将这个参数设为true，让服务器进行认证,认证用户名和密码是否正确
+		prop.put("mail.smtp.auth", "true"); // 让服务器进行认证,认证用户名和密码是否正确
 		prop.put("mail.smtp.timeout", "25000");
 		senderImpl.setJavaMailProperties(prop);
 		prop.setProperty("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");

@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.rosense.basic.model.DataGrid;
 import com.rosense.basic.model.Msg;
 import com.rosense.basic.util.ImageUtils;
+import com.rosense.basic.util.StringUtil;
 import com.rosense.basic.util.cons.Const;
 import com.rosense.module.common.web.action.BaseController;
 import com.rosense.module.common.web.servlet.WebContextUtil;
@@ -42,23 +43,7 @@ public class UserAction extends BaseController {
 		return Const.SYSTEM + "userrole_main_UI";
 	}
 
-	/**
-	 * 添加用户
-	 *//*
-	@RequestMapping("/add.do")
-	@ResponseBody
-	public Msg add(UserForm form) throws Exception {
-		return this.userService.addUser(form);
-	}*/
 
-	/**
-	 * 删除用户
-	 */
-	@RequestMapping("/delete.do")
-	@ResponseBody
-	public Msg delete(UserForm form) throws Exception {
-		return this.userService.delete(form);
-	}
 
 	/**
 	* 锁定账号
@@ -79,13 +64,13 @@ public class UserAction extends BaseController {
 	}
 
 	/**
-	 * 修改账号
+	 * 修改角色
 	 */
-	/*@RequestMapping("/update.do")
+	@RequestMapping("/updateRole.do")
 	@ResponseBody
-	public Msg update(UserForm form) throws Exception {
-		return this.userService.update(form);
-	}*/
+	public Msg batchRole(UserForm form) {
+		return this.userService.batchUserRole(form);
+	}
 
 	@RequestMapping("/get.do")
 	@ResponseBody
@@ -103,51 +88,13 @@ public class UserAction extends BaseController {
 	}
 
 	/**
-	 * 查询用户信息
+	 * 删除用户
 	 */
-	/*@RequestMapping("/datagridperson.do")
+	@RequestMapping("/delete.do")
 	@ResponseBody
-	public DataGrid datagridperson(UserForm form,String selectType,String searchKeyName) throws Exception {
-		return this.userService.datagridperson(form,selectType,searchKeyName);
-	}*/
-	
-	/*@RequestMapping("/commondatagridperson.do")
-	@ResponseBody
-	public DataGrid commondatagridperson(UserForm form,String selectType,String searchKeyName) throws Exception {
-		return this.userService.commondatagridperson(form,selectType,searchKeyName);
+	public Msg delete(UserForm form) throws Exception {
+		return this.userService.delete(form);
 	}
-	*/
-	/**
-	 * 查询用户信息
-	 */
-	/*@RequestMapping("/datagridleaveperson.do")
-	@ResponseBody
-	public DataGrid datagridleaveperson(UserForm form) throws Exception {
-		return this.userService.datagridleaveperson(form);
-	}*/
-
-	/**
-	 * 关联查询一些部门，角色，职位相关 的用户
-	 */
-	/*@RequestMapping("/datagrid_ref.do")
-	@ResponseBody
-	public DataGrid datagrid_ref(UserForm form) throws Exception {
-		if (StringUtil.isEmpty(form.getId())) {
-			form.setId(StringUtil.toString(getSession().getAttribute("ref_id"), ""));
-		} else {
-			getSession().setAttribute("ref_id", form.getId());
-		}
-		return this.userService.datagrid_ref(form);
-	}*/
-
-	/**
-	 * 查询用户
-	 */
-	/*@RequestMapping("/search.do")
-	@ResponseBody
-	public List<UserForm> search(String content) throws Exception {
-		return this.userService.searchUsers(content);
-	}*/
 
 	/**
 	 * 修改头像
@@ -192,41 +139,4 @@ public class UserAction extends BaseController {
 		return this.userService.updatePwd(form);
 	}
 
-	/**
-	 * 修改角色
-	 */
-	@RequestMapping("/updateRole.do")
-	@ResponseBody
-	public Msg batchRole(UserForm form) {
-		return this.userService.batchUserRole(form);
-	}
-
-	/**
-	 * 添加角色用户
-	 */
-	/*@RequestMapping("/adduserrole.do")
-	@ResponseBody
-	public Msg no_adduserrole(String roleId, String userIds) throws Exception {
-		return this.userService.addRoleForUser(roleId, userIds);
-	}*/
-
-	/**
-	 * 删除角色用户
-	 */
-	/*@RequestMapping("/deleteuserrole.do")
-	@ResponseBody
-	public Msg deleteuserrole(String roleId, String userId) throws Exception {
-		return this.userService.deleteRoleForUser(roleId, userId);
-	}*/
-	
-	/**
-	 * 查询用户个人信息
-	 * @return
-	 * @throws Exception
-	 */
-	/*@RequestMapping("/datagridpersonal.do")
-	@ResponseBody
-	public DataGrid datagridpersonal() throws Exception {
-		return this.userService.datagridpersonal();
-	}*/
 } 

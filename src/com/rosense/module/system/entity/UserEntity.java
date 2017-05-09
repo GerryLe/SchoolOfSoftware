@@ -62,12 +62,6 @@ public class UserEntity extends IdEntity {
 	 */
 	private Date created;//创建时间
 	
-	/**
-	 * 假期Id
-	 */
-	private String holidaysId;//假期Id
-	
-	
 	private String stu_no;//学号
 	private String stu_name;//姓名
 	
@@ -159,14 +153,6 @@ public class UserEntity extends IdEntity {
 
 	public void setStatus(Integer status) {
 		this.status = status;
-	}
-
-	public String getHolidaysId() {
-		return holidaysId;
-	}
-
-	public void setHolidaysId(String holidaysId) {
-		this.holidaysId = holidaysId;
 	}
 
 	public String getStu_no() {
