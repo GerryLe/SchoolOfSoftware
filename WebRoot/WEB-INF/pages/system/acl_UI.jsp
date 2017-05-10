@@ -4,10 +4,8 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <section class="content">
 	<select onchange="changePermits(this);" class="form-control" style="margin-bottom: 5px;" id="permits_data_type">
-		<option value="acl_role_UI.do"><spring:message code="Roleauthorization" /></option>
-		<option value="acl_dept_UI.do"><spring:message code="Departmentauthorized" /></option>
-		<option value="acl_position_UI.do"><spring:message code="Positionauthorization" /></option>
-		<option value="acl_user_UI.do"><spring:message code="Theuserauthorization" /></option>
+		<option value="acl_role_UI.do">角色授权</option>
+		<option value="acl_user_UI.do">用户授权</option>
 	</select>
 	<div id="permits-div-id"></div>
 </section>

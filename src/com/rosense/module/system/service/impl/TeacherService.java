@@ -159,6 +159,7 @@ public class TeacherService extends BaseService implements ITeacherService {
 		try {
 			UserEntity u = this.userDao.load(UserEntity.class, form.getId());
 			u.setName(form.getTea_name());
+			u.setTea_name(form.getStu_name());
 			if (form.getEntrance_date_Str() != null) {
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 				form.setEntrance_date(sdf.parse(form.getEntrance_date_Str()));
@@ -182,14 +183,8 @@ public class TeacherService extends BaseService implements ITeacherService {
 			}
 
 			u.setRoles(roles);
-			
-			/*
-			 * if(!StringUtil.isEmpty(p.getCallerid())){ //座机分号
-			 * p.setCallerid(p.getLocateid()+"-"+p.getCallerid()); }
-			 */
 			this.teaDao.update(stu);
 			this.userDao.update(u);
-			/*extenService.update(p.getLocateid(), p.getCallerid());*/
 			this.logService.add("修改用户", "账号：[" + u.getAccount() + "]");
 			return new Msg(true, "修改成功！");
 		} catch (Exception e) {

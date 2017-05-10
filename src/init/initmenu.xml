@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <init package="com.rosense.module.system.entity">
 	<entity class="MenuEntity" exist="0" parent="menu" method="menuService.init" name="Simple" type="T" iconCls="" init="false">
-		 <entity name="班级管理" iconCls="fa-user-secret" type="M" href="/admin/system/class/class_main_UI.do">
+		 <entity name="班级管理" iconCls="fa-sitemap" type="M" href="/admin/system/class/class_main_UI.do">
 		        <entity name="查询" type="O" href="/admin/system/class/tree.do" />
 		        <entity name="查询班级" type="O" href="/admin/system/class/treeChild.do" />
 				<entity name="添加" type="O" href="/admin/system/class/add.do" />
@@ -30,7 +30,7 @@
 				<entity name="判断教师编号" type="O" href="/admin/system/teacher/importUserId.do" />
 	   </entity>
 		
-		<entity name="学生管理" type="M" iconCls="fa-users" sort="1" href="/admin/system/student/student_main_UI.do">
+		<entity name="学生管理" type="M" iconCls="fa-graduation-cap" sort="1" href="/admin/system/student/student_main_UI.do">
 				<entity name="查询学生" type="O" href="/admin/system/student/datagridperson.do" />
 				<entity name="添加学生" type="O" href="/admin/system/student/add.do" />
 				<entity name="编辑学生" type="O" href="/admin/system/student/update.do" />
@@ -42,17 +42,20 @@
 	   
 	
 	   
-	    <entity name="考勤管理" iconCls="fa-user-secret" type="M" href="/admin/system/attendance/attendance_main_UI.do">
+	    <entity name="考勤管理" iconCls="fa-calendar" type="M">
+	         <entity name="考勤录入" iconCls="fa-calendar"  type="M" href="/admin/system/attendance/attendance_main_UI.do">
+	        </entity>
+	         <entity name="考勤查询" iconCls="fa-file-text-o" type="M" href="/admin/system/attendance/attendancePersonal_main_UI.do">
+	        </entity>
 	        <entity name="添加信息" type="O" href="/admin/system/attendance/add.do"/>
 	        <entity name="查看信息" type="O" href="/admin/system/attendance/datagrid.do"/>
 			<entity name="更改信息" type="O" href="/admin/system/attendance/update.do"/>
 			<entity name="删除信息" type="O" href="/admin/system/attendance/delete.do"/>
 			<entity name="查看对象" type="O" href="/admin/system/attendance/get.do"/>
 	    </entity>
-	     <entity name="考勤查询" iconCls="fa-user-secret" type="M" href="/admin/system/attendance/attendancePersonal_main_UI.do">
-	    </entity>
+	     
 	    
-		<entity name="请假管理" type="M" iconCls="fa-calendar" href="/admin/system/holidayapplys/holidayapply_main_UI.do">
+		<entity name="请假管理" type="M" iconCls="fa-book" href="/admin/system/holidayapplys/holidayapply_main_UI.do">
 			<entity name="申请假期" type="O" href="/admin/system/holidayapplys/add.do"/>
 			<entity name="删除假期" type="O" href="/admin/system/holidayapplys/delete.do"/>
 			<entity name="查看假期" type="O" href="/admin/system/holidayapplys/holidayApplysdg.do"/>
@@ -69,21 +72,24 @@
 			<entity name="添加课程" type="O" href="/admin/system/course/add.do"/>
 		</entity>
 		
-		 <entity name="课程安排" type="M" iconCls="fa-calendar" href="/admin/system/course/courseArrangement_main_UI.do">
+		 <!-- <entity name="课程安排" type="M" iconCls="fa-calendar" href="/admin/system/course/courseArrangement_main_UI.do">
 			<entity name="查看班级信息安排" type="O" href="/admin/system/course/datagridClass.do"/>
 			<entity name="删除课程安排" type="O" href="/admin/system/course/deleteArrangement.do"/>
 			<entity name="修改课程安排" type="O" href="/admin/system/course/updateArrangement.do"/>
 			<entity name="添加课程安排" type="O" href="/admin/system/course/addArrangement.do"/>
-		</entity>
+		</entity> -->
 		
-		<entity name="成绩管理" type="M" iconCls="fa-calendar" href="/admin/system/score/score_main_UI.do">
+		<entity name="成绩管理" type="M" iconCls="fa-user-secret" >
+		<entity name="成绩录入" type="M" iconCls="fa-user-secret" href="/admin/system/score/score_main_UI.do">
+		</entity>
+		<entity name="成绩查询" type="M" iconCls="fa-file-text-o" href="/admin/system/score/scorePersonal_main_UI.do">
+		</entity>
 			<entity name="查看成绩" type="O" href="/admin/system/score/datagridScore.do"/>
 			<entity name="删除成绩" type="O" href="/admin/system/score/delete.do"/>
 			<entity name="修改成绩" type="O" href="/admin/system/score/update.do"/>
 			<entity name="添加成绩" type="O" href="/admin/system/score/add.do"/>
 		</entity>
-		<entity name="成绩查询" type="M" iconCls="fa-calendar" href="/admin/system/score/scorePersonal_main_UI.do">
-		</entity>
+		
 	    
 	    <entity name="角色管理" type="M" iconCls="fa-share-alt" href="/admin/system/role/role_main_UI.do">
 			<entity name="查询" type="O" href="/admin/system/role/datagrid.do" />

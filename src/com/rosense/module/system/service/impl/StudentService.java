@@ -157,6 +157,7 @@ public class StudentService extends BaseService implements IStudentService {
 		try {
 			UserEntity u = this.userDao.load(UserEntity.class, form.getId());
 			u.setName(form.getStu_name());
+			u.setStu_name(form.getStu_name());
 			if (form.getEntrance_date_Str() != null) {
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 				form.setEntrance_date(sdf.parse(form.getEntrance_date_Str()));
