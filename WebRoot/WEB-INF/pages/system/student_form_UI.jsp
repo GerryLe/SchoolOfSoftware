@@ -60,14 +60,13 @@ select{
 	var flag = true;//防止重复提交
 	var flagphoto=false;
 	var flagget=true;
-	var orgtree = $.webapp.root + "/admin/system/class/tree.do";
-	  $.BOOT.autoselect("class_id", orgtree, {
+	var classtree = $.webapp.root + "/admin/system/class/tree.do";
+	  $.BOOT.autoselect("class_id", classtree, {
 			title : "选择班级"
 		}); 
 		
     $(function() {
 		//编辑，加载表单数据
-		var ptree = $.webapp.root + "/admin/system/position/tree.do";
 		var get = $.webapp.root + "/admin/system/student/get.do";
 		 region_init("province","city","area"); 
 		 $.get($.webapp.root + "/admin/system/role/datagrid.do",

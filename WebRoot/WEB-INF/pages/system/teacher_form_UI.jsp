@@ -62,8 +62,6 @@ select{
 	var flagget=true;
     $(function() {
 		//编辑，加载表单数据
-		var orgtree = $.webapp.root + "/admin/system/org/tree.do";
-		var ptree = $.webapp.root + "/admin/system/position/tree.do";
 		var get = $.webapp.root + "/admin/system/teacher/get.do";
 		 region_init("province","city","area"); 
 		 $.get($.webapp.root + "/admin/system/role/datagrid.do",

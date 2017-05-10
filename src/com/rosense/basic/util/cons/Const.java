@@ -21,8 +21,6 @@ public class Const {
 	 */
 	public static final String PRINCIPAL_USER = "USER";
 	public static final String PRINCIPAL_ROLE = "ROLE";
-	public static final String PRINCIPAL_DEPT = "DEPT";
-	public static final String PRINCIPAL_POSITION = "POSITION";
 	public static final String PRINCIPAL_COMPANY = "COMPANY";
 	public static Properties base = null;
 	

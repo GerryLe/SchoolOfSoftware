@@ -13,7 +13,7 @@ public class ACLForm implements Serializable {
 
 	private String resources; //接收客户端传来资源的JSON字符串数据
 
-	private String principalType; //主体类型（USER、ROLE、DEPT、POSITION）
+	private String principalType; //主体类型（USER、ROLE）
 
 	private String principalId; //主体ID
 

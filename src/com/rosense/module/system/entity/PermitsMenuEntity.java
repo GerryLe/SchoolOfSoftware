@@ -19,9 +19,9 @@ import com.rosense.basic.dao.IdEntity;
 public class PermitsMenuEntity extends IdEntity {
 	
 	/**
-	 * 主体类型（USER、ROLE、DEPT、POSITION）
+	 * 主体类型（USER、ROLE）
 	 */
-	private String principalType; //主体类型（USER、ROLE、DEPT、POSITION）
+	private String principalType; //主体类型（USER、ROLE）
 	
 	/**
 	 * 主体ID
