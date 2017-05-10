@@ -515,19 +515,6 @@ public class TeacherService extends BaseService implements ITeacherService {
 
 	}
 
-	/**
-	 * 获取当前用户信息
-	 */
-	/*public UserForm selectCurUser(){
-		String sql="select e.*,c.class_name class_name from simple_user u left join simple_student e on(u.personId=e.id) ";
-		sql+= "left join simple_class c on(c.id=e.class_id) ";
-		sql+= "where u.id='"+WebContextUtil.getCurrentUser().getUser().getId()+"'";
-		UserForm form=(UserForm) this.userDao.queryObjectSQL(sql,UserForm.class,false);
-		if(form!=null){
-			return form;
-		}else{
-			return null;
-		}
-	}*/
+	
 	
 }

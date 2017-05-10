@@ -162,11 +162,11 @@ public class UserService extends BaseService implements IUserService {
 	private Pager<UserForm> find(UserForm form,String selectType,String searchKeyName ) {
 		Map<String, Object> alias = new HashMap<String, Object>();
 		String sql = "select u.* from simple_user u  where 1=1 ";
-		if(StringUtil.isNotEmpty(searchKeyName)){
+		/*if(StringUtil.isNotEmpty(searchKeyName)){
 			sql=addWhereSearch(sql, form, alias,selectType,searchKeyName);
 		}else{
 		   sql = addWhere(sql, form, alias);
-		}
+		}*/
 		sql = addWhere(sql, form, alias);
 		return this.userDao.findSQL(sql, alias, UserForm.class, false);
 	}
@@ -252,10 +252,11 @@ public class UserService extends BaseService implements IUserService {
 				params.put("account", "%%" + form.getSearchKeyName() + "%%");
 			}else{
 					sql += " and u.name like :name ";
-					params.put("name", "%%" + form.getSearchKeyName()+ "%%");
+					params.put("name", "%%" + StringUtil.getEncodePra(form.getSearchKeyName())+ "%%");
 				
 			}
 		}
+		System.out.println(sql);
 		return sql;
 	}
 
