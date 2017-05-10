@@ -163,7 +163,7 @@ public class HolidayApplysService extends BaseService implements IHolidayApplysS
 				sql += "left join simple_teacher e ON(u.personId=e.id) ";
 				sql += "where u.id='"+WebContextUtil.getUserId()+"'";
 			}else{
-				sql += "from holidayapplys h where 1=1";
+				sql += "from holidayapplys h left join simple_user u ON(h.uid=u.id) where 1=1";
 			}
 			Pager<HolidayApplysForm> pager = this.hDao.findSQL(sql, alias, HolidayApplysForm.class, false);
 			if (null != pager && !pager.getDataRows().isEmpty()) {
@@ -235,15 +235,16 @@ public class HolidayApplysService extends BaseService implements IHolidayApplysS
 @Override
 public HolidayApplysForm loading(String id) {
 	try {
-		String sql = "select c.class_name class_name,u.name holiapplyUserName from simple_user u ";
+		String sql = "";
 		if(WebContextUtil.getCurrentUser().getUser().getDefaultRole()==4){
+			sql += "select c.class_name class_name,u.name holiapplyUserName from simple_user u ";
 			sql += " left join simple_student e ON(u.personId=e.id) ";
+			sql += " left join simple_class c ON(e.class_id=c.id) ";
 		}else{
+			sql += "select u.name holiapplyUserName from simple_user u ";
 			sql += " left join simple_teacher e ON(u.personId=e.id) ";
 		}
-		sql += " left join simple_class c ON(e.class_id=c.id) ";
 		sql += " where u.id=?";
-
 		HolidayApplysForm form = (HolidayApplysForm) this.hDao.queryObjectSQL(sql, new Object[] { id },HolidayApplysForm.class, false);
 		form.setApplyForTime(DateUtils.getSysDateStr());
 		return form;

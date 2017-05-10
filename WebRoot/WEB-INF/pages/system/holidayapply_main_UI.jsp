@@ -1,4 +1,5 @@
- <%@page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+ <%@page import="com.rosense.module.common.web.servlet.WebContextUtil"%>
+<%@page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@taglib prefix="mvc" uri="http://www.springframework.org/tags/form" %>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <jsp:include page="/template/modal.jsp"><jsp:param value="addholidayapplys" name="id" /><jsp:param value="请假申请" name="title" /></jsp:include>
@@ -15,16 +16,29 @@
 </section>
 <script type="text/javascript">
 	var $holidayapplys_table;
+	var defaultRole='<%=WebContextUtil.getCurrentUser().getUser().getDefaultRole()%>';
 	$(function() {
+		var accountName="学号";
+		var grade_name="班级名称";
+		if(defaultRole==3) { 
+			accountName="编号";
+			grade_name="类别"
+		}
 		$holidayapplys_table = $.BOOT.table("holidayapplys_table", $.webapp.root
 				+ "/admin/system/holidayapplys/holidayApplysdg.do", {
 			columns : [ {
 				field : 'class_name',
-				title : '班级名称',
+				title : grade_name,
 				width : 120,
+				formatter : function(value, row, index) {
+					if (value==null||value=="") {
+							return "教师";
+						}
+					return value;
+					} 
 			},{
 				field : 'account',
-				title : '学号',
+				title : accountName,
 				width : 120,
 			},{
 				field : 'holiapplyUserName',
@@ -117,9 +131,14 @@
 			}
 		});
 		$("input.form-control").attr('placeholder','姓名');
+		/*  if(defaultRole==3){
+			$('table tr').find('th:eq(0)').hide();
+			$('table tr').find('td:eq(0)').hide();
+			$('#holidayapplys_table tr').find('td:eq(0)').hide();
+		}  */
 	});
 	
-	    
+	 
 	function rowStyle(row, index) {
 		if (row.status == "1") {
 			return {

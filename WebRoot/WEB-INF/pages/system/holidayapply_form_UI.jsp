@@ -84,6 +84,10 @@
 	var userId=null;
 	$(function() {
 		 $('.clockpicker').clockpicker();
+		//当前用户为教师，隐藏班级显示
+			if(defaultRole==3){
+				$('table tr:eq(0)').hide();
+			}
 		//编辑，加载表单数据
 		var get = $.webapp.root + "/admin/system/holidayapplys/get.do";
 		//申请，加载用户数据
@@ -141,6 +145,9 @@
 						hideAll1();										
 					}
 				}else{//当前用户为辅导员
+					if(result.class_name==null){
+						$('table tr:eq(0)').hide();
+					}
 					$('input,textarea,select').attr("disabled","disabled");
 					$('#holiapplydirectorsopinion').removeAttr("disabled");
 					showAudit();
@@ -303,7 +310,7 @@
 		<input type="hidden" name="enclosure" id="enclosure" value="${enclosure}">
 		<input type="hidden" name="enclosuretwo" id="enclosuretwo" value="${enclosuretwo}">
 		<table class="employ" style="cellspacing : 0; cellpadding : 0;" >
-			<tr class="form-group">
+			<tr class="form-group" id="first_tr">
 				<td >班级名称：</td>
 				<td colspan="5" ><input type="text" name="class_name" id="class_name"/></td>
 			</tr>
