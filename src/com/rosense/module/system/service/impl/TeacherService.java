@@ -1,5 +1,6 @@
 package com.rosense.module.system.service.impl;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
@@ -246,11 +247,7 @@ public class TeacherService extends BaseService implements ITeacherService {
 			String sql = "select u.*,e.email,e.sex,e.phone,e.entrance_date_Str,e.province, e.grade,e.cornet,e.birthday,e.accountAddr,e.accountPro,e.idcard,e.nation,e.city,e.politicalFace,e.origin,e.contact,e.contactPhone,e.material,e.bankCard from simple_user u ";
 			sql += "right join simple_teacher e ON(e.id=u.personId)  ";
 			sql += "where u.status=0 ";
-			if(StringUtil.isNotEmpty(searchKeyName)){
-				sql=addWhereSearch(sql, form, alias,selectType,searchKeyName);
-			}else{
-			   sql = addWhere(sql, form, alias);
-			}
+			sql = addWhere(sql, form, alias);
 			Pager<UserForm> pager = this.userDao.findSQL(sql, alias, UserForm.class, false);
 			if (null != pager && !pager.getDataRows().isEmpty()) {
 				for (UserForm pf : pager.getDataRows()) {
@@ -282,33 +279,6 @@ public class TeacherService extends BaseService implements ITeacherService {
 			throw new ServiceException("加载人员列表信息异常：", e);
 		}
 	}
-
-	/**
-	 * 员工信息筛选
-	 * @param sql
-	 * @param form
-	 * @param params
-	 * @param selectType
-	 * @param searchKeyName
-	 * @return
-	 */
-	private String addWhereSearch(String sql, UserForm form, Map<String, Object> params,String selectType,String searchKeyName) {
-				
-				if (selectType.equals("tea_name")) {
-					try {
-						sql += " and e.tea_name like '%"+new String(searchKeyName.getBytes("ISO-8859-1"),"UTF-8")+"%'";
-					} catch (Exception e) {
-					}
-				}
-				if (selectType.equals("tea_no")) {
-					try {
-						sql += " and e.tea_no like '%"+searchKeyName+"%'";
-					} catch (Exception e) {
-					}
-				}
-				
-		return sql;
-	}
 	
 	private String addWhere(String sql, UserForm form, Map<String, Object> params) {
 		if (StringUtil.isNotEmpty(form.getFilter())) {
@@ -335,6 +305,19 @@ public class TeacherService extends BaseService implements ITeacherService {
 				params.put("tea_no", "%%" + URLDecoder.decode(form.getTea_no(), "UTF-8") + "%%");
 				sql += " and e.tea_no like :tea_no";
 			} catch (Exception e) {
+			}
+		}
+		if (StringUtil.isNotEmpty(form.getSelectType())) {
+			try {
+				if (form.getSelectType().equals("tea_name")) {
+					sql += " and e.tea_name like '%"+new String(form.getSearchKeyName().getBytes("ISO-8859-1"),"UTF-8")+"%'";
+					
+				}
+				if (form.getSelectType().equals("tea_no")) {
+					sql += " and e.tea_no like '%"+new String(form.getSearchKeyName().getBytes("ISO-8859-1"),"UTF-8")+"%'";
+				}
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
 			}
 		}
 

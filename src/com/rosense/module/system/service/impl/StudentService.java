@@ -1,5 +1,6 @@
 package com.rosense.module.system.service.impl;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -271,11 +272,7 @@ public class StudentService extends BaseService implements IStudentService {
 			sql += "right join simple_student e ON(e.id=u.personId)  ";
 			sql += "left join simple_class c ON(e.class_id=c.id)  ";
 			sql += "where u.status=0 ";
-			if(StringUtil.isNotEmpty(searchKeyName)){
-				sql=addWhereSearch(sql, form, alias,selectType,searchKeyName);
-			}else{
-			   sql = addWhere(sql, form, alias);
-			}
+			sql = addWhere(sql, form, alias);
 			Pager<UserForm> pager = this.userDao.findSQL(sql, alias, UserForm.class, false);
 			if (null != pager && !pager.getDataRows().isEmpty()) {
 				for (UserForm pf : pager.getDataRows()) {
@@ -385,7 +382,19 @@ public class StudentService extends BaseService implements IStudentService {
 			} catch (Exception e) {
 			}
 		}
-
+		if (StringUtil.isNotEmpty(form.getSelectType())) {
+			try {
+				if (form.getSelectType().equals("stu_name")) {
+					sql += " and e.stu_name like '%"+new String(form.getSearchKeyName().getBytes("ISO-8859-1"),"UTF-8")+"%'";
+					
+				}
+				if (form.getSelectType().equals("stu_no")) {
+					sql += " and e.stu_no like '%"+new String(form.getSearchKeyName().getBytes("ISO-8859-1"),"UTF-8")+"%'";
+				}
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+		}
 		return sql;
 	}
 

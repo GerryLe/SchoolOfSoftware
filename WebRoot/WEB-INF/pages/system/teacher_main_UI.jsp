@@ -212,7 +212,6 @@
 		var $input = $("tr.selected");
 		var ids = "";
 		for (var i = 0; i < $input.length; i++) {
-			//var html = $input.find("li.person_edit").eq(i).prop('outerHTML');
 			var id = $input.find("input[id=person_edit]").eq(i).attr("name");
 			ids += id + ",";
 		}

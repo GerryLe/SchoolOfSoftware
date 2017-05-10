@@ -241,9 +241,6 @@ display:none;
 							title : '姓名',
 							sortable : true
 						}, {
-							field : 'stu_name',
-							title : '姓名',
-						}, {
 							field : 'sex',
 							title : '性别',
 						},{

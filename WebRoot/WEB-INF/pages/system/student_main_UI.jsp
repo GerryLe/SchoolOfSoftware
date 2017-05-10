@@ -242,7 +242,7 @@
 	/* 筛选学生信息 */
 	$(document).on("click", "#buttonByKey", function() {
 	     $student_table.bootstrapTable('refresh', 
-				{url: "/admin/system/student/datagridperson.do?class_id="+$("#class_id").val()+"searchKeyName="+$("#searchKeyName").val()+"&selectType="+$("#selectType").val()+""}); 
+				{url: "/admin/system/student/datagridperson.do?class_id="+$("#class_id").val()+"&searchKeyName="+$("#searchKeyName").val()+"&selectType="+$("#selectType").val()+""}); 
 	  });
 	
 	 function classChange(){
@@ -257,7 +257,7 @@
 	 }
 	 function getStuByClass(){
 		  $student_table.bootstrapTable('refresh', 
-					{url: "/admin/system/student/datagridperson.do?class_id="+$("#class_id").val()+""}); 
+					{url: "/admin/system/student/datagridperson.do?class_id="+$("#class_id").val()+"&searchKeyName="+$("#searchKeyName").val()+"&selectType="+$("#selectType").val()+""});
 		
 	 }
 	

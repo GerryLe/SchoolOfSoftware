@@ -1,5 +1,6 @@
 package com.rosense.module.system.service.impl;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Date;
@@ -162,41 +163,10 @@ public class UserService extends BaseService implements IUserService {
 	private Pager<UserForm> find(UserForm form,String selectType,String searchKeyName ) {
 		Map<String, Object> alias = new HashMap<String, Object>();
 		String sql = "select u.* from simple_user u  where 1=1 ";
-		/*if(StringUtil.isNotEmpty(searchKeyName)){
-			sql=addWhereSearch(sql, form, alias,selectType,searchKeyName);
-		}else{
-		   sql = addWhere(sql, form, alias);
-		}*/
 		sql = addWhere(sql, form, alias);
 		return this.userDao.findSQL(sql, alias, UserForm.class, false);
 	}
 
-	/**
-	 * 信息筛选
-	 * @param sql
-	 * @param form
-	 * @param params
-	 * @param selectType
-	 * @param searchKeyName
-	 * @return
-	 */
-	private String addWhereSearch(String sql, UserForm form, Map<String, Object> params,String selectType,String searchKeyName) {
-				if (selectType.equals("name")) {
-					try {
-						searchKeyName=new String(searchKeyName.getBytes("ISO-8859-1"),"UTF-8");
-						sql += " and u.name like '%"+searchKeyName+"%'";
-					} catch (Exception e) {
-					}
-				}
-				if (selectType.equals("account")) {
-					try {
-						sql += " and u.account like '%"+form.getSearchKeyName()+"%'";
-					} catch (Exception e) {
-					}
-				}
-		return sql;
-	}
-	
 	private String addWhere(String sql, UserForm form, Map<String, Object> params) {
 		if (StringUtil.isNotEmpty(form.getFilter())) {
 			JSONObject jsonObject = JSONObject.fromObject(form.getFilter());
@@ -247,16 +217,16 @@ public class UserService extends BaseService implements IUserService {
 			params.put("account", "%%" + form.getAccount() + "%%");
 		}
 		if (StringUtil.isNotEmpty(form.getSelectType())) {
-			if(form.getSelectType().equals("account")){
-				sql += " and u.account like :account ";
-				params.put("account", "%%" + form.getSearchKeyName() + "%%");
-			}else{
-					sql += " and u.name like :name ";
-					params.put("name", "%%" + StringUtil.getEncodePra(form.getSearchKeyName())+ "%%");
-				
+			try {
+				if(form.getSelectType().equals("account")){
+					sql += " and u.account like '%"+new String(form.getSearchKeyName().getBytes("ISO-8859-1"),"UTF-8")+"%' ";
+				}else{
+					sql += " and u.name like '%"+new String(form.getSearchKeyName().getBytes("ISO-8859-1"),"UTF-8")+"%' ";
+				}
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
 			}
 		}
-		System.out.println(sql);
 		return sql;
 	}
 
