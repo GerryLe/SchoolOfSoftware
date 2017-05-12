@@ -74,10 +74,10 @@
 			  </select>
 		  </div>
 		  <div class="btn-toolbar">
-			<select class="form-control" id="class_id" name="class_id" style="width: 150px;" onchange="getStuByClass()" > </select>
+			<select class="form-control" id="class_id" name="class_id" style="width: 180px;" onchange="getStuByClass()" > </select>
 		 </div>
 		 <div class="btn-toolbar">
-			<select class="form-control" id="class_pid" name="class_pid" style="width: 150px;" onchange="classChange()" > </select>
+			<select class="form-control" id="class_pid" name="class_pid" style="width: 120px;" onchange="classChange()" > </select>
 		 </div>
 		<!-- </form> -->
 	</div>
