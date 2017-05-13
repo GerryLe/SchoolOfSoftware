@@ -1,3 +1,4 @@
+<%@page import="com.rosense.basic.util.StringUtil"%>
 <%@page import="com.rosense.module.common.web.servlet.WebContextUtil"%>
 <%@page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <link rel="stylesheet" href="${webRoot}/template/resource/plugins/upload/css/default.css" />
@@ -145,7 +146,7 @@
 						hideAll1();										
 					}
 				}else{//当前用户为辅导员
-					if(result.class_name==null){
+					if(result.class_name==null||result.class_name ==""){
 						$('table tr:eq(0)').hide();
 					}
 					$('input,textarea,select').attr("disabled","disabled");

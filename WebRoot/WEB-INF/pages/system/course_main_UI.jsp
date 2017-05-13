@@ -77,6 +77,7 @@
 			}, {
 				field : 'createTime',
 				title : '创建时间',
+				sortable : true
 			}, {
 			field : 'id',
 			title : '操作',

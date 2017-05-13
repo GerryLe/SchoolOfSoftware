@@ -20,6 +20,7 @@ import com.rosense.basic.exception.ServiceException;
 import com.rosense.basic.model.DataGrid;
 import com.rosense.basic.model.Msg;
 import com.rosense.basic.model.Pager;
+import com.rosense.basic.model.SystemContext;
 import com.rosense.basic.util.BeanUtils;
 import com.rosense.basic.util.FreemarkerUtil;
 import com.rosense.basic.util.StringUtil;
@@ -130,6 +131,13 @@ public class CourseService extends BaseService implements ICourseService {
 	// 查询信息
 	public DataGrid datagridCourse(CourseForm form,String selectType,String searchKeyName) {
 		try {
+			if(form.getSort()!=null){
+				SystemContext.setSort("c.course_no");
+			     SystemContext.setOrder("desc");
+			}else{
+				SystemContext.setSort("c.createTime");
+			     SystemContext.setOrder("desc");
+			}
 			List<CourseForm> forms = new ArrayList<CourseForm>();
 			Map<String, Object> alias = new HashMap<String, Object>();
 			String sql = "select c.* from simple_course c ";

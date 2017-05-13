@@ -356,6 +356,7 @@ margin-top: 0px;
 	 
 	 //条件筛选记录
 	  function recordChange(){
+		  formUrl = $.webapp.root + "/admin/system/attendance/update.do";
 		//首先加载考勤表信息，为空，从学生表获取信息
 		var keyUrl="/admin/system/attendance/datagrid.do?school_year="+$("#school_year").val()+"&semester="+$("#semester").val()+"&class_id="+$("#class_id").val()+"&apply_date="+$("#apply_date").val()+"";
 			 $.get(keyUrl, {}, function(result) {

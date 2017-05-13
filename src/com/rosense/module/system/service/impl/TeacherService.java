@@ -160,7 +160,7 @@ public class TeacherService extends BaseService implements ITeacherService {
 		try {
 			UserEntity u = this.userDao.load(UserEntity.class, form.getId());
 			u.setName(form.getTea_name());
-			u.setTea_name(form.getStu_name());
+			u.setTea_name(form.getTea_name());
 			if (form.getEntrance_date_Str() != null) {
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 				form.setEntrance_date(sdf.parse(form.getEntrance_date_Str()));

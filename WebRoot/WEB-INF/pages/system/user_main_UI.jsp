@@ -21,7 +21,7 @@
 			<select class="form-control" id="selectType" name="selectType"
 				style="width: 100%">
 				<option value="name">姓名</option>
-				<option value="account">学号</option>
+				<option value="account">编号</option>
 			</select>
 		</div>
 		<button type="button" class="btn btn-primary " id="batch_delete">批量删除</button>

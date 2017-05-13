@@ -18,12 +18,16 @@
 	var $holidayapplys_table;
 	var defaultRole='<%=WebContextUtil.getCurrentUser().getUser().getDefaultRole()%>';
 	$(function() {
-		var accountName="学号";
-		var grade_name="班级名称";
+		var accountName="编号";
+		var grade_name="类别/班级";
+		if(defaultRole==4) { 
+			accountName="学号";
+			grade_name="班级名称"
+		}
 		if(defaultRole==3) { 
-			accountName="编号";
 			grade_name="类别"
 		}
+		
 		$holidayapplys_table = $.BOOT.table("holidayapplys_table", $.webapp.root
 				+ "/admin/system/holidayapplys/holidayApplysdg.do", {
 			columns : [ {

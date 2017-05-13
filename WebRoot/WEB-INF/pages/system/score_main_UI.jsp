@@ -218,6 +218,7 @@ margin-top: 0px;
 	 //条件筛选记录
 	  function recordChange(){
 		//首先加载考勤表信息，为空，从学生表获取信息
+		formUrl = $.webapp.root + "/admin/system/score/update.do";
 		var keyUrl="/admin/system/score/datagrid.do?school_year="+$("#school_year").val()+"&semester="+$("#semester").val()+"&class_id="+$("#class_id").val()+"&course_id="+$("#course_id").val()+"";
 		 $.get(keyUrl, {}, function(result) {
              if(result.total==0){
